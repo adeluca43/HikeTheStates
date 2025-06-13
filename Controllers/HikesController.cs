@@ -43,7 +43,14 @@ public class HikesController : ControllerBase
                 Distance = hike.Distance,
                 Difficulty = hike.Difficulty.Level,
                 IsDogFriendly = hike.IsDogFriendly,
-                UserFullName = $"{hike.UserProfile.FirstName} {hike.UserProfile.LastName}"
+                IsKidFriendly = hike.IsKidFriendly,
+                IsHandicapAccessible = hike.IsHandicapAccessible,
+                HasRestrooms = hike.HasRestrooms,
+                IsPaved = hike.IsPaved,
+                IsGravel = hike.IsGravel,
+                UserProfileId = hike.UserProfileId,
+                UserFullName = $"{hike.UserProfile.FirstName} {hike.UserProfile.LastName}",
+                DateCreated = hike.DateCreated
             };
 
             hikeDTOs.Add(newHikeDTO);
@@ -64,7 +71,15 @@ public class HikesController : ControllerBase
             Distance = newHike.Distance,
             DifficultyId = newHike.DifficultyId,
             IsDogFriendly = newHike.IsDogFriendly,
-            UserProfileId = newHike.UserProfileId
+            IsKidFriendly = newHike.IsKidFriendly,
+            IsHandicapAccessible = newHike.IsHandicapAccessible,
+            HasRestrooms = newHike.HasRestrooms,
+            IsPaved = newHike.IsPaved,
+            IsGravel = newHike.IsGravel,
+
+            UserProfileId = newHike.UserProfileId,
+            DateCreated = DateTime.Now
+
         };
 
         _context.Hikes.Add(hike);

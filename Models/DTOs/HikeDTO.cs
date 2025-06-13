@@ -9,6 +9,14 @@ public class HikeDTO
     public double Distance { get; set; }
     public string Difficulty { get; set; }
     public bool IsDogFriendly { get; set; }
+    public bool IsKidFriendly { get; set; }
+    public bool IsHandicapAccessible { get; set; }
+    public bool HasRestrooms { get; set; }
+    public bool IsPaved { get; set; }
+    public bool IsGravel { get; set; }
+    public string UserFullName { get; set; }
+    public DateTime DateCreated { get; set; }
+    public int UserProfileId { get; set; }
 
-    public string UserFullName { get; set; }  // From UserProfile
+
 }

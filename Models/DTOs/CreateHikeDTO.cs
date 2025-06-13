@@ -8,5 +8,11 @@ public class CreateHikeDTO
     public double Distance { get; set; }
     public int DifficultyId { get; set; }
     public bool IsDogFriendly { get; set; }
+    public bool IsKidFriendly { get; set; }
+    public bool IsHandicapAccessible { get; set; }
+    public bool HasRestrooms { get; set; }
+    public bool IsPaved { get; set; }
+    public bool IsGravel { get; set; }
+
     public int UserProfileId { get; set; }
 }
