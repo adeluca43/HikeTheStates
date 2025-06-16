@@ -22,3 +22,15 @@ export const deleteHike = (id) => {
     method: "DELETE"
   });
 };
+
+export function getHikeById(id) {
+  return fetch(`${_apiUrl}/${id}`).then((res) => res.json());
+}
+
+export function updateHike(id, hike) {
+  return fetch(`${_apiUrl}/${id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(hike),
+  });
+}

@@ -1,7 +1,8 @@
 namespace HikingApp.Models.DTOs;
 
-public class CreateHikeDTO
+public class EditHikeDTO
 {
+    public int Id { get; set; }
     public string Title { get; set; }
     public string Description { get; set; }
     public string Location { get; set; }
@@ -17,6 +18,7 @@ public class CreateHikeDTO
     public bool HasRestrooms { get; set; }
     public bool IsPaved { get; set; }
     public bool IsGravel { get; set; }
-
     public int UserProfileId { get; set; }
+    public string UserFullName { get; set; }
+    public DateTime DateCreated { get; set; }
 }

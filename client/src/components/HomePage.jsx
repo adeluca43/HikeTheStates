@@ -2,14 +2,21 @@ import { useEffect, useState } from "react";
 import { getAllHikes, deleteHike } from "../managers/hikeManger";
 import { useNavigate } from "react-router-dom";
 import { Card, CardBody, CardTitle, CardText, Badge, Button } from "reactstrap";
+import { useLocation } from "react-router-dom";
 
 export default function HomePage({ loggedInUser }) {
+  const location = useLocation();
   const [hikes, setHikes] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
-    getAllHikes().then(setHikes);
-  }, []);
+    getAllHikes().then((hikesData) => {
+      const sortedHikes = hikesData.sort(
+        (a, b) => new Date(b.dateCreated) - new Date(a.dateCreated)
+      );
+      setHikes(sortedHikes);
+    });
+  }, [location]);
 
   const getTrailFeatures = (hike) => {
     const features = [];
@@ -62,7 +69,6 @@ export default function HomePage({ loggedInUser }) {
               </small>
             </CardText>
 
-            {/* ✅ Edit/Delete buttons if owned by current user */}
             {hike.userProfileId === loggedInUser.id && (
               <div className="d-flex justify-content-end gap-2">
                 <Button

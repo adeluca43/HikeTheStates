@@ -97,17 +97,31 @@ public class AuthController : ControllerBase
     [Authorize]
     public IActionResult Me()
     {
-        var identityUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        var profile = _dbContext.UserProfiles.SingleOrDefault(up => up.IdentityUserId == identityUserId);
-        var roles = User.FindAll(ClaimTypes.Role).Select(r => r.Value).ToList();
-        if (profile != null)
+        try
         {
+            var identityUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            profile.Email = User.FindFirstValue(ClaimTypes.Email);
-            return Ok(profile);
+            if (identityUserId == null)
+            {
+                return Unauthorized("User identity not found.");
+            }
+
+            var profile = _dbContext.UserProfiles.SingleOrDefault(up => up.IdentityUserId == identityUserId);
+
+            if (profile != null)
+            {
+                profile.Email = User.FindFirstValue(ClaimTypes.Email);
+                return Ok(profile);
+            }
+
+            return NotFound("Profile not found.");
         }
-        return NotFound();
+        catch (Exception ex)
+        {
+            return StatusCode(500, new { error = ex.Message });
+        }
     }
+
 
     [HttpPost("register")]
 
@@ -128,6 +142,7 @@ public class AuthController : ControllerBase
                 LastName = registration.LastName,
                 Email = registration.Email,
                 IdentityUserId = user.Id,
+                ImageLocation = registration.ImageLocation
             });
             _dbContext.SaveChanges();
 
