@@ -1,64 +1,37 @@
 import { useEffect, useState } from "react";
-import { createHike } from "../../managers/hikeManger";
+import { useParams, useNavigate } from "react-router-dom";
 import { getAllDifficulties } from "../../managers/difficultyManager";
-import { useNavigate } from "react-router-dom";
+import { getHikeById, updateHike } from "../../managers/hikeManger";
 import { Container, Form, Button } from "react-bootstrap";
 
-export default function CreateHike({ loggedInUser }) {
+export default function EditHike() {
+  const [hike, setHike] = useState(null);
   const [difficulties, setDifficulties] = useState([]);
-  const [hike, setHike] = useState({
-    title: "",
-    description: "",
-    location: "",
-    addressLine1: "",
-    city: "",
-    state: "",
-    zip: "",
-    distance: 0,
-    difficultyId: 1,
-    isDogFriendly: false,
-    isKidFriendly: false,
-    isHandicapAccessible: false,
-    hasRestrooms: false,
-    isPaved: false,
-    isGravel: false,
-    userProfileId: 0,
-  });
+  const { id } = useParams();
   const navigate = useNavigate();
 
   useEffect(() => {
+    getHikeById(id).then(setHike);
     getAllDifficulties().then(setDifficulties);
-  }, []);
+  }, [id]);
 
-  const handleChange = (e) => {
-    const field = e.target.name;
-    const value =
-      e.target.type === "checkbox" ? e.target.checked : e.target.value;
-
-    setHike((prevState) => {
-      return {
-        ...prevState,
-        [field]: value,
-      };
+  const handleChange = (event) => {
+    const { name, value, type, checked } = event.target;
+    setHike({
+      ...hike,
+      [name]: type === "checkbox" ? checked : value,
     });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const fullAddress = `${hike.addressLine1}, ${hike.city}, ${hike.state} ${hike.zip}`;
-
-    const hikeToSend = {
-      ...hike,
-      location: fullAddress,
-      userProfileId: loggedInUser.id,
-    };
-
-    createHike(hikeToSend).then(() => navigate("/"));
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    updateHike(id, hike).then(() => navigate("/"));
   };
+  if (!hike) return <p>Loading...</p>;
 
   return (
     <Container style={{ maxWidth: "700px", marginTop: "2rem" }}>
-      <h2 className="mb-4 text-center">Create a New Hike</h2>
+      <h2 className="mb-4 text-center">Edit Hike</h2>
       <Form onSubmit={handleSubmit}>
         <Form.Group className="mb-3">
           <Form.Label>Title</Form.Label>
@@ -202,7 +175,7 @@ export default function CreateHike({ loggedInUser }) {
 
         <div className="text-end">
           <Button type="submit" variant="dark">
-            Save Hike
+            Save Changes
           </Button>
         </div>
       </Form>

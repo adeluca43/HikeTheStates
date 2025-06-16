@@ -11,17 +11,17 @@ namespace HikingApp.Controllers;
 [Route("api/[controller]")]
 public class DifficultyController : ControllerBase
 {
-    private readonly HikingAppDbContext _context;
+    private readonly HikingAppDbContext _dbContext;
 
     public DifficultyController(HikingAppDbContext context)
     {
-        _context = context;
+        _dbContext = context;
     }
 
     [HttpGet]
     [Authorize]
     public IActionResult GetAllDifficulties()
     {
-        return Ok(_context.Difficulties.ToList());
+        return Ok(_dbContext.Difficulties.ToList());
     }
 }

@@ -162,29 +162,452 @@ public class HikingAppDbContext : IdentityDbContext
         );
 
         modelBuilder.Entity<Hike>().HasData(
-            new Hike { Id = 1, Title = "Forest Loop", Description = "Peaceful loop through tall trees.", Location = "123 Forest Ln, Nashville, TN 37011", Distance = 3.5, DifficultyId = 1, UserProfileId = 3, DateCreated = DateTime.Now.AddDays(-15), IsDogFriendly = true, IsKidFriendly = true, IsHandicapAccessible = false, HasRestrooms = true, IsPaved = false, IsGravel = true },
-            new Hike { Id = 2, Title = "River Edge Trail", Description = "Trail running alongside the riverbank.", Location = "456 River Rd, Knoxville, TN 37901", Distance = 4.2, DifficultyId = 2, UserProfileId = 4, DateCreated = DateTime.Now.AddDays(-20), IsDogFriendly = true, IsKidFriendly = false, IsHandicapAccessible = false, HasRestrooms = false, IsPaved = false, IsGravel = true },
-            new Hike { Id = 3, Title = "Bluff Overlook", Description = "Scenic view from the bluff.", Location = "789 Bluff Dr, Chattanooga, TN 37401", Distance = 5.1, DifficultyId = 3, UserProfileId = 5, DateCreated = DateTime.Now.AddDays(-10), IsDogFriendly = false, IsKidFriendly = false, IsHandicapAccessible = false, HasRestrooms = true, IsPaved = false, IsGravel = false },
-            new Hike { Id = 4, Title = "Lakeside Path", Description = "Flat path around the lake, great for families.", Location = "321 Lakeview Ave, Clarksville, TN 37040", Distance = 2.8, DifficultyId = 1, UserProfileId = 3, DateCreated = DateTime.Now.AddDays(-5), IsDogFriendly = true, IsKidFriendly = true, IsHandicapAccessible = true, HasRestrooms = true, IsPaved = true, IsGravel = false },
-            new Hike { Id = 5, Title = "Sunset Ridge", Description = "Challenging hike with rewarding sunset views.", Location = "654 Ridge Rd, Cookeville, TN 38501", Distance = 6.7, DifficultyId = 4, UserProfileId = 4, DateCreated = DateTime.Now.AddDays(-8), IsDogFriendly = false, IsKidFriendly = false, IsHandicapAccessible = false, HasRestrooms = false, IsPaved = false, IsGravel = false },
-            new Hike { Id = 6, Title = "Waterfall Trail", Description = "Short hike to a beautiful waterfall.", Location = "987 Falls Blvd, Sparta, TN 38583", Distance = 1.9, DifficultyId = 1, UserProfileId = 5, DateCreated = DateTime.Now.AddDays(-3), IsDogFriendly = true, IsKidFriendly = true, IsHandicapAccessible = false, HasRestrooms = true, IsPaved = false, IsGravel = true },
-            new Hike { Id = 7, Title = "Rocky Path", Description = "Steep, rocky trail not for beginners.", Location = "159 Rock Ln, Tullahoma, TN 37388", Distance = 5.9, DifficultyId = 4, UserProfileId = 3, DateCreated = DateTime.Now.AddDays(-25), IsDogFriendly = false, IsKidFriendly = false, IsHandicapAccessible = false, HasRestrooms = false, IsPaved = false, IsGravel = false },
-            new Hike { Id = 8, Title = "Birdwatch Loop", Description = "Great spot for birdwatching in spring.", Location = "753 Birdsong Ct, Columbia, TN 38401", Distance = 3.2, DifficultyId = 2, UserProfileId = 4, DateCreated = DateTime.Now.AddDays(-13), IsDogFriendly = true, IsKidFriendly = true, IsHandicapAccessible = true, HasRestrooms = true, IsPaved = true, IsGravel = false },
-            new Hike { Id = 9, Title = "Pine Hollow", Description = "Quiet trail through pine woods.", Location = "111 Pine Ln, Jackson, TN 38301", Distance = 4.5, DifficultyId = 2, UserProfileId = 5, DateCreated = DateTime.Now.AddDays(-17), IsDogFriendly = true, IsKidFriendly = true, IsHandicapAccessible = false, HasRestrooms = false, IsPaved = false, IsGravel = true },
-            new Hike { Id = 10, Title = "Creek Crossing", Description = "Cross several shallow creeks.", Location = "222 Creek Rd, Murfreesboro, TN 37130", Distance = 3.7, DifficultyId = 3, UserProfileId = 3, DateCreated = DateTime.Now.AddDays(-7), IsDogFriendly = true, IsKidFriendly = false, IsHandicapAccessible = false, HasRestrooms = false, IsPaved = false, IsGravel = true },
-            new Hike { Id = 11, Title = "Meadow Breeze", Description = "Flat and open with wildflowers.", Location = "333 Meadow Pkwy, Brentwood, TN 37027", Distance = 2.2, DifficultyId = 1, UserProfileId = 4, DateCreated = DateTime.Now.AddDays(-2), IsDogFriendly = true, IsKidFriendly = true, IsHandicapAccessible = true, HasRestrooms = true, IsPaved = true, IsGravel = false },
-            new Hike { Id = 12, Title = "Valley Hike", Description = "Walk through a shady valley.", Location = "444 Valley Ln, Gallatin, TN 37066", Distance = 3.9, DifficultyId = 2, UserProfileId = 5, DateCreated = DateTime.Now.AddDays(-6), IsDogFriendly = false, IsKidFriendly = true, IsHandicapAccessible = false, HasRestrooms = true, IsPaved = false, IsGravel = true },
-            new Hike { Id = 13, Title = "Steep Steps", Description = "Hard stair climb through the canyon.", Location = "555 Step Hill Rd, Johnson City, TN 37601", Distance = 4.0, DifficultyId = 4, UserProfileId = 3, DateCreated = DateTime.Now.AddDays(-12), IsDogFriendly = false, IsKidFriendly = false, IsHandicapAccessible = false, HasRestrooms = true, IsPaved = false, IsGravel = false },
-            new Hike { Id = 14, Title = "Maple Grove", Description = "Colorful in the fall with maples.", Location = "666 Maple St, Lebanon, TN 37087", Distance = 3.3, DifficultyId = 2, UserProfileId = 4, DateCreated = DateTime.Now.AddDays(-14), IsDogFriendly = true, IsKidFriendly = true, IsHandicapAccessible = false, HasRestrooms = false, IsPaved = false, IsGravel = true },
-            new Hike { Id = 15, Title = "Big Hill", Description = "Open climb with big views.", Location = "777 Hilltop Dr, Dickson, TN 37055", Distance = 6.0, DifficultyId = 3, UserProfileId = 5, DateCreated = DateTime.Now.AddDays(-11), IsDogFriendly = false, IsKidFriendly = false, IsHandicapAccessible = false, HasRestrooms = true, IsPaved = false, IsGravel = false },
-            new Hike { Id = 16, Title = "Shady Creek", Description = "Cooling shade and shallow water.", Location = "888 Shady Trl, McMinnville, TN 37110", Distance = 2.6, DifficultyId = 1, UserProfileId = 3, DateCreated = DateTime.Now.AddDays(-18), IsDogFriendly = true, IsKidFriendly = true, IsHandicapAccessible = true, HasRestrooms = true, IsPaved = false, IsGravel = true },
-            new Hike { Id = 17, Title = "Historic Trail", Description = "Passes Civil War sites.", Location = "999 Heritage Way, Franklin, TN 37064", Distance = 3.8, DifficultyId = 2, UserProfileId = 4, DateCreated = DateTime.Now.AddDays(-19), IsDogFriendly = false, IsKidFriendly = true, IsHandicapAccessible = false, HasRestrooms = true, IsPaved = true, IsGravel = false },
-            new Hike { Id = 18, Title = "Sunrise Summit", Description = "Best at dawn, steep but short.", Location = "1010 Dawn Dr, Oak Ridge, TN 37830", Distance = 2.4, DifficultyId = 3, UserProfileId = 5, DateCreated = DateTime.Now.AddDays(-4), IsDogFriendly = false, IsKidFriendly = false, IsHandicapAccessible = false, HasRestrooms = false, IsPaved = false, IsGravel = true },
-            new Hike { Id = 19, Title = "Nature Walk", Description = "Educational signs along the path.", Location = "1111 Nature Ln, Smyrna, TN 37167", Distance = 2.0, DifficultyId = 1, UserProfileId = 3, DateCreated = DateTime.Now.AddDays(-1), IsDogFriendly = true, IsKidFriendly = true, IsHandicapAccessible = true, HasRestrooms = true, IsPaved = true, IsGravel = false },
-            new Hike { Id = 20, Title = "Windy Ridge", Description = "Breezy and open, moderate challenge.", Location = "1212 Ridgecrest Rd, Spring Hill, TN 37174", Distance = 5.4, DifficultyId = 3, UserProfileId = 4, DateCreated = DateTime.Now.AddDays(-9), IsDogFriendly = true, IsKidFriendly = false, IsHandicapAccessible = false, HasRestrooms = false, IsPaved = false, IsGravel = true }
-        );
+
+    new Hike
+    {
+        Id = 1,
+        Title = "Forest Loop",
+        Description = "Peaceful loop through tall trees",
+        Location = "Cedarwood Forest",
+        AddressLine1 = "123 Forest Ln",
+        City = "Nashville",
+        State = "TN",
+        Zip = "37011",
+        Distance = 1.8,
+        DifficultyId = 1,
+        UserProfileId = 3,
+        DateCreated = DateTime.Now.AddDays(-1),
+        IsDogFriendly = true,
+        IsKidFriendly = false,
+        IsHandicapAccessible = true,
+        HasRestrooms = false,
+        IsPaved = true,
+        IsGravel = false
+    },
+
+    new Hike
+    {
+        Id = 2,
+        Title = "River Edge Trail",
+        Description = "Trail running alongside the riverbank.",
+        Location = "East River Park",
+        AddressLine1 = "456 River Rd",
+        City = "Knoxville",
+        State = "TN",
+        Zip = "37901",
+        Distance = 2.7,
+        DifficultyId = 2,
+        UserProfileId = 4,
+        DateCreated = DateTime.Now.AddDays(-2),
+        IsDogFriendly = false,
+        IsKidFriendly = true,
+        IsHandicapAccessible = false,
+        HasRestrooms = true,
+        IsPaved = false,
+        IsGravel = true
+    },
+
+    new Hike
+    {
+        Id = 3,
+        Title = "Bluff Overlook",
+        Description = "Scenic view from the bluff",
+        Location = "Bluff Point Reserve",
+        AddressLine1 = "789 Bluff Dr",
+        City = "Chattanooga",
+        State = "TN",
+        Zip = "37401",
+        Distance = 3.6,
+        DifficultyId = 3,
+        UserProfileId = 5,
+        DateCreated = DateTime.Now.AddDays(-3),
+        IsDogFriendly = true,
+        IsKidFriendly = true,
+        IsHandicapAccessible = false,
+        HasRestrooms = true,
+        IsPaved = false,
+        IsGravel = false
+    },
+
+    new Hike
+    {
+        Id = 4,
+        Title = "Lakeside Path",
+        Description = "Goes all the way around the lake!Lots of ducks!",
+        Location = "Lake Harmony Trails",
+        AddressLine1 = "321 Lakeview Ave",
+        City = "Clarksville",
+        State = "TN",
+        Zip = "37040",
+        Distance = 4.5,
+        DifficultyId = 4,
+        UserProfileId = 3,
+        DateCreated = DateTime.Now.AddDays(-4),
+        IsDogFriendly = false,
+        IsKidFriendly = false,
+        IsHandicapAccessible = false,
+        HasRestrooms = true,
+        IsPaved = true,
+        IsGravel = true
+    },
+
+    new Hike
+    {
+        Id = 5,
+        Title = "Sunset Ridge",
+        Description = "Challenging hike with rewarding sunset views.",
+        Location = "Summit Ridge View",
+        AddressLine1 = "654 Ridge Rd",
+        City = "Cookeville",
+        State = "TN",
+        Zip = "38501",
+        Distance = 5.4,
+        DifficultyId = 1,
+        UserProfileId = 4,
+        DateCreated = DateTime.Now.AddDays(-5),
+        IsDogFriendly = true,
+        IsKidFriendly = true,
+        IsHandicapAccessible = true,
+        HasRestrooms = true,
+        IsPaved = false,
+        IsGravel = false
+    },
+
+    new Hike
+    {
+        Id = 6,
+        Title = "Waterfall Trail",
+        Description = "steep, rocky trail, not for beginners.",
+        Location = "Crystal Falls Preserve",
+        AddressLine1 = "987 Falls Blvd",
+        City = "Sparta",
+        State = "TN",
+        Zip = "38583",
+        Distance = 2.7,
+        DifficultyId = 2,
+        UserProfileId = 5,
+        DateCreated = DateTime.Now.AddDays(-6),
+        IsDogFriendly = false,
+        IsKidFriendly = true,
+        IsHandicapAccessible = false,
+        HasRestrooms = true,
+        IsPaved = false,
+        IsGravel = true
+    },
+
+    new Hike
+    {
+        Id = 7,
+        Title = "Rocky Path",
+        Description = "Lots of rocks and boulders on this trail",
+        Location = "Ironrock Trailhead",
+        AddressLine1 = "159 Rock Ln",
+        City = "Tullahoma",
+        State = "TN",
+        Zip = "37388",
+        Distance = 3.6,
+        DifficultyId = 3,
+        UserProfileId = 3,
+        DateCreated = DateTime.Now.AddDays(-7),
+        IsDogFriendly = true,
+        IsKidFriendly = false,
+        IsHandicapAccessible = false,
+        HasRestrooms = false,
+        IsPaved = false,
+        IsGravel = false
+    },
+
+    new Hike
+    {
+        Id = 8,
+        Title = "Birdwatch Loop",
+        Description = "Great nature watching along the trail, lots of birds.",
+        Location = "Springwatch Preserve",
+        AddressLine1 = "753 Birdsong Ct",
+        City = "Columbia",
+        State = "TN",
+        Zip = "38401",
+        Distance = 4.5,
+        DifficultyId = 4,
+        UserProfileId = 4,
+        DateCreated = DateTime.Now.AddDays(-8),
+        IsDogFriendly = true,
+        IsKidFriendly = true,
+        IsHandicapAccessible = false,
+        HasRestrooms = false,
+        IsPaved = false,
+        IsGravel = true
+    },
+
+    new Hike
+    {
+        Id = 9,
+        Title = "Pine Hollow",
+        Description = "short path, great for kids, can be muddy.",
+        Location = "Pine Hollow Woods",
+        AddressLine1 = "111 Pine Ln",
+        City = "Jackson",
+        State = "TN",
+        Zip = "38301",
+        Distance = 1.8,
+        DifficultyId = 1,
+        UserProfileId = 5,
+        DateCreated = DateTime.Now.AddDays(-9),
+        IsDogFriendly = false,
+        IsKidFriendly = true,
+        IsHandicapAccessible = false,
+        HasRestrooms = false,
+        IsPaved = false,
+        IsGravel = false
+    },
+
+    new Hike
+    {
+        Id = 10,
+        Title = "Creek Crossing",
+        Description = "multiple creek crossings on path, water comes up to knee height.",
+        Location = "Creekstone Trail",
+        AddressLine1 = "222 Creek Rd",
+        City = "Murfreesboro",
+        State = "TN",
+        Zip = "37130",
+        Distance = 2.7,
+        DifficultyId = 2,
+        UserProfileId = 3,
+        DateCreated = DateTime.Now.AddDays(-10),
+        IsDogFriendly = true,
+        IsKidFriendly = false,
+        IsHandicapAccessible = false,
+        HasRestrooms = false,
+        IsPaved = false,
+        IsGravel = true
+    },
+
+    new Hike
+    {
+        Id = 11,
+        Title = "Meadow Breeze",
+        Description = "Beautiful views of wild flowers!",
+        Location = "Meadowlark Trail",
+        AddressLine1 = "333 Meadow Pkwy",
+        City = "Brentwood",
+        State = "TN",
+        Zip = "37027",
+        Distance = 3.6,
+        DifficultyId = 3,
+        UserProfileId = 4,
+        DateCreated = DateTime.Now.AddDays(-11),
+        IsDogFriendly = true,
+        IsKidFriendly = true,
+        IsHandicapAccessible = false,
+        HasRestrooms = true,
+        IsPaved = false,
+        IsGravel = false
+    },
+
+    new Hike
+    {
+        Id = 12,
+        Title = "Valley Hike",
+        Description = "Steep hills, not very busy early in the morning.",
+        Location = "Whispering Valley",
+        AddressLine1 = "444 Valley Ln",
+        City = "Gallatin",
+        State = "TN",
+        Zip = "37066",
+        Distance = 4.5,
+        DifficultyId = 4,
+        UserProfileId = 5,
+        DateCreated = DateTime.Now.AddDays(-12),
+        IsDogFriendly = false,
+        IsKidFriendly = true,
+        IsHandicapAccessible = false,
+        HasRestrooms = true,
+        IsPaved = false,
+        IsGravel = true
+    },
+
+    new Hike
+    {
+        Id = 13,
+        Title = "Steep Steps",
+        Description = "Trail has tons of steps!!",
+        Location = "Canyon Staircase",
+        AddressLine1 = "555 Step Hill Rd",
+        City = "Johnson City",
+        State = "TN",
+        Zip = "37601",
+        Distance = 1.8,
+        DifficultyId = 1,
+        UserProfileId = 3,
+        DateCreated = DateTime.Now.AddDays(-13),
+        IsDogFriendly = true,
+        IsKidFriendly = false,
+        IsHandicapAccessible = true,
+        HasRestrooms = false,
+        IsPaved = true,
+        IsGravel = false
+    },
+
+    new Hike
+    {
+        Id = 14,
+        Title = "Maple Grove",
+        Description = "big trees, lots of shade, great for a day hike!",
+        Location = "Maple Shade Woods",
+        AddressLine1 = "666 Maple St",
+        City = "Lebanon",
+        State = "TN",
+        Zip = "37087",
+        Distance = 2.7,
+        DifficultyId = 2,
+        UserProfileId = 4,
+        DateCreated = DateTime.Now.AddDays(-14),
+        IsDogFriendly = false,
+        IsKidFriendly = true,
+        IsHandicapAccessible = false,
+        HasRestrooms = true,
+        IsPaved = false,
+        IsGravel = true
+    },
+
+    new Hike
+    {
+        Id = 15,
+        Title = "Big Hill",
+        Description = "Open climb with big views",
+        Location = "Hilltop Ascent",
+        AddressLine1 = "777 Hilltop Dr",
+        City = "Dickson",
+        State = "TN",
+        Zip = "37055",
+        Distance = 3.6,
+        DifficultyId = 3,
+        UserProfileId = 5,
+        DateCreated = DateTime.Now.AddDays(-15),
+        IsDogFriendly = true,
+        IsKidFriendly = false,
+        IsHandicapAccessible = false,
+        HasRestrooms = false,
+        IsPaved = false,
+        IsGravel = false
+    },
+
+    new Hike
+    {
+        Id = 16,
+        Title = "Shady Creek",
+        Description = "Cooling shade and shallow water.",
+        Location = "Shady Glen Trail",
+        AddressLine1 = "888 Shady Trl",
+        City = "McMinnville",
+        State = "TN",
+        Zip = "37110",
+        Distance = 4.5,
+        DifficultyId = 4,
+        UserProfileId = 3,
+        DateCreated = DateTime.Now.AddDays(-16),
+        IsDogFriendly = false,
+        IsKidFriendly = true,
+        IsHandicapAccessible = false,
+        HasRestrooms = false,
+        IsPaved = false,
+        IsGravel = true
+    },
+
+    new Hike
+    {
+        Id = 17,
+        Title = "Historic Trail",
+        Description = "Passes Civil War Sites",
+        Location = "Civil Ridge Trail",
+        AddressLine1 = "999 Heritage Way",
+        City = "Franklin",
+        State = "TN",
+        Zip = "37064",
+        Distance = 1.8,
+        DifficultyId = 1,
+        UserProfileId = 4,
+        DateCreated = DateTime.Now.AddDays(-17),
+        IsDogFriendly = true,
+        IsKidFriendly = false,
+        IsHandicapAccessible = true,
+        HasRestrooms = false,
+        IsPaved = true,
+        IsGravel = false
+    },
+
+    new Hike
+    {
+        Id = 18,
+        Title = "Sunrise Summit",
+        Description = "Best at dawn, steep but short.",
+        Location = "Sunrise Bluff Trail",
+        AddressLine1 = "1010 Dawn Dr",
+        City = "Oak Ridge",
+        State = "TN",
+        Zip = "37830",
+        Distance = 2.7,
+        DifficultyId = 2,
+        UserProfileId = 5,
+        DateCreated = DateTime.Now.AddDays(-18),
+        IsDogFriendly = false,
+        IsKidFriendly = true,
+        IsHandicapAccessible = false,
+        HasRestrooms = true,
+        IsPaved = false,
+        IsGravel = true
+    },
+
+    new Hike
+    {
+        Id = 19,
+        Title = "Nature Walk",
+        Description = "Educational signs along the way.",
+        Location = "Nature Education Loop",
+        AddressLine1 = "1111 Nature Ln",
+        City = "Smyrna",
+        State = "TN",
+        Zip = "37167",
+        Distance = 3.6,
+        DifficultyId = 3,
+        UserProfileId = 3,
+        DateCreated = DateTime.Now.AddDays(-19),
+        IsDogFriendly = true,
+        IsKidFriendly = true,
+        IsHandicapAccessible = false,
+        HasRestrooms = true,
+        IsPaved = false,
+        IsGravel = false
+    },
+
+    new Hike
+    {
+        Id = 20,
+        Title = "Windy Ridge",
+        Description = "Breezy and open, moderate challenge",
+        Location = "Windcrest Hills",
+        AddressLine1 = "1212 Ridgecrest Rd",
+        City = "Spring Hill",
+        State = "TN",
+        Zip = "37174",
+        Distance = 4.5,
+        DifficultyId = 4,
+        UserProfileId = 4,
+        DateCreated = DateTime.Now.AddDays(-20),
+        IsDogFriendly = false,
+        IsKidFriendly = true,
+        IsHandicapAccessible = false,
+        HasRestrooms = true,
+        IsPaved = false,
+        IsGravel = true
+    }
+);
+
+
+
+
 
     }
 }
-
 
