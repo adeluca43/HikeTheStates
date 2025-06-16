@@ -19,7 +19,7 @@ builder.Services.AddControllers().AddJsonOptions(opts =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// ✅ Add CORS policy that allows credentials from your frontend
+//  Add CORS policy that allows credentials from your frontend
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>
@@ -31,7 +31,7 @@ builder.Services.AddCors(options =>
     });
 });
 
-// ✅ Configure cookie-based authentication
+// Configure cookie-based authentication
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
     {
@@ -55,7 +55,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         };
     });
 
-// ✅ Configure Identity
+//  Configure Identity
 builder.Services.AddIdentityCore<IdentityUser>(config =>
 {
     config.Password.RequireDigit = false;
@@ -68,7 +68,7 @@ builder.Services.AddIdentityCore<IdentityUser>(config =>
 .AddRoles<IdentityRole>()
 .AddEntityFrameworkStores<HikingAppDbContext>();
 
-// ✅ Configure EF connection and PostgreSQL legacy behavior
+//  Configure EF connection and PostgreSQL legacy behavior
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 builder.Services.AddNpgsql<HikingAppDbContext>(builder.Configuration["HikingAppDbConnectionString"]);
 
@@ -86,7 +86,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-// ✅ Enable CORS BEFORE auth
+//  Enable CORS BEFORE auth
 app.UseCors();
 
 // Auth must come after CORS
