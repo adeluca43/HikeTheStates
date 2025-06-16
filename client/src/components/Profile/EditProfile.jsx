@@ -6,9 +6,7 @@ import {
 import { useNavigate } from "react-router-dom";
 
 export default function EditProfile({ loggedInUser }) {
-  // eslint-disable-next-line no-unused-vars
-  const [profile, setProfile] = useState(null);
-  const [formData, setFormData] = useState({
+  const [profileData, setProfileData] = useState({
     firstName: "",
     lastName: "",
     email: "",
@@ -19,7 +17,7 @@ export default function EditProfile({ loggedInUser }) {
 
   useEffect(() => {
     getUserProfile(loggedInUser.id).then((profile) => {
-      setFormData({
+      setProfileData({
         firstName: profile.firstName || "",
         lastName: profile.lastName || "",
         email: profile.email || "",
@@ -30,14 +28,14 @@ export default function EditProfile({ loggedInUser }) {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setProfileData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      await updateUserProfile(loggedInUser.id, formData);
+      await updateUserProfile(loggedInUser.id, profileData);
       navigate("/profile");
     } catch (error) {
       console.error("Failed to update profile:", error);
@@ -53,7 +51,7 @@ export default function EditProfile({ loggedInUser }) {
           <input
             name="firstName"
             className="form-control"
-            value={formData.firstName}
+            value={profileData.firstName}
             onChange={handleChange}
             required
           />
@@ -64,7 +62,7 @@ export default function EditProfile({ loggedInUser }) {
           <input
             name="lastName"
             className="form-control"
-            value={formData.lastName}
+            value={profileData.lastName}
             onChange={handleChange}
             required
           />
@@ -76,7 +74,7 @@ export default function EditProfile({ loggedInUser }) {
             name="email"
             type="email"
             className="form-control"
-            value={formData.email}
+            value={profileData.email}
             onChange={handleChange}
             required
           />
@@ -87,7 +85,7 @@ export default function EditProfile({ loggedInUser }) {
           <input
             name="imageLocation"
             className="form-control"
-            value={formData.imageLocation}
+            value={profileData.imageLocation}
             onChange={handleChange}
           />
         </div>
