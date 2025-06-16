@@ -3,6 +3,7 @@ using System;
 using HikingApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace HikingApp.Migrations
 {
     [DbContext(typeof(HikingAppDbContext))]
-    partial class HikingAppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250613154917_AddDateCreatedToHike")]
+    partial class AddDateCreatedToHike
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -82,22 +85,7 @@ namespace HikingApp.Migrations
                     b.Property<double>("Distance")
                         .HasColumnType("double precision");
 
-                    b.Property<bool>("HasRestrooms")
-                        .HasColumnType("boolean");
-
                     b.Property<bool>("IsDogFriendly")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("IsGravel")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("IsHandicapAccessible")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("IsKidFriendly")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("IsPaved")
                         .HasColumnType("boolean");
 
                     b.Property<string>("Location")
@@ -118,348 +106,6 @@ namespace HikingApp.Migrations
                     b.HasIndex("UserProfileId");
 
                     b.ToTable("Hikes");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            DateCreated = new DateTime(2025, 5, 29, 13, 58, 47, 189, DateTimeKind.Local).AddTicks(9052),
-                            Description = "Peaceful loop through tall trees.",
-                            DifficultyId = 1,
-                            Distance = 3.5,
-                            HasRestrooms = true,
-                            IsDogFriendly = true,
-                            IsGravel = true,
-                            IsHandicapAccessible = false,
-                            IsKidFriendly = true,
-                            IsPaved = false,
-                            Location = "123 Forest Ln, Nashville, TN 37011",
-                            Title = "Forest Loop",
-                            UserProfileId = 3
-                        },
-                        new
-                        {
-                            Id = 2,
-                            DateCreated = new DateTime(2025, 5, 24, 13, 58, 47, 189, DateTimeKind.Local).AddTicks(9148),
-                            Description = "Trail running alongside the riverbank.",
-                            DifficultyId = 2,
-                            Distance = 4.2000000000000002,
-                            HasRestrooms = false,
-                            IsDogFriendly = true,
-                            IsGravel = true,
-                            IsHandicapAccessible = false,
-                            IsKidFriendly = false,
-                            IsPaved = false,
-                            Location = "456 River Rd, Knoxville, TN 37901",
-                            Title = "River Edge Trail",
-                            UserProfileId = 4
-                        },
-                        new
-                        {
-                            Id = 3,
-                            DateCreated = new DateTime(2025, 6, 3, 13, 58, 47, 189, DateTimeKind.Local).AddTicks(9152),
-                            Description = "Scenic view from the bluff.",
-                            DifficultyId = 3,
-                            Distance = 5.0999999999999996,
-                            HasRestrooms = true,
-                            IsDogFriendly = false,
-                            IsGravel = false,
-                            IsHandicapAccessible = false,
-                            IsKidFriendly = false,
-                            IsPaved = false,
-                            Location = "789 Bluff Dr, Chattanooga, TN 37401",
-                            Title = "Bluff Overlook",
-                            UserProfileId = 5
-                        },
-                        new
-                        {
-                            Id = 4,
-                            DateCreated = new DateTime(2025, 6, 8, 13, 58, 47, 189, DateTimeKind.Local).AddTicks(9155),
-                            Description = "Flat path around the lake, great for families.",
-                            DifficultyId = 1,
-                            Distance = 2.7999999999999998,
-                            HasRestrooms = true,
-                            IsDogFriendly = true,
-                            IsGravel = false,
-                            IsHandicapAccessible = true,
-                            IsKidFriendly = true,
-                            IsPaved = true,
-                            Location = "321 Lakeview Ave, Clarksville, TN 37040",
-                            Title = "Lakeside Path",
-                            UserProfileId = 3
-                        },
-                        new
-                        {
-                            Id = 5,
-                            DateCreated = new DateTime(2025, 6, 5, 13, 58, 47, 189, DateTimeKind.Local).AddTicks(9158),
-                            Description = "Challenging hike with rewarding sunset views.",
-                            DifficultyId = 4,
-                            Distance = 6.7000000000000002,
-                            HasRestrooms = false,
-                            IsDogFriendly = false,
-                            IsGravel = false,
-                            IsHandicapAccessible = false,
-                            IsKidFriendly = false,
-                            IsPaved = false,
-                            Location = "654 Ridge Rd, Cookeville, TN 38501",
-                            Title = "Sunset Ridge",
-                            UserProfileId = 4
-                        },
-                        new
-                        {
-                            Id = 6,
-                            DateCreated = new DateTime(2025, 6, 10, 13, 58, 47, 189, DateTimeKind.Local).AddTicks(9167),
-                            Description = "Short hike to a beautiful waterfall.",
-                            DifficultyId = 1,
-                            Distance = 1.8999999999999999,
-                            HasRestrooms = true,
-                            IsDogFriendly = true,
-                            IsGravel = true,
-                            IsHandicapAccessible = false,
-                            IsKidFriendly = true,
-                            IsPaved = false,
-                            Location = "987 Falls Blvd, Sparta, TN 38583",
-                            Title = "Waterfall Trail",
-                            UserProfileId = 5
-                        },
-                        new
-                        {
-                            Id = 7,
-                            DateCreated = new DateTime(2025, 5, 19, 13, 58, 47, 189, DateTimeKind.Local).AddTicks(9180),
-                            Description = "Steep, rocky trail not for beginners.",
-                            DifficultyId = 4,
-                            Distance = 5.9000000000000004,
-                            HasRestrooms = false,
-                            IsDogFriendly = false,
-                            IsGravel = false,
-                            IsHandicapAccessible = false,
-                            IsKidFriendly = false,
-                            IsPaved = false,
-                            Location = "159 Rock Ln, Tullahoma, TN 37388",
-                            Title = "Rocky Path",
-                            UserProfileId = 3
-                        },
-                        new
-                        {
-                            Id = 8,
-                            DateCreated = new DateTime(2025, 5, 31, 13, 58, 47, 189, DateTimeKind.Local).AddTicks(9228),
-                            Description = "Great spot for birdwatching in spring.",
-                            DifficultyId = 2,
-                            Distance = 3.2000000000000002,
-                            HasRestrooms = true,
-                            IsDogFriendly = true,
-                            IsGravel = false,
-                            IsHandicapAccessible = true,
-                            IsKidFriendly = true,
-                            IsPaved = true,
-                            Location = "753 Birdsong Ct, Columbia, TN 38401",
-                            Title = "Birdwatch Loop",
-                            UserProfileId = 4
-                        },
-                        new
-                        {
-                            Id = 9,
-                            DateCreated = new DateTime(2025, 5, 27, 13, 58, 47, 189, DateTimeKind.Local).AddTicks(9231),
-                            Description = "Quiet trail through pine woods.",
-                            DifficultyId = 2,
-                            Distance = 4.5,
-                            HasRestrooms = false,
-                            IsDogFriendly = true,
-                            IsGravel = true,
-                            IsHandicapAccessible = false,
-                            IsKidFriendly = true,
-                            IsPaved = false,
-                            Location = "111 Pine Ln, Jackson, TN 38301",
-                            Title = "Pine Hollow",
-                            UserProfileId = 5
-                        },
-                        new
-                        {
-                            Id = 10,
-                            DateCreated = new DateTime(2025, 6, 6, 13, 58, 47, 189, DateTimeKind.Local).AddTicks(9235),
-                            Description = "Cross several shallow creeks.",
-                            DifficultyId = 3,
-                            Distance = 3.7000000000000002,
-                            HasRestrooms = false,
-                            IsDogFriendly = true,
-                            IsGravel = true,
-                            IsHandicapAccessible = false,
-                            IsKidFriendly = false,
-                            IsPaved = false,
-                            Location = "222 Creek Rd, Murfreesboro, TN 37130",
-                            Title = "Creek Crossing",
-                            UserProfileId = 3
-                        },
-                        new
-                        {
-                            Id = 11,
-                            DateCreated = new DateTime(2025, 6, 11, 13, 58, 47, 189, DateTimeKind.Local).AddTicks(9250),
-                            Description = "Flat and open with wildflowers.",
-                            DifficultyId = 1,
-                            Distance = 2.2000000000000002,
-                            HasRestrooms = true,
-                            IsDogFriendly = true,
-                            IsGravel = false,
-                            IsHandicapAccessible = true,
-                            IsKidFriendly = true,
-                            IsPaved = true,
-                            Location = "333 Meadow Pkwy, Brentwood, TN 37027",
-                            Title = "Meadow Breeze",
-                            UserProfileId = 4
-                        },
-                        new
-                        {
-                            Id = 12,
-                            DateCreated = new DateTime(2025, 6, 7, 13, 58, 47, 189, DateTimeKind.Local).AddTicks(9253),
-                            Description = "Walk through a shady valley.",
-                            DifficultyId = 2,
-                            Distance = 3.8999999999999999,
-                            HasRestrooms = true,
-                            IsDogFriendly = false,
-                            IsGravel = true,
-                            IsHandicapAccessible = false,
-                            IsKidFriendly = true,
-                            IsPaved = false,
-                            Location = "444 Valley Ln, Gallatin, TN 37066",
-                            Title = "Valley Hike",
-                            UserProfileId = 5
-                        },
-                        new
-                        {
-                            Id = 13,
-                            DateCreated = new DateTime(2025, 6, 1, 13, 58, 47, 189, DateTimeKind.Local).AddTicks(9256),
-                            Description = "Hard stair climb through the canyon.",
-                            DifficultyId = 4,
-                            Distance = 4.0,
-                            HasRestrooms = true,
-                            IsDogFriendly = false,
-                            IsGravel = false,
-                            IsHandicapAccessible = false,
-                            IsKidFriendly = false,
-                            IsPaved = false,
-                            Location = "555 Step Hill Rd, Johnson City, TN 37601",
-                            Title = "Steep Steps",
-                            UserProfileId = 3
-                        },
-                        new
-                        {
-                            Id = 14,
-                            DateCreated = new DateTime(2025, 5, 30, 13, 58, 47, 189, DateTimeKind.Local).AddTicks(9259),
-                            Description = "Colorful in the fall with maples.",
-                            DifficultyId = 2,
-                            Distance = 3.2999999999999998,
-                            HasRestrooms = false,
-                            IsDogFriendly = true,
-                            IsGravel = true,
-                            IsHandicapAccessible = false,
-                            IsKidFriendly = true,
-                            IsPaved = false,
-                            Location = "666 Maple St, Lebanon, TN 37087",
-                            Title = "Maple Grove",
-                            UserProfileId = 4
-                        },
-                        new
-                        {
-                            Id = 15,
-                            DateCreated = new DateTime(2025, 6, 2, 13, 58, 47, 189, DateTimeKind.Local).AddTicks(9262),
-                            Description = "Open climb with big views.",
-                            DifficultyId = 3,
-                            Distance = 6.0,
-                            HasRestrooms = true,
-                            IsDogFriendly = false,
-                            IsGravel = false,
-                            IsHandicapAccessible = false,
-                            IsKidFriendly = false,
-                            IsPaved = false,
-                            Location = "777 Hilltop Dr, Dickson, TN 37055",
-                            Title = "Big Hill",
-                            UserProfileId = 5
-                        },
-                        new
-                        {
-                            Id = 16,
-                            DateCreated = new DateTime(2025, 5, 26, 13, 58, 47, 189, DateTimeKind.Local).AddTicks(9282),
-                            Description = "Cooling shade and shallow water.",
-                            DifficultyId = 1,
-                            Distance = 2.6000000000000001,
-                            HasRestrooms = true,
-                            IsDogFriendly = true,
-                            IsGravel = true,
-                            IsHandicapAccessible = true,
-                            IsKidFriendly = true,
-                            IsPaved = false,
-                            Location = "888 Shady Trl, McMinnville, TN 37110",
-                            Title = "Shady Creek",
-                            UserProfileId = 3
-                        },
-                        new
-                        {
-                            Id = 17,
-                            DateCreated = new DateTime(2025, 5, 25, 13, 58, 47, 189, DateTimeKind.Local).AddTicks(9285),
-                            Description = "Passes Civil War sites.",
-                            DifficultyId = 2,
-                            Distance = 3.7999999999999998,
-                            HasRestrooms = true,
-                            IsDogFriendly = false,
-                            IsGravel = false,
-                            IsHandicapAccessible = false,
-                            IsKidFriendly = true,
-                            IsPaved = true,
-                            Location = "999 Heritage Way, Franklin, TN 37064",
-                            Title = "Historic Trail",
-                            UserProfileId = 4
-                        },
-                        new
-                        {
-                            Id = 18,
-                            DateCreated = new DateTime(2025, 6, 9, 13, 58, 47, 189, DateTimeKind.Local).AddTicks(9288),
-                            Description = "Best at dawn, steep but short.",
-                            DifficultyId = 3,
-                            Distance = 2.3999999999999999,
-                            HasRestrooms = false,
-                            IsDogFriendly = false,
-                            IsGravel = true,
-                            IsHandicapAccessible = false,
-                            IsKidFriendly = false,
-                            IsPaved = false,
-                            Location = "1010 Dawn Dr, Oak Ridge, TN 37830",
-                            Title = "Sunrise Summit",
-                            UserProfileId = 5
-                        },
-                        new
-                        {
-                            Id = 19,
-                            DateCreated = new DateTime(2025, 6, 12, 13, 58, 47, 189, DateTimeKind.Local).AddTicks(9291),
-                            Description = "Educational signs along the path.",
-                            DifficultyId = 1,
-                            Distance = 2.0,
-                            HasRestrooms = true,
-                            IsDogFriendly = true,
-                            IsGravel = false,
-                            IsHandicapAccessible = true,
-                            IsKidFriendly = true,
-                            IsPaved = true,
-                            Location = "1111 Nature Ln, Smyrna, TN 37167",
-                            Title = "Nature Walk",
-                            UserProfileId = 3
-                        },
-                        new
-                        {
-                            Id = 20,
-                            DateCreated = new DateTime(2025, 6, 4, 13, 58, 47, 189, DateTimeKind.Local).AddTicks(9295),
-                            Description = "Breezy and open, moderate challenge.",
-                            DifficultyId = 3,
-                            Distance = 5.4000000000000004,
-                            HasRestrooms = false,
-                            IsDogFriendly = true,
-                            IsGravel = true,
-                            IsHandicapAccessible = false,
-                            IsKidFriendly = false,
-                            IsPaved = false,
-                            Location = "1212 Ridgecrest Rd, Spring Hill, TN 37174",
-                            Title = "Windy Ridge",
-                            UserProfileId = 4
-                        });
                 });
 
             modelBuilder.Entity("HikingApp.Models.UserProfile", b =>
@@ -671,15 +317,15 @@ namespace HikingApp.Migrations
                         {
                             Id = "1a111111-1111-1111-1111-111111111111",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "377383f9-ca14-452a-8847-39601f5ba164",
+                            ConcurrencyStamp = "20dd84f2-8f82-44e1-a24e-4deb4511621c",
                             Email = "admin@hiking.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@HIKING.COM",
                             NormalizedUserName = "ADMIN@HIKING.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEC6tO76VuJwgmFouzPq+FfI51OrQl+WMDvstrGrMnom8DCi4j48qgCW/kVydt1n6gA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEK5zB5oq4ca0iptggdzPQacsqjfTDR3wta/uqdUls4hhsExaOJyu4ySiT9gXnkwENg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "fa7c15d2-b7e1-4e06-a099-f9838b7d9b27",
+                            SecurityStamp = "1aa7b51c-0489-415d-9404-89fa456c2db2",
                             TwoFactorEnabled = false,
                             UserName = "admin@hiking.com"
                         },
@@ -687,15 +333,15 @@ namespace HikingApp.Migrations
                         {
                             Id = "2b222222-2222-2222-2222-222222222222",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "9a28233c-0f81-4110-9ebb-29d92bbe2ffc",
+                            ConcurrencyStamp = "99f593f5-3701-42d9-90d5-40c86633e216",
                             Email = "user@hiking.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "USER@HIKING.COM",
                             NormalizedUserName = "USER@HIKING.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEEqU119Z7GEl9T2WENVVhEDedmGyrCpv2Pi51hR20VAGrY43MgYh6wEaqDhiWiWMww==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEJI1H5GtrJrZHvSAgXk3SD6y3FLKaE4nh9rwDzb29S8ScdrsutYZjEmnCg7e4CLtZQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "a4b4d791-f64e-4265-8fc1-5d52af938053",
+                            SecurityStamp = "b01adb0f-3ff4-4449-b702-88d70896f152",
                             TwoFactorEnabled = false,
                             UserName = "user@hiking.com"
                         },
@@ -703,15 +349,15 @@ namespace HikingApp.Migrations
                         {
                             Id = "3c333333-3333-3333-3333-333333333333",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "9214327a-70c6-4c4d-ac5c-bb7540fa52da",
+                            ConcurrencyStamp = "22fbb6f9-248b-4f4c-9ea5-79bae3bca78f",
                             Email = "sarah@email.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "SARAH@EMAIL.COM",
                             NormalizedUserName = "SARAH@EMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEJIEEQlS3AqkdkytkONVeMGMSglLZe7/7KutPzRKKjEslnmROOaXIFjQvxK3YYW7NQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAELTcpkBzWR+2I0Wxs+b4TsmHzgRqw+7JuzKncUE57wR21q68LKliM7Ew1a0yUGj1Jg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "a18f1328-13e6-4783-ac12-f7c993569f9e",
+                            SecurityStamp = "0a8830de-7e7e-4d43-beb6-751595e49851",
                             TwoFactorEnabled = false,
                             UserName = "sarah@email.com"
                         },
@@ -719,15 +365,15 @@ namespace HikingApp.Migrations
                         {
                             Id = "4d444444-4444-4444-4444-444444444444",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "c8b3dbe9-632b-417a-8acb-d4010061b689",
+                            ConcurrencyStamp = "a5c961b4-fbf7-4a07-b72d-26c1cc728a2b",
                             Email = "josh@email.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "JOSH@EMAIL.COM",
                             NormalizedUserName = "JOSH@EMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEA09jVXBHhgYWrw1gKK7RgnynTl4HgBN4pJhdC1CJ6Sls+r6sqhv92ufO8ngFiB35g==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEGhPKLWjAya4Pw7FNfIYqvqtpTGQDpBn0Usj/2PfKSQtQAkBHRp5o3Ls/iZBYq9AaQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "7a01c65d-238e-4aa6-9da8-1b9785d17159",
+                            SecurityStamp = "eac3085f-8433-46e6-9b26-047a1833cfe4",
                             TwoFactorEnabled = false,
                             UserName = "josh@email.com"
                         },
@@ -735,15 +381,15 @@ namespace HikingApp.Migrations
                         {
                             Id = "5e555555-5555-5555-5555-555555555555",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "6f64a627-4b23-4e1b-8f17-28a2d7a713e2",
+                            ConcurrencyStamp = "4d885688-13b6-42e1-9ea3-50c78b57e3d8",
                             Email = "amber@email.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "AMBER@EMAIL.COM",
                             NormalizedUserName = "AMBER@EMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEBU+uPDTrO8quala3fa9X1zfKtV/E2JJLxWYyOlRf2xiuEZcwTYuLUo6Zgwort233w==",
+                            PasswordHash = "AQAAAAIAAYagAAAAENWrHzdTJ/G/lv8MIYFHthFBcUD/qAA8bDYy8uDjt359gm+8gOalALqCIn2L4nBvkw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "d40f4133-7505-44ad-9cd4-602b9481eed2",
+                            SecurityStamp = "544ccbe7-b9cd-4918-bbff-ae7a8e36b105",
                             TwoFactorEnabled = false,
                             UserName = "amber@email.com"
                         });

@@ -16,3 +16,9 @@ export const createHike = (hike) => {
     body: JSON.stringify(hike)
   }).then((res) => res.json());
 };
+
+export const deleteHike = (id) => {
+  return fetch(`${_apiUrl}/${id}`, {
+    method: "DELETE"
+  });
+};
