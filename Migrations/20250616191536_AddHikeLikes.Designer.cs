@@ -3,6 +3,7 @@ using System;
 using HikingApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace HikingApp.Migrations
 {
     [DbContext(typeof(HikingAppDbContext))]
-    partial class HikingAppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250616191536_AddHikeLikes")]
+    partial class AddHikeLikes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -141,7 +144,7 @@ namespace HikingApp.Migrations
                             Id = 1,
                             AddressLine1 = "123 Forest Ln",
                             City = "Nashville",
-                            DateCreated = new DateTime(2025, 6, 15, 14, 37, 47, 417, DateTimeKind.Local).AddTicks(9753),
+                            DateCreated = new DateTime(2025, 6, 15, 14, 15, 36, 358, DateTimeKind.Local).AddTicks(8895),
                             Description = "Peaceful loop through tall trees",
                             DifficultyId = 1,
                             Distance = 1.8,
@@ -162,7 +165,7 @@ namespace HikingApp.Migrations
                             Id = 2,
                             AddressLine1 = "456 River Rd",
                             City = "Knoxville",
-                            DateCreated = new DateTime(2025, 6, 14, 14, 37, 47, 417, DateTimeKind.Local).AddTicks(9848),
+                            DateCreated = new DateTime(2025, 6, 14, 14, 15, 36, 358, DateTimeKind.Local).AddTicks(8987),
                             Description = "Trail running alongside the riverbank.",
                             DifficultyId = 2,
                             Distance = 2.7000000000000002,
@@ -183,7 +186,7 @@ namespace HikingApp.Migrations
                             Id = 3,
                             AddressLine1 = "789 Bluff Dr",
                             City = "Chattanooga",
-                            DateCreated = new DateTime(2025, 6, 13, 14, 37, 47, 417, DateTimeKind.Local).AddTicks(9853),
+                            DateCreated = new DateTime(2025, 6, 13, 14, 15, 36, 358, DateTimeKind.Local).AddTicks(8992),
                             Description = "Scenic view from the bluff",
                             DifficultyId = 3,
                             Distance = 3.6000000000000001,
@@ -204,7 +207,7 @@ namespace HikingApp.Migrations
                             Id = 4,
                             AddressLine1 = "321 Lakeview Ave",
                             City = "Clarksville",
-                            DateCreated = new DateTime(2025, 6, 12, 14, 37, 47, 417, DateTimeKind.Local).AddTicks(9857),
+                            DateCreated = new DateTime(2025, 6, 12, 14, 15, 36, 358, DateTimeKind.Local).AddTicks(8998),
                             Description = "Goes all the way around the lake!Lots of ducks!",
                             DifficultyId = 4,
                             Distance = 4.5,
@@ -225,7 +228,7 @@ namespace HikingApp.Migrations
                             Id = 5,
                             AddressLine1 = "654 Ridge Rd",
                             City = "Cookeville",
-                            DateCreated = new DateTime(2025, 6, 11, 14, 37, 47, 417, DateTimeKind.Local).AddTicks(9861),
+                            DateCreated = new DateTime(2025, 6, 11, 14, 15, 36, 358, DateTimeKind.Local).AddTicks(9001),
                             Description = "Challenging hike with rewarding sunset views.",
                             DifficultyId = 1,
                             Distance = 5.4000000000000004,
@@ -246,7 +249,7 @@ namespace HikingApp.Migrations
                             Id = 6,
                             AddressLine1 = "987 Falls Blvd",
                             City = "Sparta",
-                            DateCreated = new DateTime(2025, 6, 10, 14, 37, 47, 417, DateTimeKind.Local).AddTicks(9870),
+                            DateCreated = new DateTime(2025, 6, 10, 14, 15, 36, 358, DateTimeKind.Local).AddTicks(9014),
                             Description = "steep, rocky trail, not for beginners.",
                             DifficultyId = 2,
                             Distance = 2.7000000000000002,
@@ -267,7 +270,7 @@ namespace HikingApp.Migrations
                             Id = 7,
                             AddressLine1 = "159 Rock Ln",
                             City = "Tullahoma",
-                            DateCreated = new DateTime(2025, 6, 9, 14, 37, 47, 417, DateTimeKind.Local).AddTicks(9887),
+                            DateCreated = new DateTime(2025, 6, 9, 14, 15, 36, 358, DateTimeKind.Local).AddTicks(9026),
                             Description = "Lots of rocks and boulders on this trail",
                             DifficultyId = 3,
                             Distance = 3.6000000000000001,
@@ -288,7 +291,7 @@ namespace HikingApp.Migrations
                             Id = 8,
                             AddressLine1 = "753 Birdsong Ct",
                             City = "Columbia",
-                            DateCreated = new DateTime(2025, 6, 8, 14, 37, 47, 417, DateTimeKind.Local).AddTicks(9944),
+                            DateCreated = new DateTime(2025, 6, 8, 14, 15, 36, 358, DateTimeKind.Local).AddTicks(9030),
                             Description = "Great nature watching along the trail, lots of birds.",
                             DifficultyId = 4,
                             Distance = 4.5,
@@ -309,7 +312,7 @@ namespace HikingApp.Migrations
                             Id = 9,
                             AddressLine1 = "111 Pine Ln",
                             City = "Jackson",
-                            DateCreated = new DateTime(2025, 6, 7, 14, 37, 47, 417, DateTimeKind.Local).AddTicks(9948),
+                            DateCreated = new DateTime(2025, 6, 7, 14, 15, 36, 358, DateTimeKind.Local).AddTicks(9033),
                             Description = "short path, great for kids, can be muddy.",
                             DifficultyId = 1,
                             Distance = 1.8,
@@ -330,7 +333,7 @@ namespace HikingApp.Migrations
                             Id = 10,
                             AddressLine1 = "222 Creek Rd",
                             City = "Murfreesboro",
-                            DateCreated = new DateTime(2025, 6, 6, 14, 37, 47, 417, DateTimeKind.Local).AddTicks(9951),
+                            DateCreated = new DateTime(2025, 6, 6, 14, 15, 36, 358, DateTimeKind.Local).AddTicks(9037),
                             Description = "multiple creek crossings on path, water comes up to knee height.",
                             DifficultyId = 2,
                             Distance = 2.7000000000000002,
@@ -351,7 +354,7 @@ namespace HikingApp.Migrations
                             Id = 11,
                             AddressLine1 = "333 Meadow Pkwy",
                             City = "Brentwood",
-                            DateCreated = new DateTime(2025, 6, 5, 14, 37, 47, 417, DateTimeKind.Local).AddTicks(9968),
+                            DateCreated = new DateTime(2025, 6, 5, 14, 15, 36, 358, DateTimeKind.Local).AddTicks(9045),
                             Description = "Beautiful views of wild flowers!",
                             DifficultyId = 3,
                             Distance = 3.6000000000000001,
@@ -372,7 +375,7 @@ namespace HikingApp.Migrations
                             Id = 12,
                             AddressLine1 = "444 Valley Ln",
                             City = "Gallatin",
-                            DateCreated = new DateTime(2025, 6, 4, 14, 37, 47, 417, DateTimeKind.Local).AddTicks(9973),
+                            DateCreated = new DateTime(2025, 6, 4, 14, 15, 36, 358, DateTimeKind.Local).AddTicks(9048),
                             Description = "Steep hills, not very busy early in the morning.",
                             DifficultyId = 4,
                             Distance = 4.5,
@@ -393,7 +396,7 @@ namespace HikingApp.Migrations
                             Id = 13,
                             AddressLine1 = "555 Step Hill Rd",
                             City = "Johnson City",
-                            DateCreated = new DateTime(2025, 6, 3, 14, 37, 47, 417, DateTimeKind.Local).AddTicks(9976),
+                            DateCreated = new DateTime(2025, 6, 3, 14, 15, 36, 358, DateTimeKind.Local).AddTicks(9051),
                             Description = "Trail has tons of steps!!",
                             DifficultyId = 1,
                             Distance = 1.8,
@@ -414,7 +417,7 @@ namespace HikingApp.Migrations
                             Id = 14,
                             AddressLine1 = "666 Maple St",
                             City = "Lebanon",
-                            DateCreated = new DateTime(2025, 6, 2, 14, 37, 47, 417, DateTimeKind.Local).AddTicks(9980),
+                            DateCreated = new DateTime(2025, 6, 2, 14, 15, 36, 358, DateTimeKind.Local).AddTicks(9054),
                             Description = "big trees, lots of shade, great for a day hike!",
                             DifficultyId = 2,
                             Distance = 2.7000000000000002,
@@ -435,7 +438,7 @@ namespace HikingApp.Migrations
                             Id = 15,
                             AddressLine1 = "777 Hilltop Dr",
                             City = "Dickson",
-                            DateCreated = new DateTime(2025, 6, 1, 14, 37, 47, 417, DateTimeKind.Local).AddTicks(9983),
+                            DateCreated = new DateTime(2025, 6, 1, 14, 15, 36, 358, DateTimeKind.Local).AddTicks(9062),
                             Description = "Open climb with big views",
                             DifficultyId = 3,
                             Distance = 3.6000000000000001,
@@ -456,7 +459,7 @@ namespace HikingApp.Migrations
                             Id = 16,
                             AddressLine1 = "888 Shady Trl",
                             City = "McMinnville",
-                            DateCreated = new DateTime(2025, 5, 31, 14, 37, 47, 417, DateTimeKind.Local).AddTicks(9998),
+                            DateCreated = new DateTime(2025, 5, 31, 14, 15, 36, 358, DateTimeKind.Local).AddTicks(9080),
                             Description = "Cooling shade and shallow water.",
                             DifficultyId = 4,
                             Distance = 4.5,
@@ -477,7 +480,7 @@ namespace HikingApp.Migrations
                             Id = 17,
                             AddressLine1 = "999 Heritage Way",
                             City = "Franklin",
-                            DateCreated = new DateTime(2025, 5, 30, 14, 37, 47, 418, DateTimeKind.Local).AddTicks(1),
+                            DateCreated = new DateTime(2025, 5, 30, 14, 15, 36, 358, DateTimeKind.Local).AddTicks(9083),
                             Description = "Passes Civil War Sites",
                             DifficultyId = 1,
                             Distance = 1.8,
@@ -498,7 +501,7 @@ namespace HikingApp.Migrations
                             Id = 18,
                             AddressLine1 = "1010 Dawn Dr",
                             City = "Oak Ridge",
-                            DateCreated = new DateTime(2025, 5, 29, 14, 37, 47, 418, DateTimeKind.Local).AddTicks(5),
+                            DateCreated = new DateTime(2025, 5, 29, 14, 15, 36, 358, DateTimeKind.Local).AddTicks(9086),
                             Description = "Best at dawn, steep but short.",
                             DifficultyId = 2,
                             Distance = 2.7000000000000002,
@@ -519,7 +522,7 @@ namespace HikingApp.Migrations
                             Id = 19,
                             AddressLine1 = "1111 Nature Ln",
                             City = "Smyrna",
-                            DateCreated = new DateTime(2025, 5, 28, 14, 37, 47, 418, DateTimeKind.Local).AddTicks(9),
+                            DateCreated = new DateTime(2025, 5, 28, 14, 15, 36, 358, DateTimeKind.Local).AddTicks(9089),
                             Description = "Educational signs along the way.",
                             DifficultyId = 3,
                             Distance = 3.6000000000000001,
@@ -540,7 +543,7 @@ namespace HikingApp.Migrations
                             Id = 20,
                             AddressLine1 = "1212 Ridgecrest Rd",
                             City = "Spring Hill",
-                            DateCreated = new DateTime(2025, 5, 27, 14, 37, 47, 418, DateTimeKind.Local).AddTicks(12),
+                            DateCreated = new DateTime(2025, 5, 27, 14, 15, 36, 358, DateTimeKind.Local).AddTicks(9092),
                             Description = "Breezy and open, moderate challenge",
                             DifficultyId = 4,
                             Distance = 4.5,
@@ -556,29 +559,6 @@ namespace HikingApp.Migrations
                             UserProfileId = 4,
                             Zip = "37174"
                         });
-                });
-
-            modelBuilder.Entity("HikingApp.Models.HikeLike", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("HikeId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("UserProfileId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("HikeId");
-
-                    b.HasIndex("UserProfileId");
-
-                    b.ToTable("HikeLikes");
                 });
 
             modelBuilder.Entity("HikingApp.Models.UserProfile", b =>
@@ -790,15 +770,15 @@ namespace HikingApp.Migrations
                         {
                             Id = "1a111111-1111-1111-1111-111111111111",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "f36e542d-fa6d-4ae0-a697-a94a856040cc",
+                            ConcurrencyStamp = "5f877b37-3d6a-45ac-bccb-caaefaf131b2",
                             Email = "admin@hiking.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@HIKING.COM",
                             NormalizedUserName = "ADMIN@HIKING.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEIA5YpRAW167aq+WqR7a4DVlfuiBt/L08ZWeIsqXOYMQKXmVqxsXFkGBn0Hj6sk3EQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEHh7U/HRfB9L7hpkptqENeAdTUzMWeVGvV2msmYINFmbmf9gKhgwB3IZH9bQaq48Bg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "1fea0bd9-3a65-4b48-913a-54bf1941c30b",
+                            SecurityStamp = "5a858707-f25f-452a-8dfd-789ad93494d5",
                             TwoFactorEnabled = false,
                             UserName = "admin@hiking.com"
                         },
@@ -806,15 +786,15 @@ namespace HikingApp.Migrations
                         {
                             Id = "2b222222-2222-2222-2222-222222222222",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "9a0d5cd5-bd09-4ab4-8bcc-ee25febbf117",
+                            ConcurrencyStamp = "bb833c6e-15af-4859-b5aa-8ae22213f714",
                             Email = "user@hiking.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "USER@HIKING.COM",
                             NormalizedUserName = "USER@HIKING.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEN8yAPOEsxBKXenL2PnfnngGkPst0JnDmQhr/FQCZ09v0SD8uN8ViqYYjDa3kbE/dQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEGnxOBV7ZHXr7Y/jfB+ce6YGKg6TAMkk2us28DJNj9DPr8wJT7T19GUYfvkeMZvQ7Q==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "d5bf1c5a-1f5c-4b19-ac93-dbfc51bab978",
+                            SecurityStamp = "a3acece8-3800-4df5-b531-846db3098c1a",
                             TwoFactorEnabled = false,
                             UserName = "user@hiking.com"
                         },
@@ -822,15 +802,15 @@ namespace HikingApp.Migrations
                         {
                             Id = "3c333333-3333-3333-3333-333333333333",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "43cafb00-c585-423d-b50a-708e40587254",
+                            ConcurrencyStamp = "297affdd-384c-4987-a6d5-6d20048eb4a5",
                             Email = "sarah@email.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "SARAH@EMAIL.COM",
                             NormalizedUserName = "SARAH@EMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEBBAc9dQdGvb0OPWXrSZ7e+1jxjzOMDYylL3FDCh7toXGtAvAWXS3mUEit5ws7FJWA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEA3m1QYIuxa2NXixALxfkfbZqZi4FRU0sTAj7dQH6fskXi2lnTobyxVuC4IMTMoWjg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "ae9f918b-762b-491f-b66e-ac7e6b1f485f",
+                            SecurityStamp = "2999a55a-1ccd-4fc8-8414-cdec2e88079e",
                             TwoFactorEnabled = false,
                             UserName = "sarah@email.com"
                         },
@@ -838,15 +818,15 @@ namespace HikingApp.Migrations
                         {
                             Id = "4d444444-4444-4444-4444-444444444444",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "0974ef3a-c7da-4a9e-8f11-59e662492355",
+                            ConcurrencyStamp = "f34836a6-32ca-4135-af43-b3808544674d",
                             Email = "josh@email.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "JOSH@EMAIL.COM",
                             NormalizedUserName = "JOSH@EMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAENt1DGrOtsepIUaJXDhbukWgAKpaUX8yjeO3zxcatmKEnP8FFagbI4SNc/Ei8j8Y0g==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEEMgoQRSsrz1DkxnxgQycWS3Uo8FciWRNn8cP5R31gUuUDhYqxb3QE0MRn8zvbj0Tw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "4686c76c-1bc9-4842-a31a-03f6a4efa45a",
+                            SecurityStamp = "b63ddd31-91f0-42f9-ac86-f4c639d8b802",
                             TwoFactorEnabled = false,
                             UserName = "josh@email.com"
                         },
@@ -854,15 +834,15 @@ namespace HikingApp.Migrations
                         {
                             Id = "5e555555-5555-5555-5555-555555555555",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "b426c3bc-ef4f-4218-a75d-0ab409527679",
+                            ConcurrencyStamp = "af7904d2-c6bd-4376-884f-ca1b661bf8d1",
                             Email = "amber@email.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "AMBER@EMAIL.COM",
                             NormalizedUserName = "AMBER@EMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEHIU4GAS0cyCuiRrvmxaIqMHeGaq1hoJbtvSWinSwte0IryVG7QDpwhiQNRvgyElmw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEOX9/HqqaRJt1/HvJ13OrheZondG+jb5ikXAliJiou+poMELx6LfjP3s5StsmGpzXg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "8f53deab-1077-429d-9381-2e37ec74cccf",
+                            SecurityStamp = "a1df0316-fc9f-42c8-a0a0-135cee9e9672",
                             TwoFactorEnabled = false,
                             UserName = "amber@email.com"
                         });
@@ -971,25 +951,6 @@ namespace HikingApp.Migrations
                         .IsRequired();
 
                     b.Navigation("Difficulty");
-
-                    b.Navigation("UserProfile");
-                });
-
-            modelBuilder.Entity("HikingApp.Models.HikeLike", b =>
-                {
-                    b.HasOne("HikingApp.Models.Hike", "Hike")
-                        .WithMany()
-                        .HasForeignKey("HikeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("HikingApp.Models.UserProfile", "UserProfile")
-                        .WithMany()
-                        .HasForeignKey("UserProfileId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Hike");
 
                     b.Navigation("UserProfile");
                 });

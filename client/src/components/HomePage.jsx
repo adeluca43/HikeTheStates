@@ -3,18 +3,48 @@ import { getAllHikes, deleteHike } from "../managers/hikeManger";
 import { useNavigate } from "react-router-dom";
 import { Card, CardBody, CardTitle, CardText, Badge, Button } from "reactstrap";
 import { useLocation } from "react-router-dom";
+import { likeHike, getLikeCount } from "../managers/hikeManger";
 
 export default function HomePage({ loggedInUser }) {
   const location = useLocation();
   const [hikes, setHikes] = useState([]);
+  const [difficultyFilter, setDifficultyFilter] = useState("All");
+  const [selectedFeatures, setSelectedFeatures] = useState([]);
+  const [pendingFeatures, setPendingFeatures] = useState([]);
+  const [showFeatureFilter, setShowFeatureFilter] = useState(false);
+  const allTrailFeatures = [
+    { label: "Dog Friendly", key: "isDogFriendly" },
+    { label: "Kid Friendly", key: "isKidFriendly" },
+    { label: "Handicap Accessible", key: "isHandicapAccessible" },
+    { label: "Restrooms at Trailhead", key: "hasRestrooms" },
+    { label: "Paved Trail", key: "isPaved" },
+    { label: "Gravel Path", key: "isGravel" },
+  ];
+
   const navigate = useNavigate();
 
   useEffect(() => {
-    getAllHikes().then((hikesData) => {
+    getAllHikes().then(async (hikesData) => {
       const sortedHikes = hikesData.sort(
         (a, b) => new Date(b.dateCreated) - new Date(a.dateCreated)
       );
-      setHikes(sortedHikes);
+
+      const hikesWithLikes = await Promise.all(
+        sortedHikes.map(async (hike) => {
+          try {
+            const likeCount = await getLikeCount(hike.id);
+            return { ...hike, likeCount };
+          } catch (error) {
+            console.error(
+              `Error getting like count for hike ${hike.id}`,
+              error
+            );
+            return { ...hike, likeCount: 0 };
+          }
+        })
+      );
+
+      setHikes(hikesWithLikes);
     });
   }, [location]);
 
@@ -34,11 +64,85 @@ export default function HomePage({ loggedInUser }) {
       deleteHike(id).then(() => getAllHikes().then(setHikes));
     }
   };
+  const filteredHikes = hikes.filter((hike) => {
+    const matchesDifficulty =
+      difficultyFilter === "All" || hike.difficulty === difficultyFilter;
+
+    const matchesFeatures = selectedFeatures.every(
+      (featureKey) => hike[featureKey]
+    );
+
+    return matchesDifficulty && matchesFeatures;
+  });
 
   return (
     <div className="container mt-4">
       <h2>All Hikes</h2>
-      {hikes.map((hike) => (
+      <div className="mb-3">
+        <label htmlFor="difficulty-filter" className="form-label">
+          Filter by Difficulty:
+        </label>
+        <select
+          id="difficulty-filter"
+          className="form-select"
+          value={difficultyFilter}
+          onChange={(e) => setDifficultyFilter(e.target.value)}
+        >
+          <option value="All">All</option>
+          <option value="Easy">Easy</option>
+          <option value="Moderate">Moderate</option>
+          <option value="Challenging">Challenging</option>
+          <option value="Hard">Hard</option>
+        </select>
+      </div>
+      <div className="mb-3">
+        <Button
+          color="primary"
+          onClick={() => setShowFeatureFilter(!showFeatureFilter)}
+        >
+          {showFeatureFilter ? "Hide Feature Filters" : "Filter by Features"}
+        </Button>
+
+        {showFeatureFilter && (
+          <div className="border p-3 mt-3 rounded bg-light">
+            <p>Select one or more features:</p>
+            {allTrailFeatures.map((feature) => (
+              <div className="form-check" key={feature.key}>
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  id={feature.key}
+                  checked={pendingFeatures.includes(feature.key)}
+                  onChange={() =>
+                    setPendingFeatures((prev) =>
+                      prev.includes(feature.key)
+                        ? prev.filter((f) => f !== feature.key)
+                        : [...prev, feature.key]
+                    )
+                  }
+                />
+                <label className="form-check-label" htmlFor={feature.key}>
+                  {feature.label}
+                </label>
+              </div>
+            ))}
+
+            <Button
+              className="mt-3"
+              color="success"
+              onClick={() => {
+                setSelectedFeatures(pendingFeatures);
+                setPendingFeatures([]);
+                setShowFeatureFilter(false);
+              }}
+            >
+              Show Trails
+            </Button>
+          </div>
+        )}
+      </div>
+
+      {filteredHikes.map((hike) => (
         <Card className="mb-3" key={hike.id}>
           <CardBody>
             <CardTitle tag="h4">{hike.title}</CardTitle>
@@ -63,11 +167,52 @@ export default function HomePage({ loggedInUser }) {
             </CardText>
             <CardText>
               <small className="text-muted">
-                Hiked by: {hike.userFullName}
+                Hiked by:{" "}
+                <span
+                  style={{
+                    cursor: "pointer",
+                    textDecoration: "underline",
+                    color: "blue",
+                  }}
+                  onClick={() => navigate(`/profiles/${hike.userProfileId}`)}
+                >
+                  {hike.userFullName}
+                </span>
                 <br />
                 Created on: {new Date(hike.dateCreated).toLocaleDateString()}
               </small>
             </CardText>
+
+            {hike.userProfileId !== loggedInUser.id && (
+              <Button
+                size="sm"
+                color="light"
+                onClick={() => {
+                  likeHike(hike.id)
+                    .then((result) => {
+                      // result.status === "liked" or "unliked"
+                      setHikes((prev) =>
+                        prev.map((h) =>
+                          h.id === hike.id
+                            ? {
+                                ...h,
+                                likeCount:
+                                  result.status === "liked"
+                                    ? h.likeCount + 1
+                                    : h.likeCount - 1,
+                              }
+                            : h
+                        )
+                      );
+                    })
+                    .catch((err) => {
+                      alert(err.message);
+                    });
+                }}
+              >
+                ❤️ {hike.likeCount}
+              </Button>
+            )}
 
             {hike.userProfileId === loggedInUser.id && (
               <div className="d-flex justify-content-end gap-2">

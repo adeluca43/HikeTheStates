@@ -1,29 +1,18 @@
 import { useEffect, useState } from "react";
 import { getUserProfileWithHikes } from "../../managers/userProfileManager";
-import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
-export default function MyProfile({ loggedInUser }) {
+export default function OtherProfileDetail() {
+  const { id } = useParams();
   const [profile, setProfile] = useState(null);
-  const navigate = useNavigate();
 
   useEffect(() => {
-    getUserProfileWithHikes(loggedInUser.id).then(setProfile);
-  }, [loggedInUser]);
+    getUserProfileWithHikes(id).then(setProfile);
+  }, [id]);
 
   if (!profile) return <div>Loading profile...</div>;
 
   const stars = Math.min(10, Math.floor(profile.hikes.length / 5));
-
-  const handleDelete = (hikeId) => {
-    if (window.confirm("Are you sure you want to delete this hike?")) {
-      fetch(`/api/hikes/${hikeId}`, { method: "DELETE" }).then(() =>
-        setProfile((prev) => ({
-          ...prev,
-          hikes: prev.hikes.filter((h) => h.id !== hikeId),
-        }))
-      );
-    }
-  };
 
   return (
     <div className="container mt-4">
@@ -35,6 +24,7 @@ export default function MyProfile({ loggedInUser }) {
           style={{ width: "150px", height: "150px" }}
         />
         <h2>{profile.fullName}</h2>
+
         <div
           className="mb-2 d-flex justify-content-center"
           title="Earn 1 star for every 5 hikes completed (up to 10 stars)"
@@ -55,21 +45,10 @@ export default function MyProfile({ loggedInUser }) {
             </svg>
           ))}
         </div>
-        <div className="d-flex justify-content-end">
-          <button
-            className="btn btn-secondary mb-3"
-            onClick={() => navigate(`/edit-profile`)}
-          >
-            Edit Profile
-          </button>
-        </div>
       </div>
-
       <hr />
-
       <div className="mt-4">
-        <h4>Your Hikes</h4>
-
+        <h4>{profile.fullName.split(" ")[0]}'s Hikes</h4>
         {profile.hikes.map((hike) => (
           <div key={hike.id} className="card my-3">
             <div className="card-body">
@@ -93,7 +72,6 @@ export default function MyProfile({ loggedInUser }) {
                   .filter(Boolean)
                   .join(", ")}
               </p>
-
               <p>
                 <strong>Description:</strong> {hike.description}
               </p>
@@ -103,21 +81,6 @@ export default function MyProfile({ loggedInUser }) {
               <small className="text-muted">
                 Date Created: {new Date(hike.dateCreated).toLocaleDateString()}
               </small>
-
-              <div className="d-flex justify-content-end gap-2 mt-2">
-                <button
-                  className="btn btn-sm btn-secondary"
-                  onClick={() => navigate(`/hikes/${hike.id}/edit`)}
-                >
-                  ✏️
-                </button>
-                <button
-                  className="btn btn-sm btn-danger"
-                  onClick={() => handleDelete(hike.id)}
-                >
-                  🗑️
-                </button>
-              </div>
             </div>
           </div>
         ))}

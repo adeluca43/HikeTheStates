@@ -34,3 +34,31 @@ export function updateHike(id, hike) {
     body: JSON.stringify(hike),
   });
 }
+export const likeHike = (hikeId) => {
+  return fetch(`/api/hikelikes/${hikeId}`, {
+    method: "POST",
+    credentials: "same-origin",
+  }).then((res) => {
+    if (!res.ok) {
+      return res.text().then(text => {
+        throw new Error(text || "Failed to like/unlike hike.");
+      });
+    }
+    return res.json(); 
+  });
+};
+
+
+
+
+export const getLikeCount = (hikeId) => {
+  return fetch(`/api/hikelikes/${hikeId}/count`)
+    .then(res => {
+      if (!res.ok) {
+        throw new Error("Failed to get like count");
+      }
+      return res.json();
+    });
+};
+
+
