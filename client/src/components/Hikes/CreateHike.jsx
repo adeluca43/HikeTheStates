@@ -3,6 +3,7 @@ import { createHike } from "../../managers/hikeManger";
 import { getAllDifficulties } from "../../managers/difficultyManager";
 import { useNavigate } from "react-router-dom";
 import { Container, Form, Button } from "react-bootstrap";
+import { getUserProfileWithHikes } from "../../managers/userProfileManager";
 
 export default function CreateHike({ loggedInUser }) {
   const [difficulties, setDifficulties] = useState([]);
@@ -53,7 +54,25 @@ export default function CreateHike({ loggedInUser }) {
       userProfileId: loggedInUser.id,
     };
 
-    createHike(hikeToSend).then(() => navigate("/"));
+    createHike(hikeToSend)
+      .then(() => getUserProfileWithHikes(loggedInUser.id))
+      .then((updatedProfile) => {
+        const totalHikes = updatedProfile.hikes.length;
+        const starsNow = Math.floor(totalHikes / 5);
+        const hikesToNextStar = 5 - (totalHikes % 5);
+
+        if (totalHikes % 5 === 0) {
+          alert(
+            `🎉 Congrats! You've earned a new star! You now have ${starsNow} stars.`
+          );
+        } else {
+          alert(
+            `🌟 You're only ${hikesToNextStar} hike(s) away from your next star!`
+          );
+        }
+
+        navigate("/");
+      });
   };
 
   return (
