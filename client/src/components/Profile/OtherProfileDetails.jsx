@@ -13,7 +13,20 @@ export default function OtherProfileDetail() {
   if (!profile) return <div>Loading profile...</div>;
 
   const stars = Math.min(10, Math.floor(profile.hikes.length / 5));
-
+  const getDifficultyColor = (level) => {
+    switch (level.toLowerCase()) {
+      case "easy":
+        return "#28a745";
+      case "moderate":
+        return "#ffc107";
+      case "challenging":
+        return "#fd7e14";
+      case "hard":
+        return "#dc3545";
+      default:
+        return "#6c757d";
+    }
+  };
   return (
     <div className="container mt-4">
       <div className="text-center">
@@ -50,14 +63,24 @@ export default function OtherProfileDetail() {
       <div className="mt-4">
         <h4>{profile.fullName.split(" ")[0]}'s Hikes</h4>
         {profile.hikes.map((hike) => (
-          <div key={hike.id} className="card my-3">
+          <div
+            key={hike.id}
+            className="card my-3"
+            style={{ backgroundColor: "#f5f0e6" }}
+          >
             <div className="card-body">
               <h5>{hike.title}</h5>
               <p>
-                <strong>Difficulty:</strong> {hike.difficulty}
-              </p>
-              <p>
-                <strong>Distance:</strong> {hike.distance} mi
+                <strong>Difficulty:</strong>{" "}
+                <span
+                  className="badge"
+                  style={{
+                    backgroundColor: getDifficultyColor(hike.difficulty),
+                    color: "white",
+                  }}
+                >
+                  {hike.difficulty}
+                </span>
               </p>
               <p>
                 <strong>Trail Features:</strong>{" "}
