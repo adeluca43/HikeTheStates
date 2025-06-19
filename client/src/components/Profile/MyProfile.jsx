@@ -24,6 +24,20 @@ export default function MyProfile({ loggedInUser }) {
       );
     }
   };
+  const getDifficultyColor = (level) => {
+    switch (level.toLowerCase()) {
+      case "easy":
+        return "#28a745";
+      case "moderate":
+        return "#ffc107";
+      case "challenging":
+        return "#fd7e14";
+      case "hard":
+        return "#dc3545";
+      default:
+        return "#6c757d";
+    }
+  };
 
   return (
     <div className="container mt-4">
@@ -71,11 +85,24 @@ export default function MyProfile({ loggedInUser }) {
         <h4>Your Hikes</h4>
 
         {profile.hikes.map((hike) => (
-          <div key={hike.id} className="card my-3">
+          <div
+            key={hike.id}
+            className="card my-3"
+            style={{ backgroundColor: "#f5f0e6" }}
+          >
             <div className="card-body">
               <h5>{hike.title}</h5>
               <p>
-                <strong>Difficulty:</strong> {hike.difficulty}
+                <strong>Difficulty:</strong>{" "}
+                <span
+                  className="badge"
+                  style={{
+                    backgroundColor: getDifficultyColor(hike.difficulty),
+                    color: "white",
+                  }}
+                >
+                  {hike.difficulty}
+                </span>
               </p>
               <p>
                 <strong>Distance:</strong> {hike.distance} mi
