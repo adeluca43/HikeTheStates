@@ -77,15 +77,15 @@ export default function HomePage({ loggedInUser }) {
   const getDifficultyColor = (level) => {
     switch (level.toLowerCase()) {
       case "easy":
-        return "#28a745"; // green
+        return "#28a745";
       case "moderate":
-        return "#ffc107"; // yellow
+        return "#ffc107";
       case "challenging":
-        return "#fd7e14"; // orange
+        return "#fd7e14";
       case "hard":
-        return "#dc3545"; // red
+        return "#dc3545";
       default:
-        return "#6c757d"; // gray fallback
+        return "#6c757d";
     }
   };
 
@@ -116,7 +116,6 @@ export default function HomePage({ loggedInUser }) {
         >
           {showFeatureFilter ? "Hide Feature Filters" : "Filter by Features"}
         </Button>
-
         {showFeatureFilter && (
           <div className="border p-3 mt-3 rounded bg-light">
             <p>Select one or more features:</p>
@@ -140,7 +139,6 @@ export default function HomePage({ loggedInUser }) {
                 </label>
               </div>
             ))}
-
             <Button
               className="mt-3"
               color="success"
@@ -155,7 +153,6 @@ export default function HomePage({ loggedInUser }) {
           </div>
         )}
       </div>
-
       {filteredHikes.map((hike) => {
         return (
           <Card
