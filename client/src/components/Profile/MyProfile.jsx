@@ -51,7 +51,7 @@ export default function MyProfile({ loggedInUser }) {
         <h2>{profile.fullName}</h2>
         <div
           className="mb-2 d-flex justify-content-center"
-          title="Earn 1 star for every 5 hikes completed (up to 10 stars)"
+          title="Earn 1 star for every 5 hikes completed"
         >
           {Array.from({ length: 10 }).map((_, i) => (
             <svg
