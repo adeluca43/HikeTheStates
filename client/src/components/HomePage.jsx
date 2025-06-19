@@ -190,7 +190,6 @@ export default function HomePage({ loggedInUser }) {
                 onClick={() => {
                   likeHike(hike.id)
                     .then((result) => {
-                      // result.status === "liked" or "unliked"
                       setHikes((prev) =>
                         prev.map((h) =>
                           h.id === hike.id
