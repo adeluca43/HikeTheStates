@@ -1,7 +1,5 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using HikingApp.Models;
-using HikingApp.Models.DTOs;
 using HikingApp.Data;
 using Microsoft.EntityFrameworkCore;
 

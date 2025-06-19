@@ -1,5 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HikingApp.Models;
 
@@ -16,7 +15,6 @@ public class Hike
     public string City { get; set; }
     public string State { get; set; }
     public string Zip { get; set; }
-
     [Required]
     public double Distance { get; set; }
     [Required]
@@ -26,7 +24,6 @@ public class Hike
     public bool HasRestrooms { get; set; }
     public bool IsPaved { get; set; }
     public bool IsGravel { get; set; }
-
     [Required]
     public int UserProfileId { get; set; }
     public UserProfile UserProfile { get; set; }
