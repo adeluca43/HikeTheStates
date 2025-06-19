@@ -43,36 +43,58 @@ export default function CreateHike({ loggedInUser }) {
       };
     });
   };
+  const geocodeAddress = async (address) => {
+    const apiKey = "d5a36cd8355347b2aaaac52711dfe410"; // for dev use only
+    const url = `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(
+      address
+    )}&key=${apiKey}`;
 
-  const handleSubmit = (e) => {
+    const response = await fetch(url);
+    const data = await response.json();
+
+    if (data.results.length > 0) {
+      return data.results[0].geometry; // { lat, lng }
+    } else {
+      throw new Error("Could not geocode the address");
+    }
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const fullAddress = `${hike.addressLine1}, ${hike.city}, ${hike.state} ${hike.zip}`;
 
-    const hikeToSend = {
-      ...hike,
-      location: fullAddress,
-      userProfileId: loggedInUser.id,
-    };
+    try {
+      const { lat, lng } = await geocodeAddress(fullAddress);
 
-    createHike(hikeToSend)
-      .then(() => getUserProfileWithHikes(loggedInUser.id))
-      .then((updatedProfile) => {
-        const totalHikes = updatedProfile.hikes.length;
-        const starsNow = Math.floor(totalHikes / 5);
-        const hikesToNextStar = 5 - (totalHikes % 5);
+      const hikeToSend = {
+        ...hike,
+        location: fullAddress,
+        latitude: lat,
+        longitude: lng,
+        userProfileId: loggedInUser.id,
+      };
 
-        if (totalHikes % 5 === 0) {
-          alert(
-            `🎉 Congrats! You've earned a new star! You now have ${starsNow} stars.`
-          );
-        } else {
-          alert(
-            `🌟 You're only ${hikesToNextStar} hike(s) away from your next star!`
-          );
-        }
+      await createHike(hikeToSend);
+      const updatedProfile = await getUserProfileWithHikes(loggedInUser.id);
+      const totalHikes = updatedProfile.hikes.length;
+      const starsNow = Math.floor(totalHikes / 5);
+      const hikesToNextStar = 5 - (totalHikes % 5);
 
-        navigate("/");
-      });
+      if (totalHikes % 5 === 0) {
+        alert(
+          `🎉 Congrats! You've earned a new star! You now have ${starsNow} stars.`
+        );
+      } else {
+        alert(
+          `🌟 You're only ${hikesToNextStar} hike(s) away from your next star!`
+        );
+      }
+
+      navigate("/");
+    } catch (error) {
+      console.error("Geocoding error:", error);
+      alert("There was an issue geocoding the address. Please try again.");
+    }
   };
 
   return (

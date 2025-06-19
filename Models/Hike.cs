@@ -32,5 +32,8 @@ public class Hike
     public Difficulty Difficulty { get; set; }
     [Required]
     public DateTime DateCreated { get; set; }
+    public double Latitude { get; set; }
+    public double Longitude { get; set; }
+
 }
 

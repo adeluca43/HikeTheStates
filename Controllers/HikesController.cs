@@ -122,6 +122,8 @@ public class HikesController : ControllerBase
             IsPaved = newHike.IsPaved,
             IsGravel = newHike.IsGravel,
             UserProfileId = newHike.UserProfileId,
+            Latitude = newHike.Latitude,
+            Longitude = newHike.Longitude,
             DateCreated = DateTime.Now
 
         };

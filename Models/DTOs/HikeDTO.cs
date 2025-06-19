@@ -21,4 +21,5 @@ public class HikeDTO
     public string UserFullName { get; set; }
     public DateTime DateCreated { get; set; }
     public int UserProfileId { get; set; }
+
 }
