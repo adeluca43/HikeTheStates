@@ -52,6 +52,8 @@ public class HikesController : ControllerBase
                 IsGravel = hike.IsGravel,
                 UserProfileId = hike.UserProfileId,
                 UserFullName = $"{hike.UserProfile.FirstName} {hike.UserProfile.LastName}",
+                Latitude = hike.Latitude,
+                Longitude = hike.Longitude,
                 DateCreated = hike.DateCreated
             };
 
@@ -181,5 +183,4 @@ public class HikesController : ControllerBase
 
         return NoContent();
     }
-
 }

@@ -65,7 +65,7 @@ export default function CreateHike({ loggedInUser }) {
 
     try {
       const { lat, lng } = await geocodeAddress(fullAddress);
-
+      console.log("Geocoded coords:", lat, lng);
       const hikeToSend = {
         ...hike,
         location: fullAddress,
@@ -73,7 +73,7 @@ export default function CreateHike({ loggedInUser }) {
         longitude: lng,
         userProfileId: loggedInUser.id,
       };
-
+      console.log("Submitting hike:", hikeToSend);
       await createHike(hikeToSend);
       const updatedProfile = await getUserProfileWithHikes(loggedInUser.id);
       const totalHikes = updatedProfile.hikes.length;
