@@ -606,10 +606,6 @@ public class HikingAppDbContext : IdentityDbContext
     }
 );
 
-
-
-
-
     }
 }
 

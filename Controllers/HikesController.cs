@@ -6,8 +6,6 @@ using HikingApp.Models;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 
-
-
 namespace HikingApp.Controllers;
 
 [ApiController]
@@ -101,9 +99,6 @@ public class HikesController : ControllerBase
 
         return Ok(EditHikeDTO);
     }
-
-
-
 
     [HttpPost]
     [Authorize]
