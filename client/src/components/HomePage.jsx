@@ -5,10 +5,12 @@ import { Card, CardBody, CardTitle, CardText, Badge, Button } from "reactstrap";
 import { useLocation } from "react-router-dom";
 import { likeHike, getLikeCount } from "../managers/hikeManger";
 import MapView from "./MapView";
+import { getAllDifficulties } from "../managers/difficultyManager";
 
 export default function HomePage({ loggedInUser }) {
   const location = useLocation();
   const [hikes, setHikes] = useState([]);
+  const [difficulties, setDifficulties] = useState([]);
   const [difficultyFilter, setDifficultyFilter] = useState("All");
   const [selectedFeatures, setSelectedFeatures] = useState([]);
   const [pendingFeatures, setPendingFeatures] = useState([]);
@@ -76,6 +78,13 @@ export default function HomePage({ loggedInUser }) {
 
     return matchesDifficulty && matchesFeatures;
   });
+
+  useEffect(() => {
+    getAllDifficulties()
+      .then(setDifficulties)
+      .catch((err) => console.error("Failed to load difficulties", err));
+  }, []);
+
   const getDifficultyColor = (level) => {
     switch (level.toLowerCase()) {
       case "easy":
@@ -113,21 +122,25 @@ export default function HomePage({ loggedInUser }) {
             onChange={(e) => setDifficultyFilter(e.target.value)}
           >
             <option value="All">All</option>
-            <option value="Easy">Easy</option>
-            <option value="Moderate">Moderate</option>
-            <option value="Challenging">Challenging</option>
-            <option value="Hard">Hard</option>
+            {difficulties.map((d) => (
+              <option key={d.id} value={d.level}>
+                {d.level}
+              </option>
+            ))}
           </select>
         </div>
 
-        {/* Feature Filter (Right Column) */}
         <div className="col-md-6 mb-3">
           <Button
             color="primary"
-            onClick={() => setShowFeatureFilter(!showFeatureFilter)}
+            onClick={() => {
+              setPendingFeatures(selectedFeatures); // pre-fill current filters
+              setShowFeatureFilter(!showFeatureFilter);
+            }}
           >
             {showFeatureFilter ? "Hide Feature Filters" : "Filter by Features"}
           </Button>
+
           {showFeatureFilter && (
             <div className="border p-3 mt-2 rounded bg-light">
               <strong>Select one or more features:</strong>
@@ -141,10 +154,7 @@ export default function HomePage({ loggedInUser }) {
                       className="form-check-input me-2"
                       type="checkbox"
                       id={feature.key}
-                      checked={
-                        pendingFeatures.includes(feature.key) ||
-                        selectedFeatures.includes(feature.key)
-                      }
+                      checked={pendingFeatures.includes(feature.key)}
                       onChange={() =>
                         setPendingFeatures((prev) =>
                           prev.includes(feature.key)
@@ -163,8 +173,8 @@ export default function HomePage({ loggedInUser }) {
                 className="mt-3"
                 color="success"
                 onClick={() => {
-                  setSelectedFeatures(pendingFeatures);
-                  setShowFeatureFilter(false);
+                  setSelectedFeatures(pendingFeatures); // apply filters
+                  setShowFeatureFilter(false); // close dropdown
                 }}
               >
                 Show Trails
