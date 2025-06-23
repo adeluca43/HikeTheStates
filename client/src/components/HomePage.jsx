@@ -95,77 +95,83 @@ export default function HomePage({ loggedInUser }) {
     <div className="container mt-4">
       <h2>All Hikes</h2>
       <div className="mb-3">
-        <label htmlFor="difficulty-filter" className="form-label">
-          Filter by Difficulty:
-        </label>
-        <select
-          id="difficulty-filter"
-          className="form-select"
-          value={difficultyFilter}
-          onChange={(e) => setDifficultyFilter(e.target.value)}
-        >
-          <option value="All">All</option>
-          <option value="Easy">Easy</option>
-          <option value="Moderate">Moderate</option>
-          <option value="Challenging">Challenging</option>
-          <option value="Hard">Hard</option>
-        </select>
-      </div>
-      <div className="mb-3">
-        <Button onClick={() => setShowMap(!showMap)}>
+        <Button color="secondary" onClick={() => setShowMap(!showMap)}>
           {showMap ? "Show List View" : "Show Map View"}
         </Button>
-        <Button
-          color="primary"
-          onClick={() => setShowFeatureFilter(!showFeatureFilter)}
-        >
-          {showFeatureFilter ? "Hide Feature Filters" : "Filter by Features"}
-        </Button>
-        {showFeatureFilter && (
-          <div className="border p-3 mt-3 rounded bg-light">
-            <div className="mb-2">
-              <strong>Select one or more features:</strong>
-            </div>
-            <div className="d-flex flex-column">
-              {allTrailFeatures.map((feature) => (
-                <div
-                  key={feature.key}
-                  className="form-check mb-2 d-flex align-items-center"
-                >
-                  <input
-                    className="form-check-input me-2"
-                    type="checkbox"
-                    id={feature.key}
-                    checked={pendingFeatures.includes(feature.key)}
-                    onChange={() =>
-                      setPendingFeatures((prev) =>
-                        prev.includes(feature.key)
-                          ? prev.filter((f) => f !== feature.key)
-                          : [...prev, feature.key]
-                      )
-                    }
-                  />
-                  <label className="form-check-label" htmlFor={feature.key}>
-                    {feature.label}
-                  </label>
-                </div>
-              ))}
-            </div>
-            <Button
-              className="mt-3"
-              color="success"
-              onClick={() => {
-                setSelectedFeatures(pendingFeatures);
-                setPendingFeatures([]);
-                setShowFeatureFilter(false);
-              }}
-            >
-              Show Trails
-            </Button>
-          </div>
-        )}
-        ;
       </div>
+
+      <div className="row mb-3">
+        {/* Difficulty Filter (Left Column) */}
+        <div className="col-md-6 mb-3">
+          <label htmlFor="difficulty-filter" className="form-label">
+            Filter by Difficulty:
+          </label>
+          <select
+            id="difficulty-filter"
+            className="form-select"
+            value={difficultyFilter}
+            onChange={(e) => setDifficultyFilter(e.target.value)}
+          >
+            <option value="All">All</option>
+            <option value="Easy">Easy</option>
+            <option value="Moderate">Moderate</option>
+            <option value="Challenging">Challenging</option>
+            <option value="Hard">Hard</option>
+          </select>
+        </div>
+
+        {/* Feature Filter (Right Column) */}
+        <div className="col-md-6 mb-3">
+          <Button
+            color="primary"
+            onClick={() => setShowFeatureFilter(!showFeatureFilter)}
+          >
+            {showFeatureFilter ? "Hide Feature Filters" : "Filter by Features"}
+          </Button>
+          {showFeatureFilter && (
+            <div className="border p-3 mt-2 rounded bg-light">
+              <strong>Select one or more features:</strong>
+              <div className="d-flex flex-column mt-2">
+                {allTrailFeatures.map((feature) => (
+                  <div
+                    key={feature.key}
+                    className="form-check mb-1 d-flex align-items-center"
+                  >
+                    <input
+                      className="form-check-input me-2"
+                      type="checkbox"
+                      id={feature.key}
+                      checked={pendingFeatures.includes(feature.key)}
+                      onChange={() =>
+                        setPendingFeatures((prev) =>
+                          prev.includes(feature.key)
+                            ? prev.filter((f) => f !== feature.key)
+                            : [...prev, feature.key]
+                        )
+                      }
+                    />
+                    <label className="form-check-label" htmlFor={feature.key}>
+                      {feature.label}
+                    </label>
+                  </div>
+                ))}
+              </div>
+              <Button
+                className="mt-3"
+                color="success"
+                onClick={() => {
+                  setSelectedFeatures(pendingFeatures);
+                  setPendingFeatures([]);
+                  setShowFeatureFilter(false);
+                }}
+              >
+                Show Trails
+              </Button>
+            </div>
+          )}
+        </div>
+      </div>
+
       {showMap ? (
         <MapView hikes={filteredHikes} />
       ) : (
