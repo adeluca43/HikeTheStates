@@ -8,6 +8,7 @@ export default function Register({ setLoggedInUser }) {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [imageLocation, setImageLocation] = useState("");
+  const [imageMissing, setImageMissing] = useState(false);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState([]);
@@ -19,25 +20,35 @@ export default function Register({ setLoggedInUser }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    if (!imageLocation.trim()) {
+      setImageMissing(true);
+      return;
+    }
+
     if (password !== confirmPassword) {
       setPasswordMismatch(true);
-    } else {
-      const newUser = {
-        firstName,
-        lastName,
-        email,
-        password,
-        imageLocation: imageLocation || null,
-      };
-      register(newUser).then((user) => {
-        if (user.errors) {
-          setErrors(user.errors);
-        } else {
-          setLoggedInUser(user);
-          navigate("/");
-        }
-      });
+      return;
     }
+
+    const newUser = {
+      firstName,
+      lastName,
+      email,
+      password,
+      imageLocation,
+    };
+
+    register(newUser).then((user) => {
+      if (user.errors) {
+        const errorsArray = Array.isArray(user.errors)
+          ? user.errors
+          : [user.errors];
+        setErrors(errorsArray);
+      } else {
+        setLoggedInUser(user);
+        navigate("/");
+      }
+    });
   };
 
   return (
@@ -47,47 +58,48 @@ export default function Register({ setLoggedInUser }) {
         <Label>First Name</Label>
         <Input
           type="text"
+          autoComplete="given-name"
           value={firstName}
-          onChange={(e) => {
-            setFirstName(e.target.value);
-          }}
+          onChange={(e) => setFirstName(e.target.value)}
         />
       </FormGroup>
       <FormGroup>
         <Label>Last Name</Label>
         <Input
           type="text"
+          autoComplete="family-name"
           value={lastName}
-          onChange={(e) => {
-            setLastName(e.target.value);
-          }}
-        />
-      </FormGroup>
-      <FormGroup>
-        <Label>Email</Label>
-        <Input
-          type="email"
-          value={email}
-          onChange={(e) => {
-            setEmail(e.target.value);
-          }}
+          onChange={(e) => setLastName(e.target.value)}
         />
       </FormGroup>
       <FormGroup>
         <Label>Image URL</Label>
         <Input
           type="text"
+          invalid={imageMissing}
           value={imageLocation}
           onChange={(e) => {
+            setImageMissing(false);
             setImageLocation(e.target.value);
           }}
+        />
+        <FormFeedback>Image URL is required.</FormFeedback>
+      </FormGroup>
+      <FormGroup>
+        <Label>Email</Label>
+        <Input
+          type="email"
+          autoComplete="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
         />
       </FormGroup>
       <FormGroup>
         <Label>Password</Label>
         <Input
-          invalid={passwordMismatch}
           type="password"
+          autoComplete="new-password"
+          invalid={passwordMismatch}
           value={password}
           onChange={(e) => {
             setPasswordMismatch(false);
@@ -98,8 +110,9 @@ export default function Register({ setLoggedInUser }) {
       <FormGroup>
         <Label>Confirm Password</Label>
         <Input
-          invalid={passwordMismatch}
           type="password"
+          autoComplete="new-password"
+          invalid={passwordMismatch}
           value={confirmPassword}
           onChange={(e) => {
             setPasswordMismatch(false);
@@ -108,6 +121,7 @@ export default function Register({ setLoggedInUser }) {
         />
         <FormFeedback>Passwords do not match!</FormFeedback>
       </FormGroup>
+
       {errors.map((e, i) => (
         <p key={i} style={{ color: "red" }}>
           {e}
