@@ -15,8 +15,8 @@ export default function CreateHike({ loggedInUser }) {
     city: "",
     state: "",
     zip: "",
-    distance: 0,
-    difficultyId: 1,
+    distance: "",
+    difficultyId: "",
     isDogFriendly: false,
     isKidFriendly: false,
     isHandicapAccessible: false,
@@ -99,10 +99,10 @@ export default function CreateHike({ loggedInUser }) {
 
   return (
     <Container style={{ maxWidth: "700px", marginTop: "2rem" }}>
-      <h2 className="mb-4 text-center">Create a New Hike</h2>
+      <h2 className="mb-4 text-center fw-bold">Create a New Hike</h2>
       <Form onSubmit={handleSubmit}>
         <Form.Group className="mb-3">
-          <Form.Label>Title</Form.Label>
+          <Form.Label className="fw-bold">Title</Form.Label>
           <Form.Control
             type="text"
             name="title"
@@ -113,7 +113,7 @@ export default function CreateHike({ loggedInUser }) {
         </Form.Group>
 
         <Form.Group className="mb-3">
-          <Form.Label>Description</Form.Label>
+          <Form.Label className="fw-bold">Description</Form.Label>
           <Form.Control
             as="textarea"
             rows={3}
@@ -125,7 +125,7 @@ export default function CreateHike({ loggedInUser }) {
         </Form.Group>
 
         <Form.Group className="mb-3">
-          <Form.Label>Address Line 1</Form.Label>
+          <Form.Label className="fw-bold">Address Line 1</Form.Label>
           <Form.Control
             type="text"
             name="addressLine1"
@@ -136,7 +136,7 @@ export default function CreateHike({ loggedInUser }) {
         </Form.Group>
 
         <Form.Group className="mb-3">
-          <Form.Label>City</Form.Label>
+          <Form.Label className="fw-bold">City</Form.Label>
           <Form.Control
             type="text"
             name="city"
@@ -147,7 +147,7 @@ export default function CreateHike({ loggedInUser }) {
         </Form.Group>
 
         <Form.Group className="mb-3">
-          <Form.Label>State</Form.Label>
+          <Form.Label className="fw-bold">State</Form.Label>
           <Form.Control
             type="text"
             name="state"
@@ -158,7 +158,7 @@ export default function CreateHike({ loggedInUser }) {
         </Form.Group>
 
         <Form.Group className="mb-3">
-          <Form.Label>ZIP Code</Form.Label>
+          <Form.Label className="fw-bold">ZIP Code</Form.Label>
           <Form.Control
             type="text"
             name="zip"
@@ -169,18 +169,20 @@ export default function CreateHike({ loggedInUser }) {
         </Form.Group>
 
         <Form.Group className="mb-3">
-          <Form.Label>Distance (miles)</Form.Label>
+          <Form.Label className="fw-bold">Distance (miles)</Form.Label>
           <Form.Control
             type="number"
             name="distance"
             value={hike.distance}
             onChange={handleChange}
+            min="0.1"
+            step="0.1"
             required
           />
         </Form.Group>
 
         <Form.Group className="mb-3">
-          <Form.Label>Difficulty</Form.Label>
+          <Form.Label className="fw-bold">Difficulty</Form.Label>
           <Form.Select
             name="difficultyId"
             value={hike.difficultyId}
@@ -197,48 +199,34 @@ export default function CreateHike({ loggedInUser }) {
         </Form.Group>
 
         <Form.Group className="mb-3">
-          <Form.Check
-            type="checkbox"
-            label="Dog Friendly"
-            name="isDogFriendly"
-            checked={hike.isDogFriendly}
-            onChange={handleChange}
-          />
-          <Form.Check
-            type="checkbox"
-            label="Kid Friendly"
-            name="isKidFriendly"
-            checked={hike.isKidFriendly}
-            onChange={handleChange}
-          />
-          <Form.Check
-            type="checkbox"
-            label="Handicap Accessible"
-            name="isHandicapAccessible"
-            checked={hike.isHandicapAccessible}
-            onChange={handleChange}
-          />
-          <Form.Check
-            type="checkbox"
-            label="Restrooms at Trailhead"
-            name="hasRestrooms"
-            checked={hike.hasRestrooms}
-            onChange={handleChange}
-          />
-          <Form.Check
-            type="checkbox"
-            label="Paved Trail"
-            name="isPaved"
-            checked={hike.isPaved}
-            onChange={handleChange}
-          />
-          <Form.Check
-            type="checkbox"
-            label="Gravel Path"
-            name="isGravel"
-            checked={hike.isGravel}
-            onChange={handleChange}
-          />
+          <Form.Label className="fw-bold">Trail Features</Form.Label>
+          <div className="d-flex flex-column gap-2">
+            {[
+              { label: "Dog Friendly", key: "isDogFriendly" },
+              { label: "Kid Friendly", key: "isKidFriendly" },
+              { label: "Handicap Accessible", key: "isHandicapAccessible" },
+              { label: "Restrooms at Trailhead", key: "hasRestrooms" },
+              { label: "Paved Trail", key: "isPaved" },
+              { label: "Gravel Path", key: "isGravel" },
+            ].map((feature) => (
+              <div
+                key={feature.key}
+                className="form-check d-flex align-items-center gap-2"
+              >
+                <input
+                  type="checkbox"
+                  className="form-check-input"
+                  name={feature.key}
+                  id={feature.key}
+                  checked={hike[feature.key]}
+                  onChange={handleChange}
+                />
+                <label className="form-check-label" htmlFor={feature.key}>
+                  {feature.label}
+                </label>
+              </div>
+            ))}
+          </div>
         </Form.Group>
 
         <div className="text-end">

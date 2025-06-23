@@ -14,6 +14,10 @@ export default function MyProfile({ loggedInUser }) {
 
   const stars = Math.min(10, Math.floor(profile.hikes.length / 5));
 
+  const sortedHikes = [...profile.hikes].sort(
+    (a, b) => new Date(b.dateCreated) - new Date(a.dateCreated)
+  );
+
   const handleDelete = (hikeId) => {
     if (window.confirm("Are you sure you want to delete this hike?")) {
       fetch(`/api/hikes/${hikeId}`, { method: "DELETE" }).then(() =>
@@ -84,7 +88,7 @@ export default function MyProfile({ loggedInUser }) {
       <div className="mt-4">
         <h4>Your Hikes</h4>
 
-        {profile.hikes.map((hike) => (
+        {sortedHikes.map((hike) => (
           <div
             key={hike.id}
             className="card my-3"
