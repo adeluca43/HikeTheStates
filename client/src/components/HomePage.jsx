@@ -141,7 +141,10 @@ export default function HomePage({ loggedInUser }) {
                       className="form-check-input me-2"
                       type="checkbox"
                       id={feature.key}
-                      checked={pendingFeatures.includes(feature.key)}
+                      checked={
+                        pendingFeatures.includes(feature.key) ||
+                        selectedFeatures.includes(feature.key)
+                      }
                       onChange={() =>
                         setPendingFeatures((prev) =>
                           prev.includes(feature.key)
@@ -161,7 +164,6 @@ export default function HomePage({ loggedInUser }) {
                 color="success"
                 onClick={() => {
                   setSelectedFeatures(pendingFeatures);
-                  setPendingFeatures([]);
                   setShowFeatureFilter(false);
                 }}
               >
