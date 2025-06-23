@@ -88,6 +88,7 @@ public class HikesController : ControllerBase
             Zip = hike.Zip,
             Distance = hike.Distance,
             DifficultyId = hike.DifficultyId,
+            DifficultyLevel = hike.Difficulty.Level,
             IsDogFriendly = hike.IsDogFriendly,
             IsKidFriendly = hike.IsKidFriendly,
             IsHandicapAccessible = hike.IsHandicapAccessible,

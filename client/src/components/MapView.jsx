@@ -1,5 +1,6 @@
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
 import L from "leaflet";
 
 // Import local marker icons
@@ -27,7 +28,6 @@ function MapResizeFixer() {
 }
 
 export default function MapView({ hikes }) {
-  // Optionally filter out hikes with no coordinates
   const hikesWithCoords = hikes.filter((h) => h.latitude && h.longitude);
 
   return (
@@ -42,12 +42,15 @@ export default function MapView({ hikes }) {
       {hikesWithCoords.map((hike) => (
         <Marker key={hike.id} position={[hike.latitude, hike.longitude]}>
           <Popup>
-            <strong>{hike.title}</strong>
+            <strong>
+              <Link to={`/hikes/${hike.id}`}>{hike.title}</Link>
+            </strong>
             <br />
-            {hike.location}
+            Distance: {hike.distance} mi
             <br />
             Difficulty: {hike.difficulty}
           </Popup>
+          ;
         </Marker>
       ))}
     </MapContainer>
