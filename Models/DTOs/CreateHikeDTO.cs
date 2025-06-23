@@ -17,6 +17,7 @@ public class CreateHikeDTO
     public bool HasRestrooms { get; set; }
     public bool IsPaved { get; set; }
     public bool IsGravel { get; set; }
-
+    public double Latitude { get; set; }
+    public double Longitude { get; set; }
     public int UserProfileId { get; set; }
 }

@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Card, CardBody, CardTitle, CardText, Badge, Button } from "reactstrap";
 import { useLocation } from "react-router-dom";
 import { likeHike, getLikeCount } from "../managers/hikeManger";
+import MapView from "./MapView";
 
 export default function HomePage({ loggedInUser }) {
   const location = useLocation();
@@ -12,6 +13,7 @@ export default function HomePage({ loggedInUser }) {
   const [selectedFeatures, setSelectedFeatures] = useState([]);
   const [pendingFeatures, setPendingFeatures] = useState([]);
   const [showFeatureFilter, setShowFeatureFilter] = useState(false);
+  const [showMap, setShowMap] = useState(false);
   const allTrailFeatures = [
     { label: "Dog Friendly", key: "isDogFriendly" },
     { label: "Kid Friendly", key: "isKidFriendly" },
@@ -110,6 +112,9 @@ export default function HomePage({ loggedInUser }) {
         </select>
       </div>
       <div className="mb-3">
+        <Button onClick={() => setShowMap(!showMap)}>
+          {showMap ? "Show List View" : "Show Map View"}
+        </Button>
         <Button
           color="primary"
           onClick={() => setShowFeatureFilter(!showFeatureFilter)}
@@ -153,112 +158,119 @@ export default function HomePage({ loggedInUser }) {
           </div>
         )}
       </div>
-      {filteredHikes.map((hike) => {
-        return (
-          <Card
-            className="mb-3"
-            key={hike.id}
-            style={{ backgroundColor: "#f5f0e6" }}
-          >
-            <CardBody>
-              <CardTitle tag="h4">{hike.title}</CardTitle>
-              <CardText>
-                <strong>Description:</strong> {hike.description}
-              </CardText>
-              <CardText>
-                <strong>Location:</strong> {hike.location}
-              </CardText>
-              <CardText>
-                <strong>Distance:</strong> {hike.distance} miles
-              </CardText>
-              <CardText>
-                <strong>Difficulty:</strong>{" "}
-                <Badge
-                  color="none"
-                  style={{
-                    backgroundColor: getDifficultyColor(hike.difficulty),
-                    color: "white",
-                  }}
-                >
-                  {hike.difficulty}
-                </Badge>
-              </CardText>
-              <CardText>
-                <strong>Trail Features:</strong>{" "}
-                {getTrailFeatures(hike).length > 0
-                  ? getTrailFeatures(hike).join(", ")
-                  : "None specified"}
-              </CardText>
-              <CardText>
-                <small className="text-muted">
-                  Hiked by:{" "}
-                  <span
+      {showMap ? (
+        <MapView hikes={filteredHikes} />
+      ) : (
+        filteredHikes.map((hike) => {
+          return (
+            <Card
+              className="mb-3"
+              key={hike.id}
+              style={{ backgroundColor: "#f5f0e6" }}
+            >
+              <CardBody>
+                <CardTitle tag="h4">{hike.title}</CardTitle>
+                <CardText>
+                  <strong>Description:</strong> {hike.description}
+                </CardText>
+                <CardText>
+                  <strong>Location:</strong> {hike.location}
+                </CardText>
+                <CardText>
+                  <strong>Distance:</strong> {hike.distance} miles
+                </CardText>
+                <CardText>
+                  <strong>Difficulty:</strong>{" "}
+                  <Badge
+                    color="none"
                     style={{
-                      cursor: "pointer",
-                      textDecoration: "underline",
-                      color: "blue",
+                      backgroundColor: getDifficultyColor(hike.difficulty),
+                      color: "white",
                     }}
-                    onClick={() => navigate(`/profiles/${hike.userProfileId}`)}
                   >
-                    {hike.userFullName}
-                  </span>
-                  <br />
-                  Created on: {new Date(hike.dateCreated).toLocaleDateString()}
-                </small>
-              </CardText>
+                    {hike.difficulty}
+                  </Badge>
+                </CardText>
+                <CardText>
+                  <strong>Trail Features:</strong>{" "}
+                  {getTrailFeatures(hike).length > 0
+                    ? getTrailFeatures(hike).join(", ")
+                    : "None specified"}
+                </CardText>
+                <CardText>
+                  <small className="text-muted">
+                    Hiked by:{" "}
+                    <span
+                      style={{
+                        cursor: "pointer",
+                        textDecoration: "underline",
+                        color: "blue",
+                      }}
+                      onClick={() =>
+                        navigate(`/profiles/${hike.userProfileId}`)
+                      }
+                    >
+                      {hike.userFullName}
+                    </span>
+                    <br />
+                    Created on:{" "}
+                    {new Date(hike.dateCreated).toLocaleDateString()}
+                  </small>
+                </CardText>
 
-              {hike.userProfileId !== loggedInUser.id && (
-                <Button
-                  size="sm"
-                  color="light"
-                  onClick={() => {
-                    likeHike(hike.id)
-                      .then((result) => {
-                        setHikes((prev) =>
-                          prev.map((h) =>
-                            h.id === hike.id
-                              ? {
-                                  ...h,
-                                  likeCount:
-                                    result.status === "liked"
-                                      ? h.likeCount + 1
-                                      : h.likeCount - 1,
-                                }
-                              : h
-                          )
-                        );
-                      })
-                      .catch((err) => {
-                        alert(err.message);
-                      });
-                  }}
-                >
-                  ❤️ {hike.likeCount}
-                </Button>
-              )}
-
-              {hike.userProfileId === loggedInUser.id && (
-                <div className="d-flex justify-content-end gap-2">
+                {hike.userProfileId !== loggedInUser.id && (
                   <Button
                     size="sm"
-                    color="secondary"
-                    onClick={() => navigate(`/hikes/${hike.id}/edit`)}
+                    color="light"
+                    onClick={() => {
+                      likeHike(hike.id)
+                        .then((result) => {
+                          setHikes((prev) =>
+                            prev.map((h) =>
+                              h.id === hike.id
+                                ? {
+                                    ...h,
+                                    likeCount:
+                                      result.status === "liked"
+                                        ? h.likeCount + 1
+                                        : h.likeCount - 1,
+                                  }
+                                : h
+                            )
+                          );
+                        })
+                        .catch((err) => {
+                          alert(err.message);
+                        });
+                    }}
                   >
-                    ✏️
+                    ❤️ {hike.likeCount}
                   </Button>
-                  <Button
-                    size="sm"
-                    color="danger"
-                    onClick={() => handleDelete(hike.id)}
-                  >
-                    🗑️
-                  </Button>
-                </div>
-              )}
-            </CardBody>
-          </Card>
-        );
-      })}
+                )}
+
+                {hike.userProfileId === loggedInUser.id && (
+                  <div className="d-flex justify-content-end gap-2">
+                    <Button
+                      size="sm"
+                      color="secondary"
+                      onClick={() => navigate(`/hikes/${hike.id}/edit`)}
+                    >
+                      ✏️
+                    </Button>
+                    <Button
+                      size="sm"
+                      color="danger"
+                      onClick={() => handleDelete(hike.id)}
+                    >
+                      🗑️
+                    </Button>
+                  </div>
+                )}
+              </CardBody>
+            </Card>
+          );
+        })
+      )}
     </div>
   );
 }
