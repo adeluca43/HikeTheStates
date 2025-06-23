@@ -42,15 +42,20 @@ export default function MapView({ hikes }) {
       {hikesWithCoords.map((hike) => (
         <Marker key={hike.id} position={[hike.latitude, hike.longitude]}>
           <Popup>
-            <strong>
-              <Link to={`/hikes/${hike.id}`}>{hike.title}</Link>
-            </strong>
-            <br />
-            Distance: {hike.distance} mi
-            <br />
-            Difficulty: {hike.difficulty}
+            <div style={{ minWidth: "150px" }}>
+              <strong>
+                <Link to={`/hikes/${hike.id}`}>{hike.title}</Link>
+              </strong>
+              <br />
+              <span>
+                <strong>Distance:</strong> {hike.distance} mi
+              </span>
+              <br />
+              <span>
+                <strong>Difficulty:</strong> {hike.difficulty}
+              </span>
+            </div>
           </Popup>
-          ;
         </Marker>
       ))}
     </MapContainer>

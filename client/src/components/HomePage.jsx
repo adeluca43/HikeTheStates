@@ -123,27 +123,34 @@ export default function HomePage({ loggedInUser }) {
         </Button>
         {showFeatureFilter && (
           <div className="border p-3 mt-3 rounded bg-light">
-            <p>Select one or more features:</p>
-            {allTrailFeatures.map((feature) => (
-              <div className="form-check" key={feature.key}>
-                <input
-                  className="form-check-input"
-                  type="checkbox"
-                  id={feature.key}
-                  checked={pendingFeatures.includes(feature.key)}
-                  onChange={() =>
-                    setPendingFeatures((prev) =>
-                      prev.includes(feature.key)
-                        ? prev.filter((f) => f !== feature.key)
-                        : [...prev, feature.key]
-                    )
-                  }
-                />
-                <label className="form-check-label" htmlFor={feature.key}>
-                  {feature.label}
-                </label>
-              </div>
-            ))}
+            <div className="mb-2">
+              <strong>Select one or more features:</strong>
+            </div>
+            <div className="d-flex flex-column">
+              {allTrailFeatures.map((feature) => (
+                <div
+                  key={feature.key}
+                  className="form-check mb-2 d-flex align-items-center"
+                >
+                  <input
+                    className="form-check-input me-2"
+                    type="checkbox"
+                    id={feature.key}
+                    checked={pendingFeatures.includes(feature.key)}
+                    onChange={() =>
+                      setPendingFeatures((prev) =>
+                        prev.includes(feature.key)
+                          ? prev.filter((f) => f !== feature.key)
+                          : [...prev, feature.key]
+                      )
+                    }
+                  />
+                  <label className="form-check-label" htmlFor={feature.key}>
+                    {feature.label}
+                  </label>
+                </div>
+              ))}
+            </div>
             <Button
               className="mt-3"
               color="success"
@@ -157,6 +164,7 @@ export default function HomePage({ loggedInUser }) {
             </Button>
           </div>
         )}
+        ;
       </div>
       {showMap ? (
         <MapView hikes={filteredHikes} />
