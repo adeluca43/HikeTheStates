@@ -110,7 +110,6 @@ export default function HomePage({ loggedInUser }) {
       </div>
 
       <div className="row mb-3">
-        {/* Difficulty Filter (Left Column) */}
         <div className="col-md-6 mb-3">
           <label htmlFor="difficulty-filter" className="form-label">
             Filter by Difficulty:
@@ -134,7 +133,7 @@ export default function HomePage({ loggedInUser }) {
           <Button
             color="primary"
             onClick={() => {
-              setPendingFeatures(selectedFeatures); // pre-fill current filters
+              setPendingFeatures(selectedFeatures);
               setShowFeatureFilter(!showFeatureFilter);
             }}
           >
