@@ -6,6 +6,7 @@ import { useLocation } from "react-router-dom";
 import { likeHike, getLikeCount } from "../managers/hikeManger";
 import MapView from "./MapView";
 import { getAllDifficulties } from "../managers/difficultyManager";
+import logo from "../assets/images/logo hikethestates.png";
 
 export default function HomePage({ loggedInUser }) {
   const location = useLocation();
@@ -102,6 +103,14 @@ export default function HomePage({ loggedInUser }) {
 
   return (
     <div className="container mt-4">
+      <div className="text-center my-4">
+        <img
+          src={logo}
+          alt="HikeTheStates Logo"
+          style={{ maxWidth: "100%", height: "auto", borderRadius: "8px" }}
+        />
+      </div>
+
       <h2>All Hikes</h2>
       <div className="mb-3">
         <Button color="secondary" onClick={() => setShowMap(!showMap)}>
