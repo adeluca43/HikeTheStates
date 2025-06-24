@@ -5,10 +5,13 @@ import { Card, CardBody, CardTitle, CardText, Badge, Button } from "reactstrap";
 import { useLocation } from "react-router-dom";
 import { likeHike, getLikeCount } from "../managers/hikeManger";
 import MapView from "./MapView";
+import { getAllDifficulties } from "../managers/difficultyManager";
+import logo from "../assets/images/logo hikethestates.png";
 
 export default function HomePage({ loggedInUser }) {
   const location = useLocation();
   const [hikes, setHikes] = useState([]);
+  const [difficulties, setDifficulties] = useState([]);
   const [difficultyFilter, setDifficultyFilter] = useState("All");
   const [selectedFeatures, setSelectedFeatures] = useState([]);
   const [pendingFeatures, setPendingFeatures] = useState([]);
@@ -76,6 +79,13 @@ export default function HomePage({ loggedInUser }) {
 
     return matchesDifficulty && matchesFeatures;
   });
+
+  useEffect(() => {
+    getAllDifficulties()
+      .then(setDifficulties)
+      .catch((err) => console.error("Failed to load difficulties", err));
+  }, []);
+
   const getDifficultyColor = (level) => {
     switch (level.toLowerCase()) {
       case "easy":
@@ -93,71 +103,96 @@ export default function HomePage({ loggedInUser }) {
 
   return (
     <div className="container mt-4">
+      <div className="text-center my-4">
+        <img
+          src={logo}
+          alt="HikeTheStates Logo"
+          style={{ maxWidth: "100%", height: "auto", borderRadius: "8px" }}
+        />
+      </div>
+
       <h2>All Hikes</h2>
       <div className="mb-3">
-        <label htmlFor="difficulty-filter" className="form-label">
-          Filter by Difficulty:
-        </label>
-        <select
-          id="difficulty-filter"
-          className="form-select"
-          value={difficultyFilter}
-          onChange={(e) => setDifficultyFilter(e.target.value)}
-        >
-          <option value="All">All</option>
-          <option value="Easy">Easy</option>
-          <option value="Moderate">Moderate</option>
-          <option value="Challenging">Challenging</option>
-          <option value="Hard">Hard</option>
-        </select>
-      </div>
-      <div className="mb-3">
-        <Button onClick={() => setShowMap(!showMap)}>
+        <Button color="secondary" onClick={() => setShowMap(!showMap)}>
           {showMap ? "Show List View" : "Show Map View"}
         </Button>
-        <Button
-          color="primary"
-          onClick={() => setShowFeatureFilter(!showFeatureFilter)}
-        >
-          {showFeatureFilter ? "Hide Feature Filters" : "Filter by Features"}
-        </Button>
-        {showFeatureFilter && (
-          <div className="border p-3 mt-3 rounded bg-light">
-            <p>Select one or more features:</p>
-            {allTrailFeatures.map((feature) => (
-              <div className="form-check" key={feature.key}>
-                <input
-                  className="form-check-input"
-                  type="checkbox"
-                  id={feature.key}
-                  checked={pendingFeatures.includes(feature.key)}
-                  onChange={() =>
-                    setPendingFeatures((prev) =>
-                      prev.includes(feature.key)
-                        ? prev.filter((f) => f !== feature.key)
-                        : [...prev, feature.key]
-                    )
-                  }
-                />
-                <label className="form-check-label" htmlFor={feature.key}>
-                  {feature.label}
-                </label>
-              </div>
-            ))}
-            <Button
-              className="mt-3"
-              color="success"
-              onClick={() => {
-                setSelectedFeatures(pendingFeatures);
-                setPendingFeatures([]);
-                setShowFeatureFilter(false);
-              }}
-            >
-              Show Trails
-            </Button>
-          </div>
-        )}
       </div>
+
+      <div className="row mb-3">
+        {/* Difficulty Filter (Left Column) */}
+        <div className="col-md-6 mb-3">
+          <label htmlFor="difficulty-filter" className="form-label">
+            Filter by Difficulty:
+          </label>
+          <select
+            id="difficulty-filter"
+            className="form-select"
+            value={difficultyFilter}
+            onChange={(e) => setDifficultyFilter(e.target.value)}
+          >
+            <option value="All">All</option>
+            {difficulties.map((d) => (
+              <option key={d.id} value={d.level}>
+                {d.level}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="col-md-6 mb-3">
+          <Button
+            color="primary"
+            onClick={() => {
+              setPendingFeatures(selectedFeatures); // pre-fill current filters
+              setShowFeatureFilter(!showFeatureFilter);
+            }}
+          >
+            {showFeatureFilter ? "Hide Feature Filters" : "Filter by Features"}
+          </Button>
+
+          {showFeatureFilter && (
+            <div className="border p-3 mt-2 rounded bg-light">
+              <strong>Select one or more features:</strong>
+              <div className="d-flex flex-column mt-2">
+                {allTrailFeatures.map((feature) => (
+                  <div
+                    key={feature.key}
+                    className="form-check mb-1 d-flex align-items-center"
+                  >
+                    <input
+                      className="form-check-input me-2"
+                      type="checkbox"
+                      id={feature.key}
+                      checked={pendingFeatures.includes(feature.key)}
+                      onChange={() =>
+                        setPendingFeatures((prev) =>
+                          prev.includes(feature.key)
+                            ? prev.filter((f) => f !== feature.key)
+                            : [...prev, feature.key]
+                        )
+                      }
+                    />
+                    <label className="form-check-label" htmlFor={feature.key}>
+                      {feature.label}
+                    </label>
+                  </div>
+                ))}
+              </div>
+              <Button
+                className="mt-3"
+                color="success"
+                onClick={() => {
+                  setSelectedFeatures(pendingFeatures); // apply filters
+                  setShowFeatureFilter(false); // close dropdown
+                }}
+              >
+                Show Trails
+              </Button>
+            </div>
+          )}
+        </div>
+      </div>
+
       {showMap ? (
         <MapView hikes={filteredHikes} />
       ) : (

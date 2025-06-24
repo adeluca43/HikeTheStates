@@ -12,6 +12,7 @@ public class EditHikeDTO
     public string Zip { get; set; }
     public double Distance { get; set; }
     public int DifficultyId { get; set; }
+    public string DifficultyLevel { get; set; }
     public bool IsDogFriendly { get; set; }
     public bool IsKidFriendly { get; set; }
     public bool IsHandicapAccessible { get; set; }
