@@ -1,5 +1,4 @@
- Hiking App
-Hiking App is a full-stack web application designed to help hikers log their trail adventures, track personal progress, and discover trails based on preferences like difficulty level, dog-friendliness, and amenities.
+HiketheStates is a full-stack web application designed to help hikers log their trail adventures, track personal progress, and discover trails based on preferences like difficulty level, dog-friendliness, and amenities.
 
 Problem
 Hikers often lack a centralized, easy-to-use platform to:
