@@ -7,12 +7,13 @@ import { AuthorizedRoute } from "./auth/AuthorizeRoute";
 import EditHike from "./Hikes/EditHike";
 import OtherProfileDetail from "./Profile/OtherProfileDetails";
 import HikeDetails from "./Hikes/HikeDetails";
+import WelcomePage from "./WelcomePage";
 
 export default function ApplicationViews({ loggedInUser }) {
   return (
     <Routes>
       <Route
-        path="/"
+        path="/home"
         element={
           <AuthorizedRoute loggedInUser={loggedInUser}>
             <HomePage loggedInUser={loggedInUser} />
@@ -64,6 +65,14 @@ export default function ApplicationViews({ loggedInUser }) {
         element={
           <AuthorizedRoute loggedInUser={loggedInUser}>
             <HikeDetails />
+          </AuthorizedRoute>
+        }
+      />
+      <Route
+        path="/"
+        element={
+          <AuthorizedRoute loggedInUser={loggedInUser}>
+            <WelcomePage />
           </AuthorizedRoute>
         }
       />

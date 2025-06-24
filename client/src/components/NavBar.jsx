@@ -1,6 +1,7 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import { logout } from "../managers/authManager";
 import { Navbar, Nav, Container, Button } from "react-bootstrap";
+import logo from "../assets/images/logo hikethestates.png";
 
 export default function NavBar({ loggedInUser, setLoggedInUser }) {
   const navigate = useNavigate();
@@ -15,7 +16,14 @@ export default function NavBar({ loggedInUser, setLoggedInUser }) {
   return (
     <Navbar bg="success" variant="dark" expand="md" className="px-3">
       <Container fluid>
-        <Navbar.Brand className="text-white fw-bold">
+        <Navbar.Brand className="text-white fw-bold d-flex align-items-center">
+          <img
+            src={logo}
+            alt="HikeTheStates Logo"
+            width="80"
+            height="60"
+            className="me-2"
+          />
           {loggedInUser && <>Welcome, {loggedInUser.firstName}</>}
         </Navbar.Brand>
 
@@ -24,7 +32,7 @@ export default function NavBar({ loggedInUser, setLoggedInUser }) {
           <Nav className="gap-3">
             {loggedInUser ? (
               <>
-                <NavLink className="nav-link text-white" to="/">
+                <NavLink className="nav-link text-white" to="/home">
                   Home
                 </NavLink>
                 <NavLink className="nav-link text-white" to="/hikes/new">

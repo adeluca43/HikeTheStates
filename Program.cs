@@ -5,21 +5,16 @@ using HikingApp.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// ----------------------------
-// Add services to the container
-// ----------------------------
 
-// Configure JSON serialization to ignore circular references
+
 builder.Services.AddControllers().AddJsonOptions(opts =>
 {
     opts.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
 });
 
-// Enable Swagger (for dev/testing)
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-//  Add CORS policy that allows credentials from your frontend
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>

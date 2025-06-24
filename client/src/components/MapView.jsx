@@ -2,13 +2,10 @@ import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import L from "leaflet";
-
-// Import local marker icons
 import markerIcon from "/leaflet/marker-icon.png";
 import marker2x from "/leaflet/marker-icon-2x.png";
 import markerShadow from "/leaflet/marker-shadow.png";
 
-// Fix Leaflet's default icon URLs
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: marker2x,
@@ -16,7 +13,6 @@ L.Icon.Default.mergeOptions({
   shadowUrl: markerShadow,
 });
 
-// Resize fix in case map is inside a toggled component
 function MapResizeFixer() {
   const map = useMap();
   useEffect(() => {

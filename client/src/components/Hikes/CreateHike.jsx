@@ -90,7 +90,7 @@ export default function CreateHike({ loggedInUser }) {
         );
       }
 
-      navigate("/");
+      navigate("/home");
     } catch (error) {
       console.error("Geocoding error:", error);
       alert("There was an issue geocoding the address. Please try again.");

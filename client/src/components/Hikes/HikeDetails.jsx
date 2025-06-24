@@ -52,7 +52,8 @@ export default function HikeDetails() {
           <strong>Distance:</strong> {hike.distance} miles
         </p>
         <p>
-          <strong>Location:</strong> {hike.location}
+          <strong>Location: </strong>
+          {hike.addressLine1}, {hike.city}, {hike.state} {hike.zip}
         </p>
         <p>
           <strong>Difficulty:</strong>{" "}

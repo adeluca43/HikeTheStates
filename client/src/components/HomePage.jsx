@@ -6,7 +6,6 @@ import { useLocation } from "react-router-dom";
 import { likeHike, getLikeCount } from "../managers/hikeManger";
 import MapView from "./MapView";
 import { getAllDifficulties } from "../managers/difficultyManager";
-import logo from "../assets/images/logo hikethestates.png";
 
 export default function HomePage({ loggedInUser }) {
   const location = useLocation();
@@ -103,14 +102,6 @@ export default function HomePage({ loggedInUser }) {
 
   return (
     <div className="container mt-4">
-      <div className="text-center my-4">
-        <img
-          src={logo}
-          alt="HikeTheStates Logo"
-          style={{ maxWidth: "100%", height: "auto", borderRadius: "8px" }}
-        />
-      </div>
-
       <h2>All Hikes</h2>
       <div className="mb-3">
         <Button color="secondary" onClick={() => setShowMap(!showMap)}>
@@ -119,7 +110,6 @@ export default function HomePage({ loggedInUser }) {
       </div>
 
       <div className="row mb-3">
-        {/* Difficulty Filter (Left Column) */}
         <div className="col-md-6 mb-3">
           <label htmlFor="difficulty-filter" className="form-label">
             Filter by Difficulty:
@@ -143,7 +133,7 @@ export default function HomePage({ loggedInUser }) {
           <Button
             color="primary"
             onClick={() => {
-              setPendingFeatures(selectedFeatures); // pre-fill current filters
+              setPendingFeatures(selectedFeatures);
               setShowFeatureFilter(!showFeatureFilter);
             }}
           >
@@ -182,8 +172,8 @@ export default function HomePage({ loggedInUser }) {
                 className="mt-3"
                 color="success"
                 onClick={() => {
-                  setSelectedFeatures(pendingFeatures); // apply filters
-                  setShowFeatureFilter(false); // close dropdown
+                  setSelectedFeatures(pendingFeatures);
+                  setShowFeatureFilter(false);
                 }}
               >
                 Show Trails
@@ -209,7 +199,8 @@ export default function HomePage({ loggedInUser }) {
                   <strong>Description:</strong> {hike.description}
                 </CardText>
                 <CardText>
-                  <strong>Location:</strong> {hike.location}
+                  <strong>Location: </strong>
+                  {hike.city}, {hike.state}
                 </CardText>
                 <CardText>
                   <strong>Distance:</strong> {hike.distance} miles
