@@ -25,7 +25,7 @@ export default function EditHike() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    updateHike(id, hike).then(() => navigate("/"));
+    updateHike(id, hike).then(() => navigate("/home"));
   };
   if (!hike) return <p>Loading...</p>;
 

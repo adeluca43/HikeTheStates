@@ -24,7 +24,7 @@ export default function NavBar({ loggedInUser, setLoggedInUser }) {
           <Nav className="gap-3">
             {loggedInUser ? (
               <>
-                <NavLink className="nav-link text-white" to="/">
+                <NavLink className="nav-link text-white" to="/home">
                   Home
                 </NavLink>
                 <NavLink className="nav-link text-white" to="/hikes/new">
