@@ -173,8 +173,8 @@ export default function HomePage({ loggedInUser }) {
                 className="mt-3"
                 color="success"
                 onClick={() => {
-                  setSelectedFeatures(pendingFeatures); // apply filters
-                  setShowFeatureFilter(false); // close dropdown
+                  setSelectedFeatures(pendingFeatures);
+                  setShowFeatureFilter(false);
                 }}
               >
                 Show Trails
@@ -200,7 +200,8 @@ export default function HomePage({ loggedInUser }) {
                   <strong>Description:</strong> {hike.description}
                 </CardText>
                 <CardText>
-                  <strong>Location:</strong> {hike.location}
+                  <strong>Location: </strong>
+                  {hike.city}, {hike.state}
                 </CardText>
                 <CardText>
                   <strong>Distance:</strong> {hike.distance} miles
