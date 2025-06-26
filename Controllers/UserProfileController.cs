@@ -42,7 +42,7 @@ public class UserProfileController : ControllerBase
                 Id = h.Id,
                 Title = h.Title,
                 Description = h.Description,
-                Location = h.Location,
+
                 Distance = h.Distance,
                 Difficulty = h.Difficulty.Level,
                 IsDogFriendly = h.IsDogFriendly,

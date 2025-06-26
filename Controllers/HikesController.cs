@@ -37,7 +37,6 @@ public class HikesController : ControllerBase
                 Id = hike.Id,
                 Title = hike.Title,
                 Description = hike.Description,
-                Location = hike.Location,
                 AddressLine1 = hike.AddressLine1,
                 City = hike.City,
                 State = hike.State,
@@ -81,7 +80,6 @@ public class HikesController : ControllerBase
             Id = hike.Id,
             Title = hike.Title,
             Description = hike.Description,
-            Location = hike.Location,
             AddressLine1 = hike.AddressLine1,
             City = hike.City,
             State = hike.State,
@@ -111,7 +109,6 @@ public class HikesController : ControllerBase
         {
             Title = newHike.Title,
             Description = newHike.Description,
-            Location = newHike.Location,
             AddressLine1 = newHike.AddressLine1,
             City = newHike.City,
             State = newHike.State,
@@ -166,7 +163,6 @@ public class HikesController : ControllerBase
 
         existingHike.Title = updatedHike.Title;
         existingHike.Description = updatedHike.Description;
-        existingHike.Location = updatedHike.Location;
         existingHike.AddressLine1 = updatedHike.AddressLine1;
         existingHike.City = updatedHike.City;
         existingHike.State = updatedHike.State;

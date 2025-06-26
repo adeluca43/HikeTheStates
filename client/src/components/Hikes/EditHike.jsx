@@ -14,7 +14,7 @@ export default function EditHike() {
     getHikeById(id).then(setHike);
     getAllDifficulties().then(setDifficulties);
   }, [id]);
-
+  if (!hike) return <p>Loading...</p>;
   const handleChange = (event) => {
     const { name, value, type, checked } = event.target;
     setHike({
@@ -23,11 +23,40 @@ export default function EditHike() {
     });
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    updateHike(id, hike).then(() => navigate("/home"));
+
+    const fullAddress = `${hike.addressLine1}, ${hike.city}, ${hike.state} ${hike.zip}`;
+
+    try {
+      const response = await fetch(
+        `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(
+          fullAddress
+        )}&key=d5a36cd8355347b2aaaac52711dfe410`
+      );
+      const data = await response.json();
+
+      if (data.results.length > 0) {
+        const { lat, lng } = data.results[0].geometry;
+
+        const updatedHike = {
+          ...hike,
+          latitude: lat,
+          longitude: lng,
+        };
+
+        await updateHike(id, updatedHike);
+        navigate("/home");
+      } else {
+        alert(
+          "Could not find location from the address. Please double check it."
+        );
+      }
+    } catch (error) {
+      console.error("Geocoding error:", error);
+      alert("There was a problem geocoding the address.");
+    }
   };
-  if (!hike) return <p>Loading...</p>;
 
   return (
     <Container style={{ maxWidth: "700px", marginTop: "2rem" }}>

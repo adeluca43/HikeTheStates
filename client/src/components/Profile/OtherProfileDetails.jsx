@@ -99,7 +99,8 @@ export default function OtherProfileDetail() {
                 <strong>Description:</strong> {hike.description}
               </p>
               <p>
-                <strong>Location:</strong> {hike.location}
+                <strong>Location:</strong> {hike.addressLine1}, {hike.city},{" "}
+                {hike.state}
               </p>
               <small className="text-muted">
                 Date Created: {new Date(hike.dateCreated).toLocaleDateString()}
