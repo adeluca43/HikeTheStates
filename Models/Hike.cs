@@ -10,7 +10,6 @@ public class Hike
     [Required]
     public string Description { get; set; }
     [Required]
-    public string Location { get; set; }
     public string AddressLine1 { get; set; }
     public string City { get; set; }
     public string State { get; set; }

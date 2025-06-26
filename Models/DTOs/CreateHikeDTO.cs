@@ -4,7 +4,6 @@ public class CreateHikeDTO
 {
     public string Title { get; set; }
     public string Description { get; set; }
-    public string Location { get; set; }
     public string AddressLine1 { get; set; }
     public string City { get; set; }
     public string State { get; set; }

@@ -73,7 +73,6 @@ export default function CreateHike({ loggedInUser }) {
         longitude: lng,
         userProfileId: loggedInUser.id,
       };
-      console.log("Submitting hike:", hikeToSend);
       await createHike(hikeToSend);
       const updatedProfile = await getUserProfileWithHikes(loggedInUser.id);
       const totalHikes = updatedProfile.hikes.length;
