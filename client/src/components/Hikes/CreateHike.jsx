@@ -229,7 +229,7 @@ export default function CreateHike({ loggedInUser }) {
         </Form.Group>
 
         <div className="text-end">
-          <Button type="submit" variant="dark">
+          <Button type="submit" variant="success">
             Save Hike
           </Button>
         </div>

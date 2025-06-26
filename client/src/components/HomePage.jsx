@@ -104,7 +104,7 @@ export default function HomePage({ loggedInUser }) {
     <div className="container mt-4">
       <h2>All Hikes</h2>
       <div className="mb-3">
-        <Button color="secondary" onClick={() => setShowMap(!showMap)}>
+        <Button color="success" onClick={() => setShowMap(!showMap)}>
           {showMap ? "Show List View" : "Show Map View"}
         </Button>
       </div>
@@ -131,7 +131,7 @@ export default function HomePage({ loggedInUser }) {
 
         <div className="col-md-6 mb-3">
           <Button
-            color="primary"
+            color="success"
             onClick={() => {
               setPendingFeatures(selectedFeatures);
               setShowFeatureFilter(!showFeatureFilter);
@@ -225,12 +225,12 @@ export default function HomePage({ loggedInUser }) {
                 </CardText>
                 <CardText>
                   <small className="text-muted">
-                    Hiked by:{" "}
+                    <strong>Hiked by:</strong>{" "}
                     <span
                       style={{
                         cursor: "pointer",
                         textDecoration: "underline",
-                        color: "blue",
+                        color: "green",
                       }}
                       onClick={() =>
                         navigate(`/profiles/${hike.userProfileId}`)
@@ -239,7 +239,7 @@ export default function HomePage({ loggedInUser }) {
                       {hike.userFullName}
                     </span>
                     <br />
-                    Created on:{" "}
+                    <strong>Created on:</strong>{" "}
                     {new Date(hike.dateCreated).toLocaleDateString()}
                   </small>
                 </CardText>

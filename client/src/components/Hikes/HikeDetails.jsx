@@ -42,7 +42,7 @@ export default function HikeDetails() {
   return (
     <Container style={{ maxWidth: "800px", marginTop: "2rem" }}>
       <button
-        className="btn btn-secondary mb-3"
+        className="btn btn-success mb-3"
         onClick={() => navigate("/home", { state: { showMap: true } })}
       >
         ← Back to Map

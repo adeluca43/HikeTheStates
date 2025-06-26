@@ -77,7 +77,13 @@ export default function MyProfile({ loggedInUser }) {
         </div>
         <div className="d-flex justify-content-end">
           <button
-            className="btn btn-secondary mb-3"
+            className="btn mb-3"
+            style={{
+              backgroundColor: "##d9cbb5",
+              color: "#333",
+              border: "1px solid #bfb8aa",
+              fontWeight: "bold",
+            }}
             onClick={() => navigate(`/edit-profile`)}
           >
             Edit Profile

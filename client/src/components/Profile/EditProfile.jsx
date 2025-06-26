@@ -90,7 +90,7 @@ export default function EditProfile({ loggedInUser }) {
           />
         </div>
 
-        <button className="btn btn-primary">Save Changes</button>
+        <button className="btn btn-success">Save Changes</button>
       </form>
     </div>
   );

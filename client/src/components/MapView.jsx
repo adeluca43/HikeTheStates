@@ -40,7 +40,9 @@ export default function MapView({ hikes }) {
           <Popup>
             <div style={{ minWidth: "150px" }}>
               <strong>
-                <Link to={`/hikes/${hike.id}`}>{hike.title}</Link>
+                <Link to={`/hikes/${hike.id}`} style={{ color: "green" }}>
+                  {hike.title}
+                </Link>
               </strong>
               <br />
               <span>
