@@ -175,6 +175,9 @@ public class HikesController : ControllerBase
         existingHike.HasRestrooms = updatedHike.HasRestrooms;
         existingHike.IsPaved = updatedHike.IsPaved;
         existingHike.IsGravel = updatedHike.IsGravel;
+        existingHike.Latitude = updatedHike.Latitude;
+        existingHike.Longitude = updatedHike.Longitude;
+
 
         _dbContext.SaveChanges();
 

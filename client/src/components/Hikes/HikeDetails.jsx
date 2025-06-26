@@ -24,7 +24,6 @@ export default function HikeDetails() {
 
   useEffect(() => {
     getHikeById(hikeId).then((data) => {
-      console.log("Fetched hike:", data);
       setHike(data);
     });
   }, [hikeId]);
