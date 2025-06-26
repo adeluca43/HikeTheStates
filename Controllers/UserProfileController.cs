@@ -42,7 +42,10 @@ public class UserProfileController : ControllerBase
                 Id = h.Id,
                 Title = h.Title,
                 Description = h.Description,
-
+                AddressLine1 = h.AddressLine1,
+                City = h.City,
+                State = h.State,
+                Zip = h.Zip,
                 Distance = h.Distance,
                 Difficulty = h.Difficulty.Level,
                 IsDogFriendly = h.IsDogFriendly,

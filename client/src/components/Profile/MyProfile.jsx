@@ -7,7 +7,9 @@ export default function MyProfile({ loggedInUser }) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    getUserProfileWithHikes(loggedInUser.id).then(setProfile);
+    getUserProfileWithHikes(loggedInUser.id).then((data) => {
+      setProfile(data);
+    });
   }, [loggedInUser]);
 
   if (!profile) return <div>Loading profile...</div>;
@@ -129,8 +131,8 @@ export default function MyProfile({ loggedInUser }) {
                 <strong>Description:</strong> {hike.description}
               </p>
               <p>
-                <strong>Location:</strong> {hike.addressLine1}, {hike.city},{" "}
-                {hike.state} {hike.zip}
+                <strong>Location: </strong>
+                {hike.addressLine1}, {hike.city}, {hike.state} {hike.zip}
               </p>
               <small className="text-muted">
                 Date Created: {new Date(hike.dateCreated).toLocaleDateString()}
