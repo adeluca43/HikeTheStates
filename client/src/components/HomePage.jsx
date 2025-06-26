@@ -15,7 +15,7 @@ export default function HomePage({ loggedInUser }) {
   const [selectedFeatures, setSelectedFeatures] = useState([]);
   const [pendingFeatures, setPendingFeatures] = useState([]);
   const [showFeatureFilter, setShowFeatureFilter] = useState(false);
-  const [showMap, setShowMap] = useState(false);
+  const [showMap, setShowMap] = useState(location.state?.showMap || false);
   const allTrailFeatures = [
     { label: "Dog Friendly", key: "isDogFriendly" },
     { label: "Kid Friendly", key: "isKidFriendly" },
