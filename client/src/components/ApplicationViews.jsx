@@ -60,6 +60,14 @@ export default function ApplicationViews({ loggedInUser }) {
         }
       />
       <Route
+        path="/favorites"
+        element={
+          <AuthorizedRoute loggedInUser={loggedInUser}>
+            <FavoritesPage />
+          </AuthorizedRoute>
+        }
+      />
+      <Route
         path="/"
         element={
           <AuthorizedRoute loggedInUser={loggedInUser}>

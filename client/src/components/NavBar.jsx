@@ -41,6 +41,9 @@ export default function NavBar({ loggedInUser, setLoggedInUser }) {
                 <NavLink className="nav-link text-white" to="/profile">
                   My Profile
                 </NavLink>
+                <NavLink className="nav-link text-white" to="/favorites">
+                  Favorites
+                </NavLink>
                 <Button
                   variant="light"
                   size="sm"
