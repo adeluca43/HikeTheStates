@@ -32,9 +32,12 @@ export default function HomePage({ loggedInUser }) {
 
   useEffect(() => {
     getAllHikes().then(async (hikesData) => {
-      const sortedHikes = hikesData.sort(
-        (a, b) => new Date(b.dateCreated) - new Date(a.dateCreated)
-      );
+      const sortedHikes = hikesData.sort((a, b) => {
+        const dateA = new Date(a.dateCreated);
+        const dateB = new Date(b.dateCreated);
+
+        return dateB.getTime() - dateA.getTime();
+      });
 
       const hikesWithLikes = await Promise.all(
         sortedHikes.map(async (hike) => {
