@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
 import { getUserProfileWithHikes } from "../../managers/userProfileManager";
+import EditHikeModal from "../Hikes/EditHikeModal";
 import { useNavigate } from "react-router-dom";
 
 export default function MyProfile({ loggedInUser }) {
   const [profile, setProfile] = useState(null);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [selectedHikeId, setSelectedHikeId] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -44,7 +47,19 @@ export default function MyProfile({ loggedInUser }) {
         return "#6c757d";
     }
   };
+  const openEditModal = (id) => {
+    setSelectedHikeId(id);
+    setShowEditModal(true);
+  };
 
+  const closeEditModal = () => {
+    setSelectedHikeId(null);
+    setShowEditModal(false);
+  };
+
+  const refreshProfile = () => {
+    getUserProfileWithHikes(loggedInUser.id).then(setProfile);
+  };
   return (
     <div className="container mt-4">
       <div className="text-center">
@@ -79,7 +94,7 @@ export default function MyProfile({ loggedInUser }) {
           <button
             className="btn mb-3"
             style={{
-              backgroundColor: "##d9cbb5",
+              backgroundColor: "#d9cbb5",
               color: "#333",
               border: "1px solid #bfb8aa",
               fontWeight: "bold",
@@ -147,10 +162,11 @@ export default function MyProfile({ loggedInUser }) {
               <div className="d-flex justify-content-end gap-2 mt-2">
                 <button
                   className="btn btn-sm btn-secondary"
-                  onClick={() => navigate(`/hikes/${hike.id}/edit`)}
+                  onClick={() => openEditModal(hike.id)}
                 >
                   ✏️
                 </button>
+
                 <button
                   className="btn btn-sm btn-danger"
                   onClick={() => handleDelete(hike.id)}
@@ -161,6 +177,12 @@ export default function MyProfile({ loggedInUser }) {
             </div>
           </div>
         ))}
+        <EditHikeModal
+          show={showEditModal}
+          handleClose={closeEditModal}
+          hikeId={selectedHikeId}
+          onUpdate={refreshProfile}
+        />
       </div>
     </div>
   );
