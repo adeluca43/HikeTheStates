@@ -38,9 +38,13 @@ export default function NavBar({ loggedInUser, setLoggedInUser }) {
                 <NavLink className="nav-link text-white" to="/hikes/new">
                   Add Hike
                 </NavLink>
+                <NavLink className="nav-link text-white" to="/favorites">
+                  Favorites
+                </NavLink>
                 <NavLink className="nav-link text-white" to="/profile">
                   My Profile
                 </NavLink>
+
                 <Button
                   variant="light"
                   size="sm"

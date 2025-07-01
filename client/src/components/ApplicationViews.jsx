@@ -7,6 +7,7 @@ import { AuthorizedRoute } from "./auth/AuthorizeRoute";
 import OtherProfileDetail from "./Profile/OtherProfileDetails";
 import HikeDetails from "./Hikes/HikeDetails";
 import WelcomePage from "./WelcomePage";
+import FavoritesPage from "./Hikes/FavoritesPage";
 
 export default function ApplicationViews({ loggedInUser }) {
   return (
@@ -56,6 +57,14 @@ export default function ApplicationViews({ loggedInUser }) {
         element={
           <AuthorizedRoute loggedInUser={loggedInUser}>
             <HikeDetails />
+          </AuthorizedRoute>
+        }
+      />
+      <Route
+        path="/favorites"
+        element={
+          <AuthorizedRoute loggedInUser={loggedInUser}>
+            <FavoritesPage loggedInUser={loggedInUser} />
           </AuthorizedRoute>
         }
       />

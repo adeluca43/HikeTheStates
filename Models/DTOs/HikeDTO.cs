@@ -22,5 +22,7 @@ public class HikeDTO
     public int UserProfileId { get; set; }
     public double? Latitude { get; set; }
     public double? Longitude { get; set; }
+    public bool IsFavorited { get; set; }
+
 
 }
