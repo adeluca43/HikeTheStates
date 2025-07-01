@@ -8,7 +8,10 @@ import {
   getLikeCount,
 } from "../managers/hikeManger";
 import { getAllDifficulties } from "../managers/difficultyManager";
-import { toggleFavoriteForUser } from "../managers/favoriteManager";
+import {
+  toggleFavoriteForUser,
+  getUserFavorites,
+} from "../managers/favoriteManager";
 import MapView from "./MapView";
 import EditHikeModal from "./Hikes/EditHikeModal";
 
@@ -22,6 +25,8 @@ export default function HomePage({ loggedInUser }) {
   const [selectedFeatures, setSelectedFeatures] = useState([]);
   const [pendingFeatures, setPendingFeatures] = useState([]);
   const [showFeatureFilter, setShowFeatureFilter] = useState(false);
+  const [userFavorites, setUserFavorites] = useState([]);
+
   const [showMap, setShowMap] = useState(location.state?.showMap || false);
 
   const [showEditModal, setShowEditModal] = useState(false);
@@ -97,26 +102,23 @@ export default function HomePage({ loggedInUser }) {
     setShowEditModal(false);
   };
 
+  useEffect(() => {
+    if (loggedInUser) {
+      getUserFavorites(loggedInUser.id).then(setUserFavorites);
+    }
+  }, [loggedInUser]);
+
   const handleDelete = (id) => {
     if (window.confirm("Are you sure you want to delete this hike?")) {
       deleteHike(id).then(fetchHikes);
     }
   };
 
-  const toggleFavorite = async (hikeId) => {
-    try {
-      await toggleFavoriteForUser(loggedInUser.id, hikeId);
-      setHikes((prev) =>
-        prev.map((h) =>
-          h.id === hikeId ? { ...h, isFavorited: !h.isFavorited } : h
-        )
-      );
-    } catch (err) {
-      alert("Failed to update favorite.");
-      console.error(err);
-    }
+  const handleToggleFavorite = async (hikeId) => {
+    await toggleFavoriteForUser(loggedInUser.id, hikeId);
+    const updatedFavorites = await getUserFavorites(loggedInUser.id);
+    setUserFavorites(updatedFavorites);
   };
-
   const filteredHikes = hikes.filter((hike) => {
     const matchesDifficulty =
       difficultyFilter === "All" || hike.difficulty === difficultyFilter;
@@ -299,17 +301,16 @@ export default function HomePage({ loggedInUser }) {
 
                 <Button
                   size="sm"
-                  color="link"
-                  onClick={() => toggleFavorite(hike.id)}
-                  title="Favorite this hike"
                   style={{
-                    color: hike.isFavorited ? "green" : "white",
-                    fontSize: "1.25rem",
-                    textDecoration: "none",
-                    padding: 0,
+                    backgroundColor: "transparent",
                     border: "none",
-                    background: "none",
+                    fontSize: "1.5rem",
+                    color: userFavorites.some((f) => f.id === hike.id)
+                      ? "green"
+                      : "white",
                   }}
+                  onClick={() => handleToggleFavorite(hike.id)}
+                  title="Favorite this hike"
                 >
                   🌟
                 </Button>
