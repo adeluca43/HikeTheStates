@@ -1,24 +1,32 @@
 import { useEffect, useState } from "react";
-import { getAllHikes, deleteHike } from "../managers/hikeManger";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Card, CardBody, CardTitle, CardText, Badge, Button } from "reactstrap";
-import { useLocation } from "react-router-dom";
-import { likeHike, getLikeCount } from "../managers/hikeManger";
-import MapView from "./MapView";
+import {
+  getAllHikes,
+  deleteHike,
+  likeHike,
+  getLikeCount,
+} from "../managers/hikeManger";
 import { getAllDifficulties } from "../managers/difficultyManager";
+import { toggleFavoriteForUser } from "../managers/favoriteManager";
+import MapView from "./MapView";
 import EditHikeModal from "./Hikes/EditHikeModal";
 
 export default function HomePage({ loggedInUser }) {
+  const navigate = useNavigate();
   const location = useLocation();
+
   const [hikes, setHikes] = useState([]);
-  const [showEditModal, setShowEditModal] = useState(false);
   const [difficulties, setDifficulties] = useState([]);
-  const [selectedHikeId, setSelectedHikeId] = useState(null);
   const [difficultyFilter, setDifficultyFilter] = useState("All");
   const [selectedFeatures, setSelectedFeatures] = useState([]);
   const [pendingFeatures, setPendingFeatures] = useState([]);
   const [showFeatureFilter, setShowFeatureFilter] = useState(false);
   const [showMap, setShowMap] = useState(location.state?.showMap || false);
+
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [selectedHikeId, setSelectedHikeId] = useState(null);
+
   const allTrailFeatures = [
     { label: "Dog Friendly", key: "isDogFriendly" },
     { label: "Kid Friendly", key: "isKidFriendly" },
@@ -27,69 +35,6 @@ export default function HomePage({ loggedInUser }) {
     { label: "Paved Trail", key: "isPaved" },
     { label: "Gravel Path", key: "isGravel" },
   ];
-
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    getAllHikes().then(async (hikesData) => {
-      const sortedHikes = hikesData.sort((a, b) => {
-        const dateA = new Date(a.dateCreated);
-        const dateB = new Date(b.dateCreated);
-
-        return dateB.getTime() - dateA.getTime();
-      });
-
-      const hikesWithLikes = await Promise.all(
-        sortedHikes.map(async (hike) => {
-          try {
-            const likeCount = await getLikeCount(hike.id);
-            return { ...hike, likeCount };
-          } catch (error) {
-            console.error(
-              `Error getting like count for hike ${hike.id}`,
-              error
-            );
-            return { ...hike, likeCount: 0 };
-          }
-        })
-      );
-
-      setHikes(hikesWithLikes);
-    });
-  }, [location]);
-
-  const getTrailFeatures = (hike) => {
-    const features = [];
-    if (hike.isDogFriendly) features.push("Dog Friendly");
-    if (hike.isKidFriendly) features.push("Kid Friendly");
-    if (hike.isHandicapAccessible) features.push("Handicap Accessible");
-    if (hike.hasRestrooms) features.push("Restrooms at Trailhead");
-    if (hike.isPaved) features.push("Paved Trail");
-    if (hike.isGravel) features.push("Gravel Path");
-    return features;
-  };
-
-  const handleDelete = (id) => {
-    if (window.confirm("Are you sure you want to delete this hike?")) {
-      deleteHike(id).then(() => getAllHikes().then(setHikes));
-    }
-  };
-  const filteredHikes = hikes.filter((hike) => {
-    const matchesDifficulty =
-      difficultyFilter === "All" || hike.difficulty === difficultyFilter;
-
-    const matchesFeatures = selectedFeatures.every(
-      (featureKey) => hike[featureKey]
-    );
-
-    return matchesDifficulty && matchesFeatures;
-  });
-
-  useEffect(() => {
-    getAllDifficulties()
-      .then(setDifficulties)
-      .catch((err) => console.error("Failed to load difficulties", err));
-  }, []);
 
   const getDifficultyColor = (level) => {
     switch (level.toLowerCase()) {
@@ -105,6 +50,43 @@ export default function HomePage({ loggedInUser }) {
         return "#6c757d";
     }
   };
+
+  const getTrailFeatures = (hike) => {
+    const features = [];
+    if (hike.isDogFriendly) features.push("Dog Friendly");
+    if (hike.isKidFriendly) features.push("Kid Friendly");
+    if (hike.isHandicapAccessible) features.push("Handicap Accessible");
+    if (hike.hasRestrooms) features.push("Restrooms at Trailhead");
+    if (hike.isPaved) features.push("Paved Trail");
+    if (hike.isGravel) features.push("Gravel Path");
+    return features;
+  };
+
+  const fetchHikes = () => {
+    getAllHikes().then(async (data) => {
+      const sorted = data.sort(
+        (a, b) => new Date(b.dateCreated) - new Date(a.dateCreated)
+      );
+
+      const withLikes = await Promise.all(
+        sorted.map(async (hike) => {
+          const likeCount = await getLikeCount(hike.id).catch(() => 0);
+          return { ...hike, likeCount };
+        })
+      );
+
+      setHikes(withLikes);
+    });
+  };
+
+  useEffect(() => {
+    fetchHikes();
+  }, [location]);
+
+  useEffect(() => {
+    getAllDifficulties().then(setDifficulties);
+  }, []);
+
   const openEditModal = (id) => {
     setSelectedHikeId(id);
     setShowEditModal(true);
@@ -115,12 +97,36 @@ export default function HomePage({ loggedInUser }) {
     setShowEditModal(false);
   };
 
-  const refreshHikes = () => {
-    getAllHikes().then(setHikes);
+  const handleDelete = (id) => {
+    if (window.confirm("Are you sure you want to delete this hike?")) {
+      deleteHike(id).then(fetchHikes);
+    }
   };
+
+  const toggleFavorite = async (hikeId) => {
+    try {
+      await toggleFavoriteForUser(loggedInUser.id, hikeId);
+      alert("Favorite updated!");
+    } catch {
+      alert("Failed to update favorite.");
+    }
+  };
+
+  const filteredHikes = hikes.filter((hike) => {
+    const matchesDifficulty =
+      difficultyFilter === "All" || hike.difficulty === difficultyFilter;
+
+    const matchesFeatures = selectedFeatures.every(
+      (featureKey) => hike[featureKey]
+    );
+
+    return matchesDifficulty && matchesFeatures;
+  });
+
   return (
     <div className="container mt-4">
       <h2>All Hikes</h2>
+
       <div className="mb-3">
         <Button color="success" onClick={() => setShowMap(!showMap)}>
           {showMap ? "Show List View" : "Show Map View"}
@@ -204,69 +210,65 @@ export default function HomePage({ loggedInUser }) {
       {showMap ? (
         <MapView hikes={filteredHikes} />
       ) : (
-        filteredHikes.map((hike) => {
-          return (
-            <Card
-              className="mb-3"
-              key={hike.id}
-              style={{ backgroundColor: "#f5f0e6" }}
-            >
-              <CardBody>
-                <CardTitle tag="h4">{hike.title}</CardTitle>
-                <CardText>
-                  <strong>Description:</strong> {hike.description}
-                </CardText>
-                <CardText>
-                  <strong>Location: </strong>
-                  {hike.city}, {hike.state}
-                </CardText>
-                <CardText>
-                  <strong>Distance:</strong> {hike.distance} miles
-                </CardText>
-                <CardText>
-                  <strong>Difficulty:</strong>{" "}
-                  <Badge
-                    color="none"
+        filteredHikes.map((hike) => (
+          <Card
+            className="mb-3"
+            key={hike.id}
+            style={{ backgroundColor: "#f5f0e6" }}
+          >
+            <CardBody>
+              <CardTitle tag="h4">{hike.title}</CardTitle>
+              <CardText>
+                <strong>Description:</strong> {hike.description}
+              </CardText>
+              <CardText>
+                <strong>Location:</strong> {hike.city}, {hike.state}
+              </CardText>
+              <CardText>
+                <strong>Distance:</strong> {hike.distance} miles
+              </CardText>
+              <CardText>
+                <strong>Difficulty:</strong>{" "}
+                <Badge
+                  color="none"
+                  style={{
+                    backgroundColor: getDifficultyColor(hike.difficulty),
+                    color: "white",
+                  }}
+                >
+                  {hike.difficulty}
+                </Badge>
+              </CardText>
+              <CardText>
+                <strong>Trail Features:</strong>{" "}
+                {getTrailFeatures(hike).join(", ") || "None specified"}
+              </CardText>
+              <CardText>
+                <small className="text-muted">
+                  <strong>Hiked by:</strong>{" "}
+                  <span
                     style={{
-                      backgroundColor: getDifficultyColor(hike.difficulty),
-                      color: "white",
+                      cursor: "pointer",
+                      color: "green",
+                      textDecoration: "underline",
                     }}
+                    onClick={() => navigate(`/profiles/${hike.userProfileId}`)}
                   >
-                    {hike.difficulty}
-                  </Badge>
-                </CardText>
-                <CardText>
-                  <strong>Trail Features:</strong>{" "}
-                  {getTrailFeatures(hike).length > 0
-                    ? getTrailFeatures(hike).join(", ")
-                    : "None specified"}
-                </CardText>
-                <CardText>
-                  <small className="text-muted">
-                    <strong>Hiked by:</strong>{" "}
-                    <span
-                      style={{
-                        cursor: "pointer",
-                        textDecoration: "underline",
-                        color: "green",
-                      }}
-                      onClick={() =>
-                        navigate(`/profiles/${hike.userProfileId}`)
-                      }
-                    >
-                      {hike.userFullName}
-                    </span>
-                    <br />
-                    <strong>Created on:</strong>{" "}
-                    {new Date(hike.dateCreated).toLocaleDateString()}
-                  </small>
-                </CardText>
+                    {hike.userFullName}
+                  </span>
+                  <br />
+                  <strong>Created on:</strong>{" "}
+                  {new Date(hike.dateCreated).toLocaleDateString()}
+                </small>
+              </CardText>
 
+              {/* Buttons */}
+              <div className="d-flex gap-2">
                 {hike.userProfileId !== loggedInUser.id && (
                   <Button
                     size="sm"
                     color="light"
-                    onClick={() => {
+                    onClick={() =>
                       likeHike(hike.id)
                         .then((result) => {
                           setHikes((prev) =>
@@ -283,17 +285,24 @@ export default function HomePage({ loggedInUser }) {
                             )
                           );
                         })
-                        .catch((err) => {
-                          alert(err.message);
-                        });
-                    }}
+                        .catch((err) => alert(err.message))
+                    }
                   >
                     ❤️ {hike.likeCount}
                   </Button>
                 )}
 
+                <Button
+                  size="sm"
+                  color="warning"
+                  onClick={() => toggleFavorite(hike.id)}
+                  title="Favorite this hike"
+                >
+                  🌟
+                </Button>
+
                 {hike.userProfileId === loggedInUser.id && (
-                  <div className="d-flex justify-content-end gap-2">
+                  <div className="d-flex gap-2 ms-auto">
                     <Button
                       size="sm"
                       color="secondary"
@@ -301,7 +310,6 @@ export default function HomePage({ loggedInUser }) {
                     >
                       ✏️
                     </Button>
-
                     <Button
                       size="sm"
                       color="danger"
@@ -311,16 +319,17 @@ export default function HomePage({ loggedInUser }) {
                     </Button>
                   </div>
                 )}
-              </CardBody>
-            </Card>
-          );
-        })
+              </div>
+            </CardBody>
+          </Card>
+        ))
       )}
+
       <EditHikeModal
         show={showEditModal}
         handleClose={closeEditModal}
         hikeId={selectedHikeId}
-        onUpdate={refreshHikes}
+        onUpdate={fetchHikes}
       />
     </div>
   );
