@@ -6,11 +6,14 @@ import { useLocation } from "react-router-dom";
 import { likeHike, getLikeCount } from "../managers/hikeManger";
 import MapView from "./MapView";
 import { getAllDifficulties } from "../managers/difficultyManager";
+import EditHikeModal from "./Hikes/EditHikeModal";
 
 export default function HomePage({ loggedInUser }) {
   const location = useLocation();
   const [hikes, setHikes] = useState([]);
+  const [showEditModal, setShowEditModal] = useState(false);
   const [difficulties, setDifficulties] = useState([]);
+  const [selectedHikeId, setSelectedHikeId] = useState(null);
   const [difficultyFilter, setDifficultyFilter] = useState("All");
   const [selectedFeatures, setSelectedFeatures] = useState([]);
   const [pendingFeatures, setPendingFeatures] = useState([]);
@@ -99,7 +102,19 @@ export default function HomePage({ loggedInUser }) {
         return "#6c757d";
     }
   };
+  const openEditModal = (id) => {
+    setSelectedHikeId(id);
+    setShowEditModal(true);
+  };
 
+  const closeEditModal = () => {
+    setSelectedHikeId(null);
+    setShowEditModal(false);
+  };
+
+  const refreshHikes = () => {
+    getAllHikes().then(setHikes);
+  };
   return (
     <div className="container mt-4">
       <h2>All Hikes</h2>
@@ -279,10 +294,11 @@ export default function HomePage({ loggedInUser }) {
                     <Button
                       size="sm"
                       color="secondary"
-                      onClick={() => navigate(`/hikes/${hike.id}/edit`)}
+                      onClick={() => openEditModal(hike.id)}
                     >
                       ✏️
                     </Button>
+
                     <Button
                       size="sm"
                       color="danger"
@@ -297,6 +313,12 @@ export default function HomePage({ loggedInUser }) {
           );
         })
       )}
+      <EditHikeModal
+        show={showEditModal}
+        handleClose={closeEditModal}
+        hikeId={selectedHikeId}
+        onUpdate={refreshHikes}
+      />
     </div>
   );
 }

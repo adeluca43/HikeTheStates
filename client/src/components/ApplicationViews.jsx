@@ -4,7 +4,6 @@ import CreateHike from "./Hikes/CreateHike";
 import MyProfile from "./Profile/MyProfile";
 import EditProfile from "./Profile/EditProfile";
 import { AuthorizedRoute } from "./auth/AuthorizeRoute";
-import EditHike from "./Hikes/EditHike";
 import OtherProfileDetail from "./Profile/OtherProfileDetails";
 import HikeDetails from "./Hikes/HikeDetails";
 import WelcomePage from "./WelcomePage";
@@ -41,14 +40,6 @@ export default function ApplicationViews({ loggedInUser }) {
         element={
           <AuthorizedRoute loggedInUser={loggedInUser}>
             <EditProfile loggedInUser={loggedInUser} />
-          </AuthorizedRoute>
-        }
-      />
-      <Route
-        path="/hikes/:id/edit"
-        element={
-          <AuthorizedRoute loggedInUser={loggedInUser}>
-            <EditHike loggedInUser={loggedInUser} />
           </AuthorizedRoute>
         }
       />
