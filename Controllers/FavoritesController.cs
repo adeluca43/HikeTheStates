@@ -34,18 +34,32 @@ namespace HikingApp.Controllers
         [HttpPost]
         public IActionResult AddFavorite([FromBody] Favorite favorite)
         {
-            var exists = _context.Favorites.Any(f => f.UserProfileId == favorite.UserProfileId && f.HikeId == favorite.HikeId);
+            favorite.UserProfile = null;
+            favorite.Hike = null;
+
+            bool exists = _context.Favorites.Any(f =>
+                f.UserProfileId == favorite.UserProfileId &&
+                f.HikeId == favorite.HikeId);
 
             if (exists)
             {
                 return BadRequest("This hike is already favorited.");
             }
 
-            _context.Favorites.Add(favorite);
+            Favorite newFavorite = new Favorite
+            {
+                UserProfileId = favorite.UserProfileId,
+                HikeId = favorite.HikeId,
+                DateFavorited = DateTime.Now
+            };
+
+            _context.Favorites.Add(newFavorite);
             _context.SaveChanges();
 
-            return CreatedAtAction(nameof(GetFavoritesByUser), new { userId = favorite.UserProfileId }, favorite);
+            return CreatedAtAction(nameof(GetFavoritesByUser),
+                new { userId = newFavorite.UserProfileId }, newFavorite);
         }
+
 
 
         [HttpDelete]

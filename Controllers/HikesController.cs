@@ -61,6 +61,7 @@ public class HikesController : ControllerBase
 
         return Ok(hikeDTOs);
     }
+
     [HttpGet("{id}")]
     [Authorize]
     public IActionResult GetHikeById(int id)

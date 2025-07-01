@@ -106,9 +106,14 @@ export default function HomePage({ loggedInUser }) {
   const toggleFavorite = async (hikeId) => {
     try {
       await toggleFavoriteForUser(loggedInUser.id, hikeId);
-      alert("Favorite updated!");
-    } catch {
+      setHikes((prev) =>
+        prev.map((h) =>
+          h.id === hikeId ? { ...h, isFavorited: !h.isFavorited } : h
+        )
+      );
+    } catch (err) {
       alert("Failed to update favorite.");
+      console.error(err);
     }
   };
 
@@ -294,9 +299,17 @@ export default function HomePage({ loggedInUser }) {
 
                 <Button
                   size="sm"
-                  color="warning"
+                  color="link"
                   onClick={() => toggleFavorite(hike.id)}
                   title="Favorite this hike"
+                  style={{
+                    color: hike.isFavorited ? "green" : "white",
+                    fontSize: "1.25rem",
+                    textDecoration: "none",
+                    padding: 0,
+                    border: "none",
+                    background: "none",
+                  }}
                 >
                   🌟
                 </Button>

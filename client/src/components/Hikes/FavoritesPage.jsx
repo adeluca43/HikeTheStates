@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import { getFavoritesForUser } from "../managers/favoriteManager";
+import { getUserFavorites } from "../../managers/favoriteManager";
 import { Card, CardBody, CardTitle, CardText } from "reactstrap";
 
 export default function FavoritesPage({ loggedInUser }) {
   const [favorites, setFavorites] = useState([]);
 
   useEffect(() => {
-    getFavoritesForUser(loggedInUser.id).then(setFavorites);
+    getUserFavorites(loggedInUser.id).then(setFavorites);
   }, [loggedInUser]);
 
   return (

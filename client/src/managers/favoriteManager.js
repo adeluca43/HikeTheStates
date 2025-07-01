@@ -19,6 +19,18 @@ export const addFavorite = (favorite) => {
   });
 };
 
+export const toggleFavoriteForUser = async (userId, hikeId) => {
+  const favorites = await getUserFavorites(userId);
+  const isAlreadyFavorited = favorites.some((f) => f.id === hikeId);
+
+  if (isAlreadyFavorited) {
+    return removeFavorite(userId, hikeId);
+  } else {
+    return addFavorite({ userProfileId: userId, hikeId });
+  }
+};
+
+
 export const removeFavorite = (userId, hikeId) => {
   return fetch(`${baseUrl}?userId=${userId}&hikeId=${hikeId}`, {
     method: "DELETE",
