@@ -1,21 +1,7 @@
 import { useEffect, useState } from "react";
 import { getUserFavorites } from "../../managers/favoriteManager";
-import { Card, CardBody, CardTitle, CardText, Badge } from "reactstrap";
-
-const getDifficultyColor = (level) => {
-  switch (level?.toLowerCase()) {
-    case "easy":
-      return "#28a745";
-    case "moderate":
-      return "#ffc107";
-    case "challenging":
-      return "#fd7e14";
-    case "hard":
-      return "#dc3545";
-    default:
-      return "#6c757d";
-  }
-};
+import { Card, CardBody, CardTitle, CardText } from "reactstrap";
+import { Badge } from "react-bootstrap";
 
 const getTrailFeatures = (hike) => {
   const features = [];
@@ -35,6 +21,21 @@ export default function FavoritesPage({ loggedInUser }) {
     getUserFavorites(loggedInUser.id).then(setFavorites);
   }, [loggedInUser]);
 
+  const getDifficultyColor = (level) => {
+    switch ((level || "").trim().toLowerCase()) {
+      case "easy":
+        return "#28a745";
+      case "moderate":
+        return "#ffc107";
+      case "challenging":
+        return "#fd7e14";
+      case "hard":
+        return "#dc3545";
+      default:
+        return "#6c757d";
+    }
+  };
+
   return (
     <div className="container mt-4">
       <h2>Your Favorite Hikes</h2>
@@ -42,6 +43,8 @@ export default function FavoritesPage({ loggedInUser }) {
         <p>You haven’t favorited any hikes yet.</p>
       ) : (
         favorites.map((hike) => {
+          console.log("DIFFICULTY LEVEL:", hike.difficultyLevel);
+
           const trailFeatures = getTrailFeatures(hike);
           return (
             <Card
@@ -68,6 +71,7 @@ export default function FavoritesPage({ loggedInUser }) {
                 <CardText>
                   <strong>Difficulty:</strong>{" "}
                   <Badge
+                    bg=""
                     style={{
                       backgroundColor: getDifficultyColor(hike.difficultyLevel),
                       color: "white",
