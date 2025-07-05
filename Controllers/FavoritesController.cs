@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using HikingApp.Data;
 using HikingApp.Models;
 using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HikingApp.Controllers
 {
@@ -17,21 +18,46 @@ namespace HikingApp.Controllers
             _context = context;
         }
 
-
         [HttpGet("user/{userId}")]
+        [Authorize]
         public IActionResult GetFavoritesByUser(int userId)
         {
             var favorites = _context.Favorites
                 .Include(f => f.Hike)
+                    .ThenInclude(h => h.UserProfile)
+                .Include(f => f.Hike)
+                    .ThenInclude(h => h.Difficulty) // if difficulty is a nav prop
                 .Where(f => f.UserProfileId == userId)
-                .Select(f => f.Hike)
+                .Select(f => new
+                {
+                    f.Hike.Id,
+                    f.Hike.Title,
+                    f.Hike.Description,
+                    f.Hike.Distance,
+                    f.Hike.AddressLine1,
+                    f.Hike.City,
+                    f.Hike.State,
+                    f.Hike.Zip,
+                    f.Hike.IsDogFriendly,
+                    f.Hike.IsKidFriendly,
+                    f.Hike.IsHandicapAccessible,
+                    f.Hike.HasRestrooms,
+                    f.Hike.IsPaved,
+                    f.Hike.IsGravel,
+                    DifficultyLevel = f.Hike.Difficulty.Level,
+                    UserFullName = f.Hike.UserProfile.FullName,
+                    f.Hike.DateCreated
+                })
                 .ToList();
 
             return Ok(favorites);
         }
 
 
+
+
         [HttpPost]
+        [Authorize]
         public IActionResult AddFavorite([FromBody] Favorite favorite)
         {
             favorite.UserProfile = null;
@@ -63,6 +89,7 @@ namespace HikingApp.Controllers
 
 
         [HttpDelete]
+        [Authorize]
         public IActionResult RemoveFavorite(int userId, int hikeId)
         {
             var favorite = _context.Favorites
