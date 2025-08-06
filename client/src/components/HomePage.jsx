@@ -15,6 +15,7 @@ import {
 } from "../managers/favoriteManager";
 import MapView from "./MapView";
 import EditHikeModal from "./Hikes/EditHikeModal";
+import CommentList from "./CommentList";
 
 export default function HomePage({ loggedInUser }) {
   const navigate = useNavigate();
@@ -356,6 +357,7 @@ export default function HomePage({ loggedInUser }) {
                     </div>
                   )}
                 </div>
+                <CommentList hikeId={hike.id} />
               </CardBody>
             </Card>
           );
