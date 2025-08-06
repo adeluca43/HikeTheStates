@@ -357,7 +357,7 @@ export default function HomePage({ loggedInUser }) {
                     </div>
                   )}
                 </div>
-                <CommentList hikeId={hike.id} />
+                <CommentList hikeId={hike.id} loggedInUser={loggedInUser} />
               </CardBody>
             </Card>
           );

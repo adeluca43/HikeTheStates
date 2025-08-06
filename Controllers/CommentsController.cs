@@ -34,8 +34,25 @@ public class CommentsController : ControllerBase
     // POST: api/comments
     [HttpPost]
     [Authorize]
-    public async Task<IActionResult> PostComment(Comment comment)
+    public async Task<IActionResult> PostComment([FromBody] Comment comment)
     {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        var hike = await _dbContext.Hikes.FindAsync(comment.HikeId);
+        if (hike == null)
+        {
+            return BadRequest("Invalid HikeId.");
+        }
+
+        var userProfile = await _dbContext.UserProfiles.FindAsync(comment.UserProfileId);
+        if (userProfile == null)
+        {
+            return BadRequest("Invalid UserProfileId.");
+        }
+
         comment.DatePosted = DateTime.UtcNow;
         _dbContext.Comments.Add(comment);
         await _dbContext.SaveChangesAsync();
@@ -43,3 +60,4 @@ public class CommentsController : ControllerBase
         return CreatedAtAction(nameof(GetCommentsForHike), new { hikeId = comment.HikeId }, comment);
     }
 }
+
