@@ -12,6 +12,7 @@ public class HikingAppDbContext : IdentityDbContext
     public DbSet<Difficulty> Difficulties { get; set; }
     public DbSet<HikeLike> HikeLikes { get; set; }
     public DbSet<Favorite> Favorites { get; set; }
+    public DbSet<Comment> Comments { get; set; }
 
 
 
