@@ -31,13 +31,25 @@ public class CommentsController : ControllerBase
         return Ok(comments);
     }
 
-    // POST: api/comments
+
     [HttpPost]
-    [Authorize]
+
     public async Task<IActionResult> PostComment([FromBody] Comment comment)
     {
         if (!ModelState.IsValid)
         {
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState
+                    .Where(x => x.Value.Errors.Count > 0)
+                    .Select(x => new
+                    {
+                        Field = x.Key,
+                        Errors = x.Value.Errors.Select(e => e.ErrorMessage).ToArray()
+                    });
+
+                return BadRequest(errors);
+            }
             return BadRequest(ModelState);
         }
 

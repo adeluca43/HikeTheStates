@@ -16,7 +16,7 @@ export default function CommentList({ hikeId, loggedInUser }) {
     if (newComment.trim() === "") return;
 
     const newCommentObj = {
-      content: newComment,
+      Content: newComment,
       hikeId,
       userProfileId,
     };
