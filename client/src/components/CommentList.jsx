@@ -47,7 +47,9 @@ export default function CommentList({ hikeId, loggedInUser }) {
         <ul className="list-unstyled mb-2">
           {comments.map((comment) => (
             <li key={comment.id} className="mb-2">
-              <strong>{comment.user?.firstName || "User"}:</strong>{" "}
+              <strong>
+                {comment.firstName} {comment.lastName}:
+              </strong>{" "}
               {comment.content}
               <br />
               <small className="text-muted">
