@@ -14,3 +14,13 @@ export const addComment = (comment) => {
   });
 };
 
+export const deleteComment = async (id) => {
+  const res = await fetch(`/api/comments/${id}`, {
+    method: "DELETE",
+    credentials: "include" 
+  });
+
+  if (!res.ok && res.status !== 204) {
+    throw new Error("Failed to delete comment");
+  }
+};

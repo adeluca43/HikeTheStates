@@ -1,5 +1,9 @@
 import { useEffect, useState } from "react";
-import { getCommentsByHikeId, addComment } from "../managers/commentManager";
+import {
+  getCommentsByHikeId,
+  addComment,
+  deleteComment,
+} from "../managers/commentManager";
 
 export default function CommentList({ hikeId, loggedInUser }) {
   const [comments, setComments] = useState([]);
@@ -7,26 +11,49 @@ export default function CommentList({ hikeId, loggedInUser }) {
 
   const userProfileId = loggedInUser.id;
 
+  // Load comments for this hike
   useEffect(() => {
     getCommentsByHikeId(hikeId).then(setComments);
   }, [hikeId]);
 
+  // Add a new comment
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (newComment.trim() === "") return;
 
     const newCommentObj = {
+      // Your API model accepts PascalCase (ASP.NET is case-insensitive for JSON),
+      // keeping Content to match your existing code.
       Content: newComment,
       hikeId,
       userProfileId,
     };
 
-    const response = await addComment(newCommentObj);
-    if (response.ok) {
-      getCommentsByHikeId(hikeId).then(setComments);
-      setNewComment("");
-    } else {
+    try {
+      const response = await addComment(newCommentObj);
+      if (response.ok) {
+        const refreshed = await getCommentsByHikeId(hikeId);
+        setComments(refreshed);
+        setNewComment("");
+      } else {
+        alert("Error posting comment.");
+      }
+    } catch (err) {
+      console.error(err);
       alert("Error posting comment.");
+    }
+  };
+
+  // Delete a comment (only if it's mine)
+  const handleDelete = async (commentId) => {
+    if (!window.confirm("Delete this comment?")) return;
+    try {
+      await deleteComment(commentId);
+      const refreshed = await getCommentsByHikeId(hikeId);
+      setComments(refreshed);
+    } catch (err) {
+      console.error(err);
+      alert("Could not delete comment.");
     }
   };
 
@@ -41,22 +68,44 @@ export default function CommentList({ hikeId, loggedInUser }) {
       }}
     >
       <h6 className="fw-bold mb-2">Comments</h6>
+
       {comments.length === 0 ? (
         <p className="text-muted mb-2">No comments yet.</p>
       ) : (
         <ul className="list-unstyled mb-2">
-          {comments.map((comment) => (
-            <li key={comment.id} className="mb-2">
-              <strong>
-                {comment.firstName} {comment.lastName}:
-              </strong>{" "}
-              {comment.content}
-              <br />
-              <small className="text-muted">
-                {new Date(comment.datePosted).toLocaleString()}
-              </small>
-            </li>
-          ))}
+          {comments.map((comment) => {
+            // From your CommentDTO -> camelCase JSON: id, userId, firstName, lastName, content, datePosted
+            const isMine = comment.userId === loggedInUser.id;
+
+            return (
+              <li
+                key={comment.id}
+                className="mb-2 d-flex justify-content-between align-items-start"
+              >
+                <div>
+                  <strong>
+                    {comment.firstName} {comment.lastName}:
+                  </strong>{" "}
+                  {comment.content}
+                  <br />
+                  <small className="text-muted">
+                    {new Date(comment.datePosted).toLocaleString()}
+                  </small>
+                </div>
+
+                {isMine && (
+                  <button
+                    type="button"
+                    className="btn btn-sm btn-outline-danger ms-2"
+                    onClick={() => handleDelete(comment.id)}
+                    title="Delete comment"
+                  >
+                    🗑️
+                  </button>
+                )}
+              </li>
+            );
+          })}
         </ul>
       )}
 
