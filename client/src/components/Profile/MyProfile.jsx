@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { getUserProfileWithHikes } from "../../managers/userProfileManager";
 import EditHikeModal from "../Hikes/EditHikeModal";
 import { useNavigate } from "react-router-dom";
+import CommentList from "../CommentList";
 
 export default function MyProfile({ loggedInUser }) {
   const [profile, setProfile] = useState(null);
@@ -158,6 +159,8 @@ export default function MyProfile({ loggedInUser }) {
               <small className="text-muted">
                 Date Created: {new Date(hike.dateCreated).toLocaleDateString()}
               </small>
+              <hr className="my-3" />
+              <CommentList hikeId={hike.id} loggedInUser={loggedInUser} />
 
               <div className="d-flex justify-content-end gap-2 mt-2">
                 <button
