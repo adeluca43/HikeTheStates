@@ -1,21 +1,48 @@
 import { useEffect, useState } from "react";
-import { getUserProfileWithHikes } from "../../managers/userProfileManager";
 import { useParams } from "react-router-dom";
+import { Button } from "reactstrap";
 import CommentList from "../CommentList";
+import { getUserProfileWithHikes } from "../../managers/userProfileManager";
+import { likeHike, getLikeCount } from "../../managers/hikeManger";
+import {
+  addFavorite,
+  removeFavorite,
+  getUserFavorites,
+} from "../../managers/favoriteManager";
 
 export default function OtherProfileDetail({ loggedInUser }) {
   const { id } = useParams();
   const [profile, setProfile] = useState(null);
 
+  const [likeCounts, setLikeCounts] = useState({});
+
+  const [userFavorites, setUserFavorites] = useState([]);
+
   useEffect(() => {
     getUserProfileWithHikes(id).then(setProfile);
   }, [id]);
 
-  if (!profile) return <div>Loading profile...</div>;
+  useEffect(() => {
+    if (!profile?.hikes?.length) return;
+    (async () => {
+      const counts = await Promise.all(
+        profile.hikes.map((h) => getLikeCount(h.id).catch(() => 0))
+      );
+      const map = Object.fromEntries(
+        profile.hikes.map((h, i) => [h.id, counts[i]])
+      );
+      setLikeCounts(map);
+    })();
+  }, [profile]);
 
-  const stars = Math.min(10, Math.floor(profile.hikes.length / 5));
+  useEffect(() => {
+    if (loggedInUser) {
+      getUserFavorites(loggedInUser.id).then(setUserFavorites);
+    }
+  }, [loggedInUser]);
+
   const getDifficultyColor = (level) => {
-    switch (level.toLowerCase()) {
+    switch ((level || "").toLowerCase()) {
       case "easy":
         return "#28a745";
       case "moderate":
@@ -28,6 +55,50 @@ export default function OtherProfileDetail({ loggedInUser }) {
         return "#6c757d";
     }
   };
+
+  const handleToggleFavorite = async (hikeId) => {
+    if (!loggedInUser) {
+      alert("Please log in to favorite hikes.");
+      return;
+    }
+    const isFavorited = userFavorites.some((f) => f.id === hikeId);
+    try {
+      if (isFavorited) {
+        await removeFavorite(loggedInUser.id, hikeId);
+        setUserFavorites((prev) => prev.filter((f) => f.id !== hikeId));
+        alert("Hike removed from favorites.");
+      } else {
+        await addFavorite({ userProfileId: loggedInUser.id, hikeId });
+        setUserFavorites((prev) => [...prev, { id: hikeId }]);
+        alert("Hike added to favorites!");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("There was an error updating your favorites.");
+    }
+  };
+
+  const handleLike = async (hike) => {
+    if (!loggedInUser) {
+      alert("Please log in to like hikes.");
+      return;
+    }
+    try {
+      const result = await likeHike(hike.id);
+      setLikeCounts((prev) => ({
+        ...prev,
+        [hike.id]: (prev[hike.id] ?? 0) + (result.status === "liked" ? 1 : -1),
+      }));
+    } catch (err) {
+      alert(err.message || "Error toggling like.");
+      console.error(err);
+    }
+  };
+
+  if (!profile) return <div>Loading profile...</div>;
+
+  const stars = Math.min(10, Math.floor(profile.hikes.length / 5));
+
   return (
     <div className="container mt-4">
       <div className="text-center">
@@ -66,59 +137,101 @@ export default function OtherProfileDetail({ loggedInUser }) {
       <div className="mt-4">
         <h4>{profile.fullName.split(" ")[0]}'s Hikes</h4>
 
-        {profile.hikes.map((hike) => (
-          <div
-            key={hike.id}
-            className="card my-3"
-            style={{ backgroundColor: "#f5f0e6" }}
-          >
-            <div className="card-body">
-              <h5>{hike.title}</h5>
+        {profile.hikes.map((hike) => {
+          const isFavorited = userFavorites.some((f) => f.id === hike.id);
+          const likeCount = likeCounts[hike.id] ?? 0;
+          const isMyHike =
+            !!loggedInUser && hike.userProfileId === loggedInUser.id;
 
-              <p>
-                <strong>Difficulty:</strong>{" "}
-                <span
-                  className="badge"
-                  style={{
-                    backgroundColor: getDifficultyColor(hike.difficulty),
-                    color: "white",
-                  }}
-                >
-                  {hike.difficulty}
-                </span>
-              </p>
+          return (
+            <div
+              key={hike.id}
+              className="card my-3"
+              style={{ backgroundColor: "#f5f0e6" }}
+            >
+              <div className="card-body">
+                <h5>{hike.title}</h5>
 
-              <p>
-                <strong>Trail Features:</strong>{" "}
-                {[
-                  hike.isDogFriendly && "Dog Friendly",
-                  hike.isKidFriendly && "Kid Friendly",
-                  hike.isHandicapAccessible && "Handicap Accessible",
-                  hike.hasRestrooms && "Restrooms at Trailhead",
-                  hike.isPaved && "Paved Path",
-                  hike.isGravel && "Gravel Path",
-                ]
-                  .filter(Boolean)
-                  .join(", ")}
-              </p>
+                <p>
+                  <strong>Difficulty:</strong>{" "}
+                  <span
+                    className="badge"
+                    style={{
+                      backgroundColor: getDifficultyColor(hike.difficulty),
+                      color: "white",
+                    }}
+                  >
+                    {hike.difficulty}
+                  </span>
+                </p>
 
-              <p>
-                <strong>Description:</strong> {hike.description}
-              </p>
+                <p>
+                  <strong>Trail Features:</strong>{" "}
+                  {[
+                    hike.isDogFriendly && "Dog Friendly",
+                    hike.isKidFriendly && "Kid Friendly",
+                    hike.isHandicapAccessible && "Handicap Accessible",
+                    hike.hasRestrooms && "Restrooms at Trailhead",
+                    hike.isPaved && "Paved Path",
+                    hike.isGravel && "Gravel Path",
+                  ]
+                    .filter(Boolean)
+                    .join(", ")}
+                </p>
 
-              <p>
-                <strong>Location:</strong> {hike.addressLine1}, {hike.city},{" "}
-                {hike.state}
-              </p>
+                <p>
+                  <strong>Description:</strong> {hike.description}
+                </p>
 
-              <small className="text-muted">
-                Date Created: {new Date(hike.dateCreated).toLocaleDateString()}
-              </small>
-              <hr className="my-3" />
-              <CommentList hikeId={hike.id} loggedInUser={loggedInUser} />
+                <p>
+                  <strong>Location:</strong> {hike.addressLine1}, {hike.city},{" "}
+                  {hike.state}
+                </p>
+
+                <small className="text-muted d-block mb-2">
+                  Date Created:{" "}
+                  {new Date(hike.dateCreated).toLocaleDateString()}
+                </small>
+
+                <div className="d-flex gap-2">
+                  {!isMyHike && (
+                    <Button
+                      size="sm"
+                      color="light"
+                      onClick={() => handleLike(hike)}
+                      title="Like / Unlike"
+                    >
+                      ❤️ {likeCount}
+                    </Button>
+                  )}
+
+                  <Button
+                    size="sm"
+                    style={{
+                      backgroundColor: "transparent",
+                      border: "none",
+                      fontSize: "1.5rem",
+                      padding: 0,
+                    }}
+                    onClick={() => handleToggleFavorite(hike.id)}
+                    title={
+                      isFavorited
+                        ? "Unfavorite this hike"
+                        : "Favorite this hike"
+                    }
+                  >
+                    <span style={{ color: isFavorited ? "green" : "gray" }}>
+                      {isFavorited ? "★" : "☆"}
+                    </span>
+                  </Button>
+                </div>
+
+                <hr className="my-3" />
+                <CommentList hikeId={hike.id} loggedInUser={loggedInUser} />
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );
