@@ -1,14 +1,9 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Button } from "reactstrap";
-
 import CommentList from "../CommentList";
 import { getUserProfileWithHikes } from "../../managers/userProfileManager";
 import { likeHike, getLikeCount } from "../../managers/hikeManger";
-
-import { getUserProfileWithHikes } from "../../managers/userProfileManager";
-import { likeHike, getLikeCount } from "../../managers/hikeManger"; // note: same typo as HomePage
-
 import {
   addFavorite,
   removeFavorite,
@@ -19,23 +14,13 @@ export default function OtherProfileDetail({ loggedInUser }) {
   const { id } = useParams();
   const [profile, setProfile] = useState(null);
 
-
   const [likeCounts, setLikeCounts] = useState({});
-
-
-  // map of { [hikeId]: likeCount }
-  const [likeCounts, setLikeCounts] = useState({});
-  // array of { id: hikeId } just like HomePage expects
 
   const [userFavorites, setUserFavorites] = useState([]);
 
   useEffect(() => {
     getUserProfileWithHikes(id).then(setProfile);
   }, [id]);
-
-
-
-  // load like counts once hikes are available
 
   useEffect(() => {
     if (!profile?.hikes?.length) return;
@@ -49,9 +34,6 @@ export default function OtherProfileDetail({ loggedInUser }) {
       setLikeCounts(map);
     })();
   }, [profile]);
-
-
-  // load viewer's favorites
 
   useEffect(() => {
     if (loggedInUser) {
@@ -211,10 +193,6 @@ export default function OtherProfileDetail({ loggedInUser }) {
                   {new Date(hike.dateCreated).toLocaleDateString()}
                 </small>
 
-
-
-                {/* Buttons: ❤️ like (hide on your own hike) + ★ favorite */}
-
                 <div className="d-flex gap-2">
                   {!isMyHike && (
                     <Button
@@ -248,10 +226,8 @@ export default function OtherProfileDetail({ loggedInUser }) {
                   </Button>
                 </div>
 
-
                 <hr className="my-3" />
                 <CommentList hikeId={hike.id} loggedInUser={loggedInUser} />
-
               </div>
             </div>
           );
