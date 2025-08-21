@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { getUserProfileWithHikes } from "../../managers/userProfileManager";
 import { useParams } from "react-router-dom";
+import CommentList from "../CommentList";
 
-export default function OtherProfileDetail() {
+export default function OtherProfileDetail({ loggedInUser }) {
   const { id } = useParams();
   const [profile, setProfile] = useState(null);
 
@@ -59,9 +60,12 @@ export default function OtherProfileDetail() {
           ))}
         </div>
       </div>
+
       <hr />
+
       <div className="mt-4">
         <h4>{profile.fullName.split(" ")[0]}'s Hikes</h4>
+
         {profile.hikes.map((hike) => (
           <div
             key={hike.id}
@@ -70,6 +74,7 @@ export default function OtherProfileDetail() {
           >
             <div className="card-body">
               <h5>{hike.title}</h5>
+
               <p>
                 <strong>Difficulty:</strong>{" "}
                 <span
@@ -82,6 +87,7 @@ export default function OtherProfileDetail() {
                   {hike.difficulty}
                 </span>
               </p>
+
               <p>
                 <strong>Trail Features:</strong>{" "}
                 {[
@@ -95,16 +101,21 @@ export default function OtherProfileDetail() {
                   .filter(Boolean)
                   .join(", ")}
               </p>
+
               <p>
                 <strong>Description:</strong> {hike.description}
               </p>
+
               <p>
                 <strong>Location:</strong> {hike.addressLine1}, {hike.city},{" "}
                 {hike.state}
               </p>
+
               <small className="text-muted">
                 Date Created: {new Date(hike.dateCreated).toLocaleDateString()}
               </small>
+              <hr className="my-3" />
+              <CommentList hikeId={hike.id} loggedInUser={loggedInUser} />
             </div>
           </div>
         ))}
